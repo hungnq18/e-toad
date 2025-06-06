@@ -1,0 +1,13 @@
+# Convert all text files to CRLF on checkout and commit
+* text=auto eol=crlf
+
+# Optional: handle specific file types (JavaScript, HTML, etc.)
+*.js  text eol=crlf
+*.ts  text eol=crlf
+*.jsx text eol=crlf
+*.tsx text eol=crlf
+*.html text eol=crlf
+*.css text eol=crlf
+*.json text eol=crlf
+*.md text eol=crlf
+*.yml text eol=crlf
