@@ -1,0 +1,88 @@
+.fpt-intro-section {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.fpt-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  padding-top: 100px !important;
+}
+
+.fpt-intro-text {
+  position: absolute;
+  left: -8%;
+  right: 0;
+  top: 60%;
+  transform: translateY(-50%);
+  color: white;
+  font-weight: 300;
+  text-align: justify;
+  z-index: 20;
+
+  /* Default */
+  font-size: 16px; 
+  line-height: 22px;
+  padding: 0 8px;
+  word-break: break-word;
+  white-space: normal;
+}
+
+/* Small: ≥ 640px */
+@media (min-width: 640px) {
+  .fpt-intro-text {
+    font-size: 24px !important;
+    line-height: 22px;
+    padding: 0 16px;
+  }
+}
+
+/* Medium: ≥ 768px */
+@media (min-width: 768px) {
+  .fpt-intro-text {
+    font-size: 20px;
+    line-height: 28px;
+    padding: 0 40px;
+  }
+}
+
+/* Large: ≥ 1024px */
+@media (min-width: 1024px) {
+  .fpt-intro-text {
+    font-size: 28px;
+    line-height: 42px;
+    padding: 0 128px;
+  }
+}
+
+/* Extra Large: ≥ 1280px */
+@media (min-width: 1280px) {
+  .fpt-intro-text {
+    font-size: 32px;
+    line-height: 48px;
+    padding: 0 320px;
+  }
+}
+
+/* ✅ Fix cho Mobile: ≤ 480px */
+@media (max-width: 480px) {
+  .fpt-image {
+    width: 100%;
+    height: 250px;
+    padding-top: 200 !important;
+  }
+  .fpt-intro-text {
+    font-size: 8px;
+    line-height: 14px;
+    top: 75%;
+    left: -1%;
+  }
+  .fpt-intro-button {
+    top: 70%; /* điều chỉnh thấp hơn chút trên mobile */
+    width: fit-content;
+    margin-top:0px !important;
+    font-size: 12px;
+  }
+}
