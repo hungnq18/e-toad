@@ -32,7 +32,7 @@ const Header = () => {
       className="flex flex-col items-center p-0"
     >
       {/* Mobile Header */}
-      <div className="header-mobile flex items-center justify-between w-full px-4 py-2" style={{background: "#F97316", height: 70}}>
+      <div className="header-mobile flex items-center justify-between px-4 py-2" style={{background: "#F97316", height: 70}}>
         <div className="flex items-center gap-2">
           <img src={logo} alt="E-Toad Logo" style={{ width: 40, height: 30, objectFit: "contain" }} />
           <span style={{ fontWeight: 600, fontSize: 18, color: "#FEF4F0" }}>E-Toad</span>
@@ -190,7 +190,7 @@ const Header = () => {
         </div>
         {/* Navigation links */}
         <nav
-          className="flex flex-row items-center gap-6"
+          className="flex flex-row items-center gap-4"
           style={{
             width: "auto", // cho nav co giãn
             height: 38,

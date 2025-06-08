@@ -4,7 +4,7 @@ import Header from "../component/Header";
 
 const MainLayout = () => {
   return (
-    <div className="flex flex-col min-h-screen w-full relative">
+    <div className="flex flex-col w-full relative">
       <Header />
 
       <main
