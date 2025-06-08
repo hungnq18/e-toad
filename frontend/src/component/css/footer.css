@@ -1,0 +1,156 @@
+.footer {
+  width: 100%;
+  background: #FED7AA;
+  z-index: 40;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding-bottom: 0;
+  min-height: 100px; /* Đảm bảo có chiều cao tối thiểu */
+}
+
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 50px;
+  padding: 48px 16px 0 16px;
+  flex: 1 0 auto;
+}
+
+.footer-logo-slogan,
+.footer-menu,
+.footer-contact,
+.footer-support {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1; /* Thêm dòng này để các cột bằng nhau */
+  min-width: 0; /* Đảm bảo không bị tràn */
+}
+.footer-logo-img {
+  width: 75px;
+  height: 64px;
+  object-fit: contain;
+}
+.footer-logo-title {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 25px;
+  color: #000;
+  text-align: center;
+}
+.footer-slogan {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  color: #686868;
+  margin-top: 10px;
+}
+.footer-menu-title, .footer-contact-title, .footer-support-title {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 25px;
+  color: #000;
+  margin-bottom: 8px;
+}
+.footer-bottom-bar {
+  width: 100%;
+  background: #F97316;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 120px;
+  position: static;
+  height: auto;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: auto; /* Đẩy xuống dưới cùng */
+}
+.footer-bottom-links {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.footer-bottom-links a {
+  white-space: normal;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.footer-copyright {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 28px;
+  color: #fff;
+  text-align: right;
+  flex: 1;
+}
+.footer-contact-list,
+.footer-support-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.foooter-support{
+  max-width: 160px;
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+  .footer {
+    min-height: 0;
+  }
+  .footer-inner {
+    flex-direction: column;
+    gap: 32px;
+    align-items: stretch;
+    padding: 32px 8px 0 8px;
+  }
+  .footer-bottom-bar {
+    width: 100%;
+    background: #F97316 !important;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 0 16px 0;
+    gap: 8px;
+    box-sizing: border-box;
+    margin-top: 15px; /* Đảm bảo luôn nằm dưới cùng */
+    font-size: 9px; /* Giảm cỡ chữ cho tablet */
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-inner {
+    padding: 24px 4px 0 4px;
+    gap: 24px;
+  }
+  .footer-bottom-bar {
+    padding: 8px 0;
+    margin-top: 10px;
+    font-size: 15px;
+  }
+  .footer-bottom-links,
+  .footer-bottom-links a,
+  .footer-copyright {
+    font-size: 9px;
+  }
+  .footer-bottom-links span {
+    gap: 16px;
+    font-size: 12px; /* Thu nhỏ chữ span ở mobile */
+  }
+  .footer-bottom-links svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+}

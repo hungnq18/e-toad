@@ -1,0 +1,25 @@
+.card-row {
+  width: 100%;
+  max-width: 1272px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: max-width 0.2s;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1350px) {
+  .card-row {
+    max-width: 98vw;
+    gap: 2vw;
+  }
+}
+
+@media (max-width: 900px) {
+  .card-row {
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 90px !important; /* Đẩy card xu-ống dưới banner */
+  }
+}

@@ -1,0 +1,125 @@
+.banner-talk-mobile {
+  display: none;
+}
+@media (max-width: 768px) {
+  .banner-title-desktop {
+    display: none !important;
+  }
+  .banner-mascot {
+    width: 80px !important;
+    height: 100px !important;
+  }
+  .banner-btn-row {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .banner-mascot-mobile {
+    width: 120px !important;
+    height: 180px !important;
+    margin-top: 200px !important;
+    margin-bottom: -50px;
+  }
+  .mascot-bubble-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .speech-bubble-mobile {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 60px; /* Điều chỉnh khoảng cách lên trên mascot */
+    background: #fff;
+    color: #F97316;
+    font-size: 13px;
+    font-style: italic;
+    border-radius: 16px;
+    border: 1.5px solid #F97316;
+    box-shadow: 0 4px 16px rgba(249,115,22,0.15), 0 2px 8px rgba(0,0,0,0.10);
+    padding: 10px 16px;
+    min-width: 160px;
+    max-width: 220px;
+    z-index: 3;
+    text-align: left;
+    line-height: 2.0;
+    display: block;
+    margin: 0;
+    word-break: break-word;
+  }
+  /* Tam giác chỉ xuống */
+  .speech-bubble-mobile::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100%;       /* nằm ngay dưới bubble */
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 16px solid #fff;   /* màu nền bubble */
+    z-index: 2;
+  }
+  .speech-bubble-mobile::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100%;
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-top: 20px solid #F97316;   /* màu viền đen */
+    z-index: 1;
+    border-bottom: none
+  }
+ 
+  .banner-btn-row-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 350px;
+    margin-top: 100px;
+    align-items: center;
+    justify-content: center;
+  }
+  .banner-btn, .banner-btn-main {
+    width: 100% !important;
+    font-size: 16px !important;
+    height: 44px !important;
+    padding: 0.5rem 0.5rem !important;
+    color:#fff !important; 
+  }
+  .banner-btn:hover, .banner-btn-main:hover {
+    background-color: #F97316 !important;
+    color: #fff !important;
+  }
+  .banner-talk-mobile {
+    display: block;
+    font-size: 15px;
+    color: #F97316;
+    font-style: italic;
+    padding-top: 10px;
+    margin-top: 70px;
+    max-width: 90vw;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+    text-align: center;
+  }
+  .mascot-nut-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 10;
+  }
+}

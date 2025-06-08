@@ -1,5 +1,5 @@
 
-function QuizPage() {
+function LophocAo() {
   return (
     <div>
       
@@ -7,4 +7,4 @@ function QuizPage() {
   )
 }
 
-export default QuizPage
+export default LophocAo
