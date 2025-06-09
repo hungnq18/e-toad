@@ -31,7 +31,7 @@ const StyledButton = styled.button`
   }
 
   &:hover {
-    color: #FF8A00; /* sửa lại lỗi 2 dấu ## */
+    color: #FF8A00;
   }
 
   span {
@@ -51,9 +51,9 @@ const StyledButton = styled.button`
   }
 `;
 
-const FancyButton = ({ children, onClick, className, style }) => {
+const FancyButton = ({ children, onClick, className, style, onHover, onMouseOut }) => {
   return (
-    <StyledButton onClick={onClick} className={className} style={style}>
+    <StyledButton onClick={onClick} className={className} style={style} onMouseOver={onHover} onMouseOut={onMouseOut}>
       <span>{children}</span>
     </StyledButton>
   );

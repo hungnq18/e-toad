@@ -40,6 +40,13 @@ function TypingText({ text }) {
 function Banner() {
   const isMobile = useMediaQuery({ maxWidth: 768 });
 
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div>
       <div className="relative min-h-[300px] flex items-center justify-center" style={{paddingTop: 20, paddingBottom: 30}}>
@@ -72,13 +79,14 @@ function Banner() {
                 <button
                   className="banner-btn flex items-center justify-center px-5 py-2 h-16 w-[170px] rounded-full border border-[#F97316] bg-[#F97316]/40 text-white text-[25px] font-semibold transition-all duration-200 hover:bg-[#F97316] hover:text-white hover:scale-105"
                   style={{color: '#FFFF'}}
+                  onClick={() => scrollToSection('shop-section')}
                 >
                   Đổi quà
                 </button>
                 <button
                   className="banner-btn banner-btn-main flex items-center justify-center px-5 py-2 h-16 w-[170px] rounded-full bg-[#F97316] text-white text-[25px] font-semibold transition-all duration-200 hover:bg-[#E98842] hover:scale-105"
                   style={{ color: '#FFFF'}}
-                  onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}
+                  onClick={() => scrollToSection('intro-fpt-section')}
                 >
                   Khám phá
                 </button>
@@ -120,12 +128,13 @@ function Banner() {
                 <div className="banner-btn-row-mobile flex flex-col gap-2 mt-4 w-full max-w-[350px]">
                   <button
                     className="banner-btn flex items-center justify-center px-4 py-2 h-12 w-full rounded-full border border-[#F97316] bg-[#F97316]/40 text-white text-[16px] font-semibold transition-all duration-200 hover:bg-[#F97316] hover:text-white hover:scale-105"
+                    onClick={() => scrollToSection('shop-section')}
                   >
                     Đổi quà
                   </button>
                   <button
                     className="banner-btn banner-btn-main flex items-center justify-center px-4 py-2 h-12 w-full rounded-full bg-[#F97316] text-white text-[16px] font-semibold transition-all duration-200 hover:bg-[#E98842] hover:scale-105"
-                    onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}
+                    onClick={() => scrollToSection('intro-fpt-section')}
                   >
                     Khám phá
                   </button>
