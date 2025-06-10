@@ -1,0 +1,74 @@
+.card-container {
+  display: flex;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  overflow: hidden;
+  width: 83.33333%;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
+.card-mascot {
+  
+  flex: 1;
+  background: #e6f3f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
+}
+
+.mascot-img {
+  position: absolute;
+  width: 35%;
+  z-index: 10;  
+  border-radius: 16px;
+  margin-right: 0px; 
+  right: 56.5%;
+}
+
+.card-story {
+  flex: 2;
+  padding: 40px 32px; 
+  background: #fdfaf7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative; 
+  overflow: hidden;
+  margin-left: 180px;
+}
+
+  
+.story-title {
+  color: #f7901e;
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+.story-desc {
+  color: #444;
+  font-size: 18px;
+  line-height: 1.7;
+}
+.story-desc ul {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.story-btn {
+  margin-top: 24px;
+  padding: 10px 32px;
+  background: #f7901e;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.story-dess {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}

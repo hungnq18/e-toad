@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 import MainLayout from '../layouts/MainLayout'
-import AboutEToad from '../pages/AboutEToad'
+import AboutEToad from '../pages/AboutEtoad'
 import AboutFPT from '../pages/AboutFPT'
 import HomePage from '../pages/HomePage'
 import LopHocAo from '../pages/LopHocAo'
