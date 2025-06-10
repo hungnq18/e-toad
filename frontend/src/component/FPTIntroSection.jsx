@@ -3,7 +3,7 @@ import Button from '../component/Button'; // Import Button component
 import './css/FPTIntroSection.css'; // Import CSS tách riêng
 function FPTIntroSection() {
   return (
-    <div className="fpt-intro-section">
+    <div className="fpt-intro-section" id="intro-fpt-section">
       <img src={fptIntro} alt="FPT Intro" className="fpt-image" />
       <div className="fpt-intro-text">
         Khám phá hành trình 18 năm phát triển của <br />

@@ -1,0 +1,26 @@
+.e-toad-text {
+  width: 90%;
+}
+
+@media (max-width: 480px) {
+  .e-toad-text {
+    font-size: 14px;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95%;
+    line-height: 20px;
+    padding: 0 10px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .e-toad-text {
+    font-size: 16px;
+    top: 68%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    line-height: 24px;
+  }
+}

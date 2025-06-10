@@ -4,16 +4,14 @@ import Header from "../component/Header";
 
 const MainLayout = () => {
   return (
-    <div className="flex flex-col w-full relative ">
+    <div className="flex flex-col w-full relative overflow-x-hidden ">
       <Header />
 
-      <main
-        className="flex-grow pt-[130px] pb-[700px] md:pt-[130px] md:pb-[700px] pt-[70px] pb-[120px]"
-      >
+      <main className="flex-grow pt-[70px] pb-[70px] md:pt-[100px] md:pb-[120px]">
         <Outlet />
       </main>
 
-      <Footer />
+      <Footer className="overflow-y-hidden"/>
     </div>
   );
 };
