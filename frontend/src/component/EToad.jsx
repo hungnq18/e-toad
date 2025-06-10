@@ -9,10 +9,10 @@ function EToad() {
         max-[320px]:text-[6px] max-[320px]:top-[65%] max-[320px]:left-[50%] max-[320px]:leading-[18px] max-[320px]:w-[95%]
         min-[321px]:max-[480px]:text-[7px] min-[321px]:max-[480px]:top-[73%] min-[321px]:max-[480px]:left-[67%] min-[321px]:max-[480px]:leading-[11px] min-[321px]:max-[480px]:w-[80%]
         min-[481px]:max-[768px]:text-[8px] min-[481px]:max-[768px]:top-[68%] min-[481px]:max-[768px]:left-[60%] min-[481px]:max-[768px]:leading-[24px]
-        min-[769px]:max-[1024px]:text-[20px] min-[769px]:max-[1024px]:top-[69%] min-[769px]:max-[1024px]:left-[65%] min-[769px]:max-[1024px]:leading-[30px]
-        min-[1024px]:max-[1200px]:text-[21px] min-[1024px]:max-[1200px]:top-[69.5%] min-[1024px]:max-[1200px]:left-[67%] min-[1024px]:max-[1200px]:leading-[31px]
-        min-[1025px]:max-[1440px]:text-[22px] min-[1025px]:max-[1440px]:top-[70%] min-[1025px]:max-[1440px]:left-[68%] min-[1025px]:max-[1440px]:leading-[32px]
-        min-[1441px]:text-[28px] min-[1441px]:top-[70%] min-[1441px]:left-[70%] min-[1441px]:leading-[42px]" 
+        min-[769px]:max-[1024px]:text-[18px] min-[769px]:max-[1024px]:top-[69%] min-[769px]:max-[1024px]:left-[65%] min-[769px]:max-[1024px]:leading-[30px]
+        min-[1024px]:max-[1200px]:text-[18px] min-[1024px]:max-[1200px]:top-[69.5%] min-[1024px]:max-[1200px]:left-[65%] min-[1024px]:max-[1200px]:leading-[31px]
+        min-[1025px]:max-[1440px]:text-[18px] min-[1025px]:max-[1440px]:top-[70%] min-[1025px]:max-[1440px]:left-[60%] min-[1025px]:max-[1440px]:leading-[32px]
+        min-[1441px]:text-[24px] min-[1441px]:top-[70%] min-[1441px]:left-[70%] min-[1441px]:leading-[42px]" 
       >
         Chào mừng bạn đến với Linh vật ếch 3D của<br/> 
         E-Toad – món quà thông minh làm bùng nổ <br/>
