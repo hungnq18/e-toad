@@ -5,6 +5,7 @@ import AboutFPT from '../pages/AboutFPT'
 import HomePage from '../pages/HomePage'
 import LopHocAo from '../pages/LopHocAo'
 import Shop from '../pages/Shop'
+import QuizList from '../features/quiz/QuizList'
 // import Dashboard from '../pages/dashboard/Dashboard'
 // import NotFound from '../pages/NotFoundPage'
 
@@ -35,7 +36,10 @@ const publicRoutes = [
         path: 'Shop',
         element: <Shop />
       },
-      
+      {
+        path: 'quiz',
+        element: <QuizList />
+      },
     ]
   },
   // {

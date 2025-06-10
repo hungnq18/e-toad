@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/image/logo-eToad.svg";
-import './css/header.css';
+import "./css/header.css";
 
 const navLinks = [
   { to: "/", label: "Trang chính" },
@@ -11,6 +11,7 @@ const navLinks = [
   { to: "/shop", label: "Cửa hàng" },
   { to: "/news", label: "Tin tức" },
   { to: "/account", label: "Tài khoản" },
+  { to: "/quiz", label: "Quiz" },
 ];
 
 const Header = () => {
@@ -32,21 +33,30 @@ const Header = () => {
       className="flex flex-col items-center p-0"
     >
       {/* Mobile Header */}
-      <div className="header-mobile flex items-center justify-between px-4 py-2" style={{background: "#F97316", height: 70}}>
+      <div
+        className="flex items-center justify-between px-4 py-2 header-mobile"
+        style={{ background: "#F97316", height: 70 }}
+      >
         <div className="flex items-center gap-2">
-          <img src={logo} alt="E-Toad Logo" style={{ width: 40, height: 30, objectFit: "contain" }} />
-          <span style={{ fontWeight: 600, fontSize: 18, color: "#FEF4F0" }}>E-Toad</span>
+          <img
+            src={logo}
+            alt="E-Toad Logo"
+            style={{ width: 40, height: 30, objectFit: "contain" }}
+          />
+          <span style={{ fontWeight: 600, fontSize: 18, color: "#FEF4F0" }}>
+            E-Toad
+          </span>
         </div>
         <button
           aria-label="Open menu"
           onClick={() => setOpenMenu(true)}
-          style={{ background: "none", border: "none"}}
+          style={{ background: "none", border: "none" }}
         >
           {/* Hamburger icon */}
           <svg width="32" height="32" fill="#FEF4F0" viewBox="0 0 24 24">
-            <rect y="5" width="24" height="3" rx="1.5"/>
-            <rect y="11" width="24" height="3" rx="1.5"/>
-            <rect y="17" width="24" height="3" rx="1.5"/>
+            <rect y="5" width="24" height="3" rx="1.5" />
+            <rect y="11" width="24" height="3" rx="1.5" />
+            <rect y="17" width="24" height="3" rx="1.5" />
           </svg>
         </button>
       </div>
@@ -54,7 +64,7 @@ const Header = () => {
       {/* Modal menu cho mobile */}
       {openMenu && (
         <div className="fixed inset-0 z-[1000] bg-black/50 flex justify-end">
-          <div className="mobile-menu-modal bg-white h-full shadow-lg flex flex-col p-6">
+          <div className="flex flex-col h-full p-6 bg-white shadow-lg mobile-menu-modal">
             <button
               aria-label="Close menu"
               className="self-end mb-4"
@@ -62,8 +72,22 @@ const Header = () => {
               style={{ background: "none", border: "none", paddingLeft: 10 }}
             >
               <svg width="28" height="28" fill="#F97316" viewBox="0 0 24 24">
-                <line x1="6" y1="6" x2="18" y2="18" stroke="#F97316" strokeWidth="2"/>
-                <line x1="6" y1="18" x2="18" y2="6" stroke="#F97316" strokeWidth="2"/>
+                <line
+                  x1="6"
+                  y1="6"
+                  x2="18"
+                  y2="18"
+                  stroke="#F97316"
+                  strokeWidth="2"
+                />
+                <line
+                  x1="6"
+                  y1="18"
+                  x2="18"
+                  y2="6"
+                  stroke="#F97316"
+                  strokeWidth="2"
+                />
               </svg>
             </button>
             <nav className="flex flex-col gap-2">
@@ -83,7 +107,10 @@ const Header = () => {
       )}
 
       {/* Desktop Header giữ nguyên */}
-      <div className="header-inner flex flex-row justify-center w-full items-center gap-3" style={{height: 70, background: "#F97316"}}>
+      <div
+        className="flex flex-row items-center justify-center w-full gap-3 header-inner"
+        style={{ height: 70, background: "#F97316" }}
+      >
         <span
           style={{
             fontWeight: 500,
@@ -94,10 +121,13 @@ const Header = () => {
             maxwidth: 631,
           }}
         >
-          KHÁM PHÁ {" "}
-          <span className="italic font-size-[16px]"> ngay lớp học ảo đại học FPT để{" "}</span> 
-          <span className="font-bold font-size-[18px]">{" "}NHẬN XU</span>
-          <span className="italic font-size-[16px]">{" "}đổi{" "}</span>
+          KHÁM PHÁ{" "}
+          <span className="italic font-size-[16px]">
+            {" "}
+            ngay lớp học ảo đại học FPT để{" "}
+          </span>
+          <span className="font-bold font-size-[18px]"> NHẬN XU</span>
+          <span className="italic font-size-[16px]"> đổi </span>
           <span className="font-bold">LINH VẬT</span>
         </span>
         {/* Divider */}
@@ -146,7 +176,7 @@ const Header = () => {
 
       {/* Main navbar */}
       <div
-        className="header-inner flex flex-row justify-between items-center w-full"
+        className="flex flex-row items-center justify-between w-full header-inner"
         style={{
           height: 110,
           background: "#FEF4F0",
@@ -171,7 +201,7 @@ const Header = () => {
               width: 70,
               height: 50,
               objectFit: "contain",
-              marginTop: 10
+              marginTop: 10,
             }}
           />
           <span
@@ -190,7 +220,7 @@ const Header = () => {
         </div>
         {/* Navigation links */}
         <nav
-          className="flex flex-row items-center gap-4"
+          className="flex flex-row items-center gap-4 px-12"
           style={{
             width: "auto", // cho nav co giãn
             height: 38,
@@ -201,6 +231,7 @@ const Header = () => {
             <Link
               key={link.to}
               to={link.to}
+              className="hover:!text-[#F97316] transition-colors duration-300"
               style={{
                 fontWeight: location.pathname === link.to ? 600 : 400,
                 fontSize: 18,
