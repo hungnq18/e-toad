@@ -17,6 +17,7 @@
     "react-dom": "^19.1.0",
     "react-responsive": "^10.0.1",
     "react-router-dom": "^7.6.2",
+    "styled-components": "^6.1.18",
     "tailwindcss": "^4.1.8"
   },
   "devDependencies": {
