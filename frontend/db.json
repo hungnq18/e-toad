@@ -1,0 +1,68 @@
+{
+  "blogs": [
+    {
+      "id": 1,
+      "title": "Lập trình React cơ bản",
+      "description": "Học cách dùng useState, useEffect",
+      "createdAt": "2024-01-10",
+      "author": "Nguyễn Văn A",
+      "likes": 25
+    },
+    {
+      "id": 2,
+      "title": "Hướng dẫn Tailwind CSS",
+      "description": "Tạo giao diện đẹp với Tailwind",
+      "createdAt": "2024-02-05",
+      "author": "Trần Thị B",
+      "likes": 40
+    },
+    {
+      "id": 3,
+      "title": "Lập trình React cơ bản",
+      "description": "Học cách dùng useState, useEffect",
+      "createdAt": "2024-01-10",
+      "author": "Nguyễn Văn A",
+      "likes": 25
+    },
+    {
+      "id": 4,
+      "title": "Hướng dẫn Tailwind CSS",
+      "description": "Tạo giao diện đẹp với Tailwind",
+      "createdAt": "2024-02-05",
+      "author": "Trần Thị B",
+      "likes": 40
+    },
+    {
+      "id": 5,
+      "title": "Lập trình React cơ bản",
+      "description": "Học cách dùng useState, useEffect",
+      "createdAt": "2024-01-10",
+      "author": "Nguyễn Văn A",
+      "likes": 25
+    },
+    {
+      "id": 6,
+      "title": "Hướng dẫn Tailwind CSS",
+      "description": "Tạo giao diện đẹp với Tailwind",
+      "createdAt": "2024-02-05",
+      "author": "Trần Thị B",
+      "likes": 40
+    },
+    {
+      "id": 7,
+      "title": "Lập trình React cơ bản",
+      "description": "Học cách dùng useState, useEffect",
+      "createdAt": "2024-01-10",
+      "author": "Nguyễn Văn A",
+      "likes": 25
+    },
+    {
+      "id": 8,
+      "title": "Hướng dẫn Tailwind CSS",
+      "description": "Tạo giao diện đẹp với Tailwind",
+      "createdAt": "2024-02-05",
+      "author": "Trần Thị B",
+      "likes": 40
+    }
+  ]
+}

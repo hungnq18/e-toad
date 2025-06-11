@@ -1,7 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom'
+import QuizList from '../features/quiz/QuizList'
 import MainLayout from '../layouts/MainLayout'
 import AboutEToad from '../pages/AboutEtoad'
 import AboutFPT from '../pages/AboutFPT'
+import Blog from '../pages/Blog'
+import BlogDetail from '../pages/BlogDetail'
 import HomePage from '../pages/HomePage'
 import LopHocAo from '../pages/LopHocAo'
 import Shop from '../pages/Shop'
@@ -35,7 +38,18 @@ const publicRoutes = [
         path: 'Shop',
         element: <Shop />
       },
-      
+      {
+        path: 'quiz',
+        element: <QuizList />
+      },
+      {
+        path:'blog',
+       element: <Blog />
+      },
+      {
+        path: '/blog/:slug',
+        element: <BlogDetail />
+      }
     ]
   },
   // {
