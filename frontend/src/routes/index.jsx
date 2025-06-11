@@ -1,11 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom'
+import QuizList from '../features/quiz/QuizList'
 import MainLayout from '../layouts/MainLayout'
 import AboutEToad from '../pages/AboutEToad'
 import AboutFPT from '../pages/AboutFPT'
+import Blog from '../pages/Blog'
+import BlogDetail from '../pages/BlogDetail'
 import HomePage from '../pages/HomePage'
 import LopHocAo from '../pages/LopHocAo'
 import Shop from '../pages/Shop'
-import QuizList from '../features/quiz/QuizList'
 // import Dashboard from '../pages/dashboard/Dashboard'
 // import NotFound from '../pages/NotFoundPage'
 
@@ -40,6 +42,14 @@ const publicRoutes = [
         path: 'quiz',
         element: <QuizList />
       },
+      {
+        path:'blog',
+       element: <Blog />
+      },
+      {
+        path: '/blog/:slug',
+        element: <BlogDetail />
+      }
     ]
   },
   // {

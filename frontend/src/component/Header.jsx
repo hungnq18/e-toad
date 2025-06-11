@@ -9,7 +9,7 @@ const navLinks = [
   { to: "/about-etoad", label: "Về E-Toad" },
   { to: "/lop-hoc-ao", label: "Lớp học ảo" },
   { to: "/shop", label: "Cửa hàng" },
-  { to: "/news", label: "Tin tức" },
+  { to: "/blog", label: "Tin tức" },
   { to: "/account", label: "Tài khoản" },
   { to: "/quiz", label: "Quiz" },
 ];
