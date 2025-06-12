@@ -6,8 +6,8 @@ import AboutFPT from '../pages/AboutFPT'
 import Blog from '../pages/Blog'
 import BlogDetail from '../pages/BlogDetail'
 import HomePage from '../pages/HomePage'
-import LopHocAo from '../pages/LopHocAo'
 import Shop from '../pages/Shop'
+import Tour360 from '../pages/Tour360'
 // import Dashboard from '../pages/dashboard/Dashboard'
 // import NotFound from '../pages/NotFoundPage'
 
@@ -32,7 +32,7 @@ const publicRoutes = [
       },
       {
         path: 'lop-hoc-ao',
-        element: <LopHocAo />
+        element: <Tour360 />
       },
       {
         path: 'Shop',
