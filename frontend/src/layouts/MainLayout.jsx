@@ -3,7 +3,7 @@ import Footer from "../component/Footer";
 import Header from "../component/Header";
 import { BlogProvider } from "../contexts/BlogContext"; // ✅ THÊM DÒNG NÀY
 
-const MainLayout = () => {
+const MainLayout = (children) => {
   return (
     <div className="flex flex-col w-full relative overflow-x-hidden">
       <Header />

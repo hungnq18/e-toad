@@ -1,8 +1,7 @@
 // src/pages/Blog.js
-import { Input, Pagination } from 'antd'
+import { Button, Input, Pagination } from 'antd'
 import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import imageUrl from '../assets/image/blog.png'
 import BlogCard from '../component/card/BlogCard'
 import { BlogContext } from '../contexts/BlogContext.jsx'
 const Blog = () => {
@@ -26,8 +25,12 @@ const Blog = () => {
 
       <div className="mb-6 w-full md:w-1/2">
         <Input.Search
+          style={{border:'none'}}
           placeholder="Tìm kiếm bài viết..."
-          enterButton
+          enterButton={
+            <Button style={{ backgroundColor: '#F97316', color: '#FFFFFF', border:'none' }}>      Tìm kiếm
+            </Button>
+          }
           size="large"
           value={search}
           onChange={(e) => {
@@ -41,13 +44,14 @@ const Blog = () => {
         {paginatedBlogs.map(blog => (
           <BlogCard
             key={blog.id}
+            id={blog.id}
             title={blog.title}
-            description={blog.description}
-            imageUrl={imageUrl}
+            description={blog.sections[0].content.split('\n')[0]}
+            imageUrl={blog.image}
             date={blog.createdAt}
             author={blog.author}
             likes={blog.likes}
-            onClick={() => navigate(`/blog/${generateSlug(blog.title)}`)}
+            onClick={() => navigate(`/blog/${generateSlug(blog.title)}-${blog.id}`)}
           />
         ))}
       </div>

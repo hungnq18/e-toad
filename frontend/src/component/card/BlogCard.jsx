@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createSlug } from '../../ultils/slug'
 const BlogCard = ({
+  id,
   imageUrl,
   title,
   description,
@@ -25,7 +26,7 @@ const BlogCard = ({
   }
 
   const handleClick = () => {
-    navigate(`/blog/${((slug) ? slug : createSlug(title))}`)
+   navigate(`/blog/${createSlug(title)}-${id}`)
   }
 
   return (

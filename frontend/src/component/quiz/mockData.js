@@ -1,11 +1,10 @@
 const quizData = [
     {
         id: 1,
-        question: "Nhóm nào đẳng cấp nhất EXE201 lớp MC1804-PR",
+        question: "Nguyễn Huệ vs Quang Trung có là 1 không?",
         options: [
-            { id: 1, text: "Nhóm Etoad", isCorrect: true },
-            { id: 2, text: "Nhóm KyoMatcha", isCorrect: false },
-            { id: 3, text: "Nhóm Lê Đình Tâm Đức (Đức HG LA GIANG)", isCorrect: false },
+            { id: 1, text: "Có", isCorrect: true },
+            { id: 2, text: "Không ", isCorrect: false },
         ],
         explanation: "Etoad đẳng cấp vì em anh Long",
         timeLimit: 30

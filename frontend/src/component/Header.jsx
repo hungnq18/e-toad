@@ -11,7 +11,7 @@ const navLinks = [
   { to: "/shop", label: "Cửa hàng" },
   { to: "/blog", label: "Tin tức" },
   { to: "/account", label: "Tài khoản" },
-  { to: "/quiz", label: "Quiz" },
+  { to: "/quiz", label: "Game" },
 ];
 
 const Header = () => {
