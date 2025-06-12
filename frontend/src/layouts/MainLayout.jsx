@@ -5,7 +5,7 @@ import { BlogProvider } from "../contexts/BlogContext"; // ✅ THÊM DÒNG NÀY
 
 const MainLayout = () => {
   return (
-    <div className="flex flex-col w-full relative overflow-x-hidden">
+    <div className="relative flex flex-col w-full overflow-x-hidden">
       <Header />
 
       {/* ✅ BỌC BLOG PROVIDER */}

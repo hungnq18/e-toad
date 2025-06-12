@@ -6,6 +6,7 @@ const quizData = [
             { id: 1, text: "Nhóm Etoad", isCorrect: true },
             { id: 2, text: "Nhóm KyoMatcha", isCorrect: false },
             { id: 3, text: "Nhóm Lê Đình Tâm Đức (Đức HG LA GIANG)", isCorrect: false },
+            { id: 3, text: "Nhóm nào đó", isCorrect: false },
         ],
         explanation: "Etoad đẳng cấp vì em anh Long",
         timeLimit: 30

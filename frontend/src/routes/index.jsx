@@ -8,6 +8,7 @@ import BlogDetail from '../pages/BlogDetail'
 import HomePage from '../pages/HomePage'
 import LopHocAo from '../pages/LopHocAo'
 import Shop from '../pages/Shop'
+import EtoadShop from '../pages/EtoadShop'
 // import Dashboard from '../pages/dashboard/Dashboard'
 // import NotFound from '../pages/NotFoundPage'
 
@@ -35,10 +36,6 @@ const publicRoutes = [
         element: <LopHocAo />
       },
       {
-        path: 'Shop',
-        element: <Shop />
-      },
-      {
         path: 'quiz',
         element: <QuizList />
       },
@@ -49,6 +46,10 @@ const publicRoutes = [
       {
         path: '/blog/:slug',
         element: <BlogDetail />
+      },
+      {
+        path: '/shop',
+        element: <EtoadShop />
       }
     ]
   },
