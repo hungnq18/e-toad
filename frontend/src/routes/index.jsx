@@ -5,9 +5,14 @@ import AboutEToad from '../pages/AboutEtoad'
 import AboutFPT from '../pages/AboutFPT'
 import Blog from '../pages/Blog'
 import BlogDetail from '../pages/BlogDetail'
+import EtoadShop from '../pages/EtoadShop'
 import HomePage from '../pages/HomePage'
-import Shop from '../pages/Shop'
+import Login from '../pages/Login'
+import NotFound from '../pages/NotFound'
+import Profile from '../pages/Profile'
+import Register from '../pages/Register'
 import Tour360 from '../pages/Tour360'
+
 // import Dashboard from '../pages/dashboard/Dashboard'
 // import NotFound from '../pages/NotFoundPage'
 
@@ -35,10 +40,6 @@ const publicRoutes = [
         element: <Tour360 />
       },
       {
-        path: 'Shop',
-        element: <Shop />
-      },
-      {
         path: 'quiz',
         element: <QuizList />
       },
@@ -49,7 +50,14 @@ const publicRoutes = [
       {
         path: '/blog/:slug',
         element: <BlogDetail />
-      }
+      },
+      {
+        path: '/shop',
+        element: <EtoadShop />
+      },
+      { path: 'login', element: <Login /> },
+      { path: 'register', element: <Register /> },
+      { path: '*', element: <NotFound /> }
     ]
   },
   // {
@@ -67,6 +75,11 @@ const privateRoutes = [
   {
     // path: '/dashboard',
     // element: <Dashboard />
+    path: '/',
+    element: <MainLayout />,
+    children: [
+      { path: 'profile', element: <Profile /> },
+    ]
   }
 ]
 
