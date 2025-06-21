@@ -1,4 +1,4 @@
-import etoad from '../assets/image/sectionEtoad.png';
+import etoad from '../assets/image/SectionEtoad.png';
 import Button from '../component/Button';
 
 function EToad() {
