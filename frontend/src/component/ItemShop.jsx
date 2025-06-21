@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../assets/image/logo-etoad.svg";
+import logo from "../assets/image/logo-eToad.svg";
 import mascot from "../assets/image/mascot-shopping.png";
 
 const ItemShop = () => {
