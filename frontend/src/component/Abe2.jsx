@@ -1,6 +1,6 @@
 import abe2 from '../assets/image/abe2.png';
 import Button from '../component/Button';
-import "../component/css/AboutEToad.css";
+import "../component/css/aboutEToad.css";
 function Abe2() {
   return (
     <div className="w-full">
