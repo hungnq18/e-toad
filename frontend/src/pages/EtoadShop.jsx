@@ -3,7 +3,7 @@ import ItemShop from "../component/ItemShop";
 
 const EtoadShop = () => {
   return (
-    <div className="bg-[#FEF4F0]">
+    <div className="bg-[#FEF4F0] md:pb-12">
       {/* img banner */}
       <div className="relative w-full md:h-[500px] aspect-[3/2]">
         {/* Ảnh nền */}

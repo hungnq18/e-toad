@@ -60,7 +60,7 @@ const BlogCard = ({
         </div>
         <div className="text-xs text-gray-500 mt-2">
           <p>📅 Ngày đăng: {date}</p>
-          <p>👤 Người đăng: {author}</p>
+          <p>👤 Người đăng: {author?.fullName || 'Anonymous'}</p>
           <p className="flex items-center gap-1 mt-1">
             <HeartFilled className="text-red-500" /> {likes} lượt yêu thích
           </p>

@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/image/logo-eToad.svg";
+import { useAuth } from "../contexts/AuthContext";
 import "./css/header.css";
 
 const navLinks = [
@@ -10,13 +11,38 @@ const navLinks = [
   { to: "/lop-hoc-ao", label: "Lớp học ảo" },
   { to: "/shop", label: "Cửa hàng" },
   { to: "/blog", label: "Tin tức" },
-  { to: "/account", label: "Tài khoản" },
-  { to: "/quiz", label: "Game" },
+  { to: "/quiz", label: "Trò chơi" },
+  { to: "/login", label: "Login" }
 ];
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [openMenu, setOpenMenu] = useState(false);
+  const { isAuthenticated } = useAuth();
+
+  // Tạo menu items dựa trên trạng thái đăng nhập
+  const getMenuItems = () => {
+    const baseItems = [
+      { to: "/", label: "Trang chính" },
+      { to: "/about-fpt", label: "Về đại học FPT" },
+      { to: "/about-etoad", label: "Về E-Toad" },
+      { to: "/lop-hoc-ao", label: "Lớp học ảo" },
+      { to: "/shop", label: "Cửa hàng" },
+      { to: "/blog", label: "Tin tức" },
+      { to: "/quiz", label: "Trò chơi" }
+    ];
+
+    if (isAuthenticated) {
+      return [
+        ...baseItems,
+        { to: '/profile', label: 'Tài khoản' }
+      ];
+    }
+    return [...baseItems, { to: "/login", label: "Đăng nhập" }];
+  };
+
+  const menuItems = getMenuItems();
 
   return (
     <header
@@ -52,7 +78,6 @@ const Header = () => {
           onClick={() => setOpenMenu(true)}
           style={{ background: "none", border: "none" }}
         >
-          {/* Hamburger icon */}
           <svg width="32" height="32" fill="#FEF4F0" viewBox="0 0 24 24">
             <rect y="5" width="24" height="3" rx="1.5" />
             <rect y="11" width="24" height="3" rx="1.5" />
@@ -91,7 +116,7 @@ const Header = () => {
               </svg>
             </button>
             <nav className="flex flex-col gap-2">
-              {navLinks.map((link) => (
+              {menuItems.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
@@ -189,7 +214,7 @@ const Header = () => {
           style={{
             width: 108,
             height: 108,
-            marginLeft: 24, // giảm margin cho mobile
+            marginLeft: 24,
             marginTop: 18,
             marginBottom: 18,
           }}
@@ -222,12 +247,12 @@ const Header = () => {
         <nav
           className="flex flex-row items-center gap-4 px-12"
           style={{
-            width: "auto", // cho nav co giãn
+            width: "auto",
             height: 38,
-            marginRight: 24, // giảm margin cho mobile
+            marginRight: 24,
           }}
         >
-          {navLinks.map((link, idx) => (
+          {menuItems.map((link, idx) => (
             <Link
               key={link.to}
               to={link.to}
@@ -246,8 +271,8 @@ const Header = () => {
                 ...(idx === 2 && { width: 160 }),
                 ...(idx === 3 && { width: 160 }),
                 ...(idx === 4 && { width: 140 }),
-                ...(idx === 5 && { width: 90 }),
-                ...(idx === 6 && { width: 140 }),
+                ...(idx === 5 && { width: 100 }),
+                ...(idx === 6 && { width: 100 }),
               }}
             >
               {link.label}

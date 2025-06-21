@@ -4,7 +4,7 @@ import Button from "./Button.jsx";
 import BlogCard from "./card/BlogCard";
 function BLogSection() {
     return (
-      <div className="mx-auto w-full my-10 pt-15 relative">
+      <div className="mx-auto w-full my-10 pt-15 pd-15 relative">
         <div className="w-5/6 mx-auto">
           <h1 className="class-title text-left" 
           style={{ 

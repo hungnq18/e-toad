@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import {
-  getAllBlogs
+    getAllBlogs
 } from '../api/blogApi';
 import { createSlug } from '../ultils/slug';
 
@@ -19,7 +19,7 @@ export const BlogProvider = ({ children }) => {
             const response = await getAllBlogs();
             
             // Add slug if not present
-            const dataWithSlug = response.data.map(blog => ({
+            const dataWithSlug = response.blogs.map(blog => ({
                 ...blog,
                 slug: blog.slug || createSlug(blog.title)
             }));

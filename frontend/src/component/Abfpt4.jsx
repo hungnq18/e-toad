@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "../component/Button";
 import BuildingImg from "../assets/image/abfpt3.png";
+import Button from "../component/Button";
 
 function Abfpt4() {
   return (

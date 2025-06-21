@@ -13,15 +13,19 @@ const Blog = () => {
   const pageSize = 6
   const navigate = useNavigate()
 
-  const filteredBlogs = blogs.filter(blog =>
+  const filteredBlogs = (blogs || []).filter(blog =>
     blog.title.toLowerCase().includes(search.toLowerCase())
   )
 
   const paginatedBlogs = filteredBlogs.slice((currentPage - 1) * pageSize, currentPage * pageSize)
 
-  if (loading) return <div className="flex justify-center items-center min-h-screen">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
-  </div>
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+      </div>
+    );
+  }
 
   if (error) return <div className="text-red-500 text-center p-4">{error}</div>
 
@@ -62,7 +66,7 @@ const Blog = () => {
             key={blog._id}
             id={blog._id}
             title={blog.title}
-            description={blog.content.split('\n')[0]}
+            description={(blog.content || '').split('\n')[0]}
             imageUrl={blog.featuredImage}
             date={formatDistanceToNow(new Date(blog.createdAt), { addSuffix: true })}
             author={blog.author}
