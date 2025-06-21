@@ -4,7 +4,7 @@ import Abe2 from '../component/Abe2';
 import Abe3 from '../component/Abe3';
 import Abe4 from '../component/Abe4';
 import StorySection from '../component/bannerabe';
-import "../component/css/AboutEToad.css";
+import "../component/css/aboutEToad.css";
 function AboutEtoad() {
   return (
 <div>
