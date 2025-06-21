@@ -1,7 +1,7 @@
 import React from 'react';
-import '../component/css/AboutEToad.css';
 import mascotStory from '../assets/image/mascot1.png';
 import Button from '../component/Button';
+import './css/aboutEtoad.css';
 
 function StorySection() {
   return (
