@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/user.routes');
 const quizRoutes = require('./routes/quiz.routes');
 const blogRoutes = require('./routes/blog.routes');
+const path = require('path');
 
 // Load environment variables
 dotenv.config();
@@ -16,6 +17,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve static files từ frontend build
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
 // Routes
 app.get('/', (req, res) => {
     res.send('API is working 🎉');
@@ -24,6 +28,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/quizzes', quizRoutes);
 app.use('/api/blogs', blogRoutes);
+
+// Catch-all: trả về index.html cho mọi route không phải API
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
