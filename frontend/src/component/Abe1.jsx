@@ -1,4 +1,4 @@
-import abe1 from '../assets/image/abe1.png'
+import abe1 from '../assets/image/abe1.png';
 function Abe1() {
   return (
     <div className="w-full">
