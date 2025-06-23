@@ -1,7 +1,5 @@
 @import "tailwindcss";
 body {
-  margin: 10;
-  padding: 10;
   overflow-x: hidden; 
   font-family: 'Be Vietnam Pro', 'Archivo', 'Poetsen One', 'Poppins', sans-serif;
 }
