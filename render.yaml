@@ -1,9 +1,10 @@
 services:
   - type: web
-    name: etoad
+    name: etoad-fullstack
     env: node
     buildCommand: cd frontend && npm install && npm run build && cd ../backend && npm install
     startCommand: cd backend && node app.js
+    rootDir: .
     envVars:
       - key: NODE_ENV
         value: production
