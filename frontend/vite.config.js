@@ -18,6 +18,11 @@ export default defineConfig({
     sourcemap: false,
     minify: 'esbuild',
     chunkSizeWarningLimit: 1600,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    }
   },
   base: '/', // Đảm bảo base URL là gốc (root), cần thiết khi deploy chung với backend
   server: {

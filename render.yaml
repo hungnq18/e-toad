@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: etoad
+    env: node
+    buildCommand: cd frontend && npm install && npm run build && cd ../backend && npm install
+    startCommand: cd backend && node app.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+    staticPublishPath: ./frontend/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html 

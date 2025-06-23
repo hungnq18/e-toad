@@ -1,5 +1,17 @@
 {
+  "name": "etoad",
+  "version": "1.0.0",
+  "description": "E-Toad Learning Platform",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd backend && node app.js",
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
-    "cookie-parser": "^1.4.7"
+    "concurrently": "^8.0.1"
   }
 }
