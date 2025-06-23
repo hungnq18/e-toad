@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import authApi from '../api/authApi';
+import userApi from '../api/userApi';
 
 const AuthContext = createContext(null);
 
@@ -69,6 +70,13 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const updateUserProfile = async (data) => {
+        if (!user || !user._id) throw new Error('User not found');
+        const updated = await userApi.updateUser(user._id, data);
+        setUser(updated);
+        return updated;
+    };
+
     return (
         <AuthContext.Provider value={{
             user,
@@ -76,7 +84,8 @@ export const AuthProvider = ({ children }) => {
             login,
             register,
             logout,
-            isAuthenticated: !!user
+            isAuthenticated: !!user,
+            updateUserProfile
         }}>
             {children}
         </AuthContext.Provider>

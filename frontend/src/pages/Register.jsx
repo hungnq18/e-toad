@@ -6,6 +6,7 @@ const Register = () => {
     const navigate = useNavigate();
     const { register } = useAuth();
     const [formData, setFormData] = useState({
+        username: '',
         fullName: '',
         email: '',
         password: '',
@@ -32,7 +33,12 @@ const Register = () => {
 
         setLoading(true);
         try {
-            const result = await register(formData.fullName, formData.email, formData.password);
+            const result = await register({
+                username: formData.username,
+                fullName: formData.fullName,
+                email: formData.email,
+                password: formData.password
+            });
             if (result.success) {
                 navigate('/login');
             } else {
@@ -69,13 +75,26 @@ const Register = () => {
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
+                            <label htmlFor="username" className="sr-only">Username</label>
+                            <input
+                                id="username"
+                                name="username"
+                                type="text"
+                                required
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                placeholder="Username"
+                                value={formData.username}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div>
                             <label htmlFor="fullName" className="sr-only">Họ và tên</label>
                             <input
                                 id="fullName"
                                 name="fullName"
                                 type="text"
                                 required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Họ và tên"
                                 value={formData.fullName}
                                 onChange={handleChange}

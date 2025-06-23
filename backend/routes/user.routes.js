@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { auth, adminAuth } = require('../middleware/auth');
+const { auth, adminAuth, selfOrAdmin } = require('../middleware/auth');
 const User = require('../models/User');
 
 // Get all users (admin only)
@@ -26,10 +26,10 @@ router.get('/:id', auth, async (req, res) => {
     }
 });
 
-// Update user (admin only)
-router.patch('/:id', adminAuth, async (req, res) => {
+// Update user (admin hoặc chính user đó)
+router.patch('/:id', selfOrAdmin, async (req, res) => {
     const updates = Object.keys(req.body);
-    const allowedUpdates = ['username', 'email', 'fullName', 'role', 'isActive'];
+    const allowedUpdates = [ 'email', 'fullName', 'role', 'isActive', 'phone', 'bio'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 
     if (!isValidOperation) {

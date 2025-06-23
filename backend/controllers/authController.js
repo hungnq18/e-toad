@@ -43,6 +43,7 @@ exports.register = async (req, res) => {
             token
         });
     } catch (error) {
+        console.error('REGISTRATION ERROR:', error);
         res.status(500).json({
             message: 'Error registering user',
             error: error.message
@@ -78,14 +79,34 @@ exports.login = async (req, res) => {
         // Generate token
         const token = generateToken(user._id);
 
+        // Set token vào cookie
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 ngày
+        });
+
         res.json({
             message: 'Login successful',
-            user: user.getPublicProfile(),
-            token
+            user: user.getPublicProfile()
         });
     } catch (error) {
         res.status(500).json({
             message: 'Error logging in',
+            error: error.message
+        });
+    }
+};
+
+// Logout user
+exports.logout = async (req, res) => {
+    try {
+        res.clearCookie('token');
+        res.json({ message: 'Logged out' });
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error logging out',
             error: error.message
         });
     }
@@ -109,7 +130,7 @@ exports.getCurrentUser = async (req, res) => {
 exports.updateProfile = async (req, res) => {
     try {
         const updates = req.body;
-        const allowedUpdates = ['fullName', 'avatar'];
+        const allowedUpdates = ['fullName', 'avatar', 'email', 'phone'];
         const isValidOperation = Object.keys(updates).every(update => 
             allowedUpdates.includes(update)
         );

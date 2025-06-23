@@ -17,10 +17,6 @@ const authApi = {
     register: async (userData) => {
         try {
             const response = await axiosClient.post('/auth/register', userData);
-            if (response.data.token) {
-                localStorage.setItem('token', response.data.token);
-                localStorage.setItem('user', JSON.stringify(response.data.user));
-            }
             return response.data;
         } catch (error) {
             throw error.response?.data || { message: 'Error registering' };
