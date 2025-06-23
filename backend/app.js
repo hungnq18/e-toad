@@ -11,21 +11,25 @@ const blogRoutes = require('./routes/blog.routes');
 
 // Load environment variables based on NODE_ENV
 dotenv.config({
-  path: path.resolve(__dirname, process.env.NODE_ENV === 'production' ? '.env.production' : '.env')
+    path: path.resolve(__dirname, process.env.NODE_ENV === 'production' ? '.env.production' : '.env')
 });
+
+// Load configuration based on environment
+const config = require('./config/' + (process.env.NODE_ENV === 'production' ? 'production' : 'development'));
 
 const app = express();
 
 // Middleware
-app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    credentials: true
-}));
+app.use(cors(config.server.cors));
+app.use(express.json());
+app.use(cookieParser());
 
 // Security middleware for production
 if (process.env.NODE_ENV === 'production') {
+    // Serve static files from frontend build
     app.use(express.static(path.join(__dirname, '../frontend/dist')));
+    
+    // Security headers
     app.use((req, res, next) => {
         res.setHeader('X-Content-Type-Options', 'nosniff');
         res.setHeader('X-Frame-Options', 'DENY');
@@ -34,16 +38,13 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-app.use(express.json());
-app.use(cookieParser());
-
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/quizzes', quizRoutes);
 app.use('/api/blogs', blogRoutes);
 
-// Serve static files in production
+// Serve frontend in production
 if (process.env.NODE_ENV === 'production') {
     app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
@@ -52,28 +53,54 @@ if (process.env.NODE_ENV === 'production') {
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({
-        message: 'Something went wrong!',
-        error: process.env.NODE_ENV === 'development' ? err.message : 'Internal Server Error'
+    console.error('Error:', err);
+    
+    if (err instanceof mongoose.Error) {
+        return res.status(400).json({
+            message: 'Database operation failed',
+            error: process.env.NODE_ENV === 'development' ? err.message : 'Database error'
+        });
+    }
+    
+    res.status(err.status || 500).json({
+        message: err.message || 'Something went wrong!',
+        error: process.env.NODE_ENV === 'development' ? err.stack : 'Internal server error'
     });
 });
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.error('MongoDB connection error:', err));
+// Connect to MongoDB with retry logic
+const connectWithRetry = async () => {
+    const maxRetries = 5;
+    let retries = 0;
+    
+    while (retries < maxRetries) {
+        try {
+            await mongoose.connect(config.mongodb.uri, config.mongodb.options);
+            console.log('Connected to MongoDB successfully');
+            break;
+        } catch (err) {
+            retries++;
+            console.error(`MongoDB connection attempt ${retries} failed:`, err.message);
+            if (retries === maxRetries) {
+                console.error('Max retries reached. Could not connect to MongoDB');
+                process.exit(1);
+            }
+            // Wait for 5 seconds before retrying
+            await new Promise(resolve => setTimeout(resolve, 5000));
+        }
+    }
+};
 
-// Log environment variables to check if they are loaded
-console.log('--- Environment Variables ---');
-console.log('MONGODB_URI loaded:', !!process.env.MONGODB_URI);
-console.log('JWT_SECRET loaded:', !!process.env.JWT_SECRET);
-console.log('---------------------------');
-
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT} in ${process.env.NODE_ENV} mode`);
+// Start server only after successful database connection
+connectWithRetry().then(() => {
+    const PORT = config.server.port;
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT} in ${process.env.NODE_ENV} mode`);
+        console.log('Frontend URL:', config.server.cors.origin);
+    });
+}).catch(err => {
+    console.error('Failed to start server:', err);
+    process.exit(1);
 });
 
 module.exports = app;

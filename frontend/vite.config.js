@@ -16,7 +16,7 @@ export default defineConfig({
   build: {
     outDir: 'dist', // Thư mục build, mặc định là 'dist'
     sourcemap: false,
-    minify: 'terser',
+    minify: 'esbuild',
     chunkSizeWarningLimit: 1600,
   },
   base: '/', // Đảm bảo base URL là gốc (root), cần thiết khi deploy chung với backend
