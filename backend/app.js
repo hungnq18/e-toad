@@ -24,11 +24,9 @@ app.use(cors(config.server.cors));
 app.use(express.json());
 app.use(cookieParser());
 
-// Security middleware for production
+// Serve static files from frontend build (chỉ cần 1 lần)
 if (process.env.NODE_ENV === 'production') {
-    // Serve static files from frontend build
     app.use(express.static(path.join(__dirname, '../frontend/dist')));
-    
     // Security headers
     app.use((req, res, next) => {
         res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -38,37 +36,29 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-// API Routes with proper prefixes
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/quizzes', quizRoutes);
 app.use('/api/blogs', blogRoutes);
 
-// Serve frontend in production
+// SPA fallback: trả về index.html cho mọi route không phải API
 if (process.env.NODE_ENV === 'production') {
-    // Serve static files
-    app.use(express.static(path.join(__dirname, '../frontend/dist')));
-    
-    // Handle all other routes by serving index.html
     app.get('*', (req, res) => {
-        // Don't serve index.html for API routes
-        if (!req.url.startsWith('/api/')) {
-            res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-        }
+        if (req.url.startsWith('/api/')) return res.status(404).json({ message: 'API not found' });
+        res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
     });
 }
 
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Error:', err);
-    
     if (err instanceof mongoose.Error) {
         return res.status(400).json({
             message: 'Database operation failed',
             error: process.env.NODE_ENV === 'development' ? err.message : 'Database error'
         });
     }
-    
     res.status(err.status || 500).json({
         message: err.message || 'Something went wrong!',
         error: process.env.NODE_ENV === 'development' ? err.stack : 'Internal server error'
@@ -79,7 +69,6 @@ app.use((err, req, res, next) => {
 const connectWithRetry = async () => {
     const maxRetries = 5;
     let retries = 0;
-    
     while (retries < maxRetries) {
         try {
             await mongoose.connect(config.mongodb.uri, config.mongodb.options);
@@ -92,13 +81,11 @@ const connectWithRetry = async () => {
                 console.error('Max retries reached. Could not connect to MongoDB');
                 process.exit(1);
             }
-            // Wait for 5 seconds before retrying
             await new Promise(resolve => setTimeout(resolve, 5000));
         }
     }
 };
 
-// Start server only after successful database connection
 connectWithRetry().then(() => {
     const PORT = config.server.port;
     app.listen(PORT, () => {
