@@ -1,11 +1,12 @@
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import tailwindcss from 'tailwindcss';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [
     react(), // Plugin hỗ trợ React
-    tailwindcss()
+    tailwindcss(),
   ],
   resolve: {
     alias: {
@@ -16,4 +17,7 @@ export default defineConfig({
     outDir: 'dist', // Thư mục build, mặc định là 'dist'
   },
   base: '/', // Đảm bảo base URL là gốc (root), cần thiết khi deploy chung với backend
+  server: {
+    historyApiFallback: true
+  }
 });
