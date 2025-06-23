@@ -46,15 +46,10 @@ app.use('/api/blogs', blogRoutes);
 
 // Serve frontend in production
 if (process.env.NODE_ENV === 'production') {
-    // Serve static files
     app.use(express.static(path.join(__dirname, '../frontend/dist')));
-    
-    // Handle all other routes by serving index.html
-    app.get('*', (req, res) => {
-        // Don't serve index.html for API routes
-        if (!req.url.startsWith('/api/')) {
-            res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-        }
+    app.get('*', (req, res, next) => {
+        if (req.url.startsWith('/api/')) return next();
+        res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
     });
 }
 
