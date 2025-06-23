@@ -15,9 +15,17 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist', // Thư mục build, mặc định là 'dist'
+    sourcemap: false,
+    minify: 'terser',
+    chunkSizeWarningLimit: 1600,
   },
   base: '/', // Đảm bảo base URL là gốc (root), cần thiết khi deploy chung với backend
   server: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    port: 5173,
+    host: true
+  },
+  define: {
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
   }
 });
