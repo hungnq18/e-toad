@@ -5,6 +5,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [
     react(), // Plugin hỗ trợ React
+    tailwindcss()
   ],
   resolve: {
     alias: {
