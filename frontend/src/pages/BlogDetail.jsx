@@ -8,13 +8,13 @@ const BlogDetail = () => {
   const [blog, setBlog] = useState(null)
 
   // 👉 Extract ID từ cuối slug
-  const id = parseInt(slug.split('-').pop())
+  const id = slug.split('-').pop()
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
         const res = await getBlogById(id) // đổi lại gọi theo ID
-        setBlog(res.data)
+        setBlog(res)
       } catch (error) {
         console.error('Lỗi khi lấy blog:', error)
       }
@@ -28,8 +28,9 @@ const BlogDetail = () => {
   return (
     <div className="max-w-3xl mx-auto p-10">
       <h1 className="text-3xl font-bold mb-4">{blog.title}</h1>
+      <p className="text-xl mb-4">{blog.content}</p>
       <p className="text-gray-500 text-sm mb-2">
-        Tác giả: {blog.author} - Ngày đăng: {blog.createdAt}
+        Tác giả: {blog.author.fullName} - Ngày đăng: {new Date(blog.createdAt).toLocaleDateString()}
       </p>
       <img
         src={blog.image || '/default-image.jpg'}
@@ -40,7 +41,7 @@ const BlogDetail = () => {
       {blog.sections?.map((section, index) => (
         <div key={index} className="mb-6">
           <h2 className="text-xl font-semibold mb-2">{section.heading}</h2>
-          <p className="text-gray-800 leading-relaxed">{section.content}</p>
+          <p className="text-gray-800 leading-relaxed">{section.text}</p>
         </div>
       ))}
     </div>

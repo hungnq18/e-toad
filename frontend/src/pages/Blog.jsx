@@ -67,7 +67,7 @@ const Blog = () => {
             id={blog._id}
             title={blog.title}
             description={(blog.content || '').split('\n')[0]}
-            imageUrl={blog.featuredImage}
+            imageUrl={blog.image}
             date={formatDistanceToNow(new Date(blog.createdAt), { addSuffix: true })}
             author={blog.author}
             likes={blog.likes?.length || 0}

@@ -89,7 +89,8 @@ exports.login = async (req, res) => {
 
         res.json({
             message: 'Login successful',
-            user: user.getPublicProfile()
+            user: user.getPublicProfile(),
+            token: token
         });
     } catch (error) {
         res.status(500).json({

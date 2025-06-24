@@ -201,84 +201,81 @@ const Header = () => {
 
       {/* Main navbar */}
       <div
-        className="flex flex-row items-center justify-between w-full header-inner"
-        style={{
-          height: 110,
-          background: "#FEF4F0",
-          margin: "0 auto",
-        }}
+        className="w-full header-inner"
+        style={{ background: "#FEF4F0" }}
       >
-        {/* Logo + Name */}
         <div
-          className="flex flex-col items-center gap-2"
+          className="flex flex-row items-center justify-between w-full px-6"
           style={{
-            width: 108,
-            height: 108,
-            marginLeft: 24,
-            marginTop: 18,
-            marginBottom: 18,
+            height: 110,
+            margin: "0 auto",
+            maxWidth: 1252,
           }}
         >
-          <img
-            src={logo}
-            alt="E-Toad Logo"
+          {/* Logo + Name */}
+          <div
+            className="flex flex-col items-center gap-2"
             style={{
-              width: 70,
-              height: 50,
-              objectFit: "contain",
-              marginTop: 10,
-            }}
-          />
-          <span
-            style={{
-              fontWeight: 600,
-              fontSize: 18,
-              lineHeight: "25px",
-              color: "#353535",
-              textAlign: "center",
               width: 108,
-              height: 30,
+              height: 108,
+              marginTop: 18,
+              marginBottom: 18,
+              flexShrink: 0,
             }}
           >
-            E-Toad
-          </span>
-        </div>
-        {/* Navigation links */}
-        <nav
-          className="flex flex-row items-center gap-4 px-12"
-          style={{
-            width: "auto",
-            height: 38,
-            marginRight: 24,
-          }}
-        >
-          {menuItems.map((link, idx) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className="hover:!text-[#F97316] transition-colors duration-300"
+            <img
+              src={logo}
+              alt="E-Toad Logo"
               style={{
-                fontWeight: location.pathname === link.to ? 600 : 400,
+                width: 70,
+                height: 50,
+                objectFit: "contain",
+                marginTop: 10,
+              }}
+            />
+            <span
+              style={{
+                fontWeight: 600,
                 fontSize: 18,
-                lineHeight: "31px",
-                color: location.pathname === link.to ? "#F97316" : "#353535",
-                display: "flex",
-                alignItems: "center",
+                lineHeight: "25px",
+                color: "#353535",
                 textAlign: "center",
-                height: 38,
-                ...(idx === 0 && { width: 150 }),
-                ...(idx === 1 && { width: 192 }),
-                ...(idx === 2 && { width: 160 }),
-                ...(idx === 3 && { width: 160 }),
-                ...(idx === 4 && { width: 140 }),
-                ...(idx === 5 && { width: 100 }),
-                ...(idx === 6 && { width: 100 }),
+                width: 108,
+                height: 30,
               }}
             >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+              E-Toad
+            </span>
+          </div>
+          {/* Navigation links */}
+          <nav
+            className="flex flex-row items-center justify-end flex-grow gap-2"
+            style={{
+              height: 38,
+            }}
+          >
+            {menuItems.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className="hover:!text-[#F97316] transition-colors duration-300 px-3"
+                style={{
+                  fontWeight: location.pathname === link.to ? 600 : 400,
+                  fontSize: 18,
+                  lineHeight: "31px",
+                  color: location.pathname === link.to ? "#F97316" : "#353535",
+                  display: "flex",
+                  alignItems: "center",
+                  textAlign: "center",
+                  height: 38,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
       </div>
     </header>
   );

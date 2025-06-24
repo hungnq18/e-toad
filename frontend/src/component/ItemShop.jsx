@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../assets/image/logo-eToad.svg";
-import mascot from "../assets/image/mascot-shopping.png";
+import mascot from "../assets/image/NexToad.png";
 
 const ItemShop = () => {
   return (
@@ -21,7 +21,7 @@ const ItemShop = () => {
       {/* NỘI DUNG TRÊN NỀN ĐEN */}
       <div className="absolute bottom-0 left-0 right-0 z-20 p-6 text-center text-white">
         <h4 className="text-sm font-semibold">
-          Linh vật ếch 3D – Truyền thống
+          Linh vật ếch 3D – CNTT
         </h4>
         <div className="flex items-center justify-between px-3 pt-3 pb-1">
           <div className="flex items-center gap-2">

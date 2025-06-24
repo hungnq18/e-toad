@@ -11,5 +11,8 @@ services:
     staticPublishPath: ./frontend/dist
     routes:
       - type: rewrite
+        source: /api/(.*)
+        destination: /api/$1
+      - type: rewrite
         source: /*
         destination: /index.html 

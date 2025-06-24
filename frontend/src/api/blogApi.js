@@ -11,7 +11,7 @@ export const getAllBlogs = async () => {
 
 export const getBlogById = async (id) => {
     try {
-        const response = await axiosClient.get(`/blogs/id/${id}`);
+        const response = await axiosClient.get(`/blogs/${id}`);
         return response.data;
     } catch (error) {
         throw error.response?.data || { message: 'Error fetching blog' };
