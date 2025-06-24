@@ -1,4 +1,4 @@
-import winbolt from "../assets/image/nextoad.png"
+import winbolt from "../assets/image/NexToad.png"
 import rootshop from "../assets/image/shopsection.png"
 import Button from "./Button.jsx"
 import ImageCard from "./card/ImageCard"
