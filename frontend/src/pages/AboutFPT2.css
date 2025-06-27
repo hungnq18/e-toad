@@ -1,0 +1,36 @@
+.custom-collapse .ant-collapse-header {
+  color: #F97316 !important;
+  font-weight: bold;
+}
+
+.custom-collapse .ant-collapse-content {
+  background-color: #FFF1E0 !important;
+}
+
+.custom-collapse .ant-collapse-arrow {
+  color: #F97316 !important;
+}
+
+.custom-collapse .ant-collapse-arrow svg {
+  color: #F97316 !important;
+} 
+
+.custom-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: #FFF1E0; /* nền thanh cuộn */
+  border-radius: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: #F97316;
+  border-radius: 8px;
+  border: 2px solid #FFF1E0; /* khoảng cách giữa thumb và track */
+}
+
+.custom-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #F97316 #FFF1E0;
+}

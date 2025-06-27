@@ -12,6 +12,7 @@ import NotFound from '../pages/NotFound'
 import Profile from '../pages/Profile'
 import Register from '../pages/Register'
 import Tour360 from '../pages/Tour360'
+import AboutFPT2 from '../pages/AboutFPT2'
 
 // import Dashboard from '../pages/dashboard/Dashboard'
 // import NotFound from '../pages/NotFoundPage'
@@ -29,7 +30,7 @@ const publicRoutes = [
       },
       {
         path: 'about-fpt',
-        element: <AboutFPT />
+        element: <AboutFPT2 />
       },
       {
         path: 'about-etoad',
