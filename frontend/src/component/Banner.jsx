@@ -57,12 +57,16 @@ function Banner() {
       const dau = new Audio("/dau.mp3");
       hit.play();
       dau.play();
+      // Rung điện thoại nếu có hỗ trợ
+      if (navigator.vibrate) {
+        navigator.vibrate(300);
+      }
       setTimeout(() => {
         hit.pause();
         hit.currentTime = 0;
         dau.pause();
         dau.currentTime = 0;
-      }, 1000);
+      }, 2000);
     }
   };
 
