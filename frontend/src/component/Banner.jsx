@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import bannerBg from '../assets/image/banner-home.png';
 import mascot from '../assets/image/mascot.png';
@@ -42,6 +42,25 @@ function Banner() {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const audioRef = useRef(null);
 
+  // Cute messages array
+  const cuteMessages = [
+    "Cóc ngã rồi! Đỡ tớ dậy với! 🐸",
+    "Ui da! Nhưng tớ vẫn cute lắm!",
+    "Ấn nữa đi, tớ thích lắm đó!",
+    "Cùng khám phá FPT với tớ nhé!",
+    "Cóc không sợ ngã, chỉ sợ không được yêu!",
+    "Tớ là cóc siêu nhân, ngã cũng không đau!",
+    "Ấn nhẹ thôi, tớ nhột mà!",
+    "Cóc cute nhất hệ mặt trời!",
+    "Bạn ấn tớ, tớ ấn tim bạn! ❤️",
+    "Cóc ngã nhưng vẫn cười!"
+  ];
+  const [isFalling, setIsFalling] = useState(false);
+  const [messageIndex, setMessageIndex] = useState(0);
+
+  // Hiển thị message hiện tại
+  const currentMessage = cuteMessages[messageIndex];
+
   const playSound = () => {
     // Random chọn slap hoặc punch
     const hitSounds = ["/slap.mp3", "/puch.mp3"];
@@ -68,6 +87,16 @@ function Banner() {
         dau.currentTime = 0;
       }, 2000);
     }
+  };
+
+  // Khi ấn vào mascot
+  const handleMascotClick = () => {
+    setIsFalling(true);
+    // Đổi message (random hoặc tuần tự)
+    setMessageIndex((prev) => (prev + 1) % cuteMessages.length);
+    playSound();
+    // Sau 1s thì trở lại trạng thái bình thường
+    setTimeout(() => setIsFalling(false), 1000);
   };
 
   const scrollToSection = (id) => {
@@ -125,14 +154,18 @@ function Banner() {
               <motion.img
                 src={mascot}
                 alt="Mascot"
-                className="banner-mascot w-[150px] h-[200px] object-contain mt-2"
+                className="banner-mascot w-[150px] h-[200px] object-contain mt-2 cursor-pointer"
                 style={{zIndex: 2}}
                 initial={{ y: 40, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ type: "spring", stiffness: 120, damping: 12 }}
+                animate={isFalling ? { rotate: [0, 90, 75, 100, 0], y: [0, 60, 80, 0, 0], opacity: [1, 0.7, 1] } : { y: 0, opacity: 1 }}
+                transition={{ type: isFalling ? "tween" : "spring", duration: 1, stiffness: 120, damping: 12 }}
                 whileHover={{ scale: 1.08, rotate: -5 }}
-                onClick={playSound}
+                onClick={handleMascotClick}
               />
+              {/* Cute message */}
+              <div className="mt-2 text-center text-[#F97316] text-lg font-semibold min-h-[32px]">
+                {currentMessage}
+              </div>
             </>
           )}
 
@@ -144,16 +177,16 @@ function Banner() {
                   <motion.img
                     src={mascot}
                     alt="Mascot"
-                    className="banner-mascot-mobile w-[80px] h-[100px] object-contain mt-2"
+                    className="banner-mascot-mobile w-[80px] h-[100px] object-contain mt-2 cursor-pointer"
                     style={{zIndex: 2}}
                     initial={{ y: 40, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ type: "spring", stiffness: 120, damping: 12 }}
-                    onClick={playSound}
+                    animate={isFalling ? { rotate: [0, 90, 75, 100, 0], y: [0, 40, 60, 0, 0], opacity: [1, 0.7, 1] } : { y: 0, opacity: 1 }}
+                    transition={{ type: isFalling ? "tween" : "spring", duration: 1, stiffness: 120, damping: 12 }}
+                    onClick={handleMascotClick}
                   />
                   {/* Speech bubble */}
                   <div className="speech-bubble-mobile absolute left-[70px] top-2 bg-white px-3 py-2 rounded-xl shadow-md border border-[#F97316] min-w-[170px] max-w-[220px]">
-                    <TypingText text={"Xin chào bạn!\nSẵn sàng khám phá FPT University cùng E-Toad chưa?"} />
+                    <TypingText text={currentMessage} />
                   </div>
                 </div>
                 {/* Nút dưới mascot */}
