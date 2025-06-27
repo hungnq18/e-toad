@@ -68,3 +68,310 @@
     overflow-y: auto;
   }
 }
+
+/* Container cho marquee */
+.marquee-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  /* Tối ưu để tránh giật */
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  /* Tối ưu thêm cho smooth scrolling */
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  -webkit-transform-style: preserve-3d;
+  /* Đảm bảo không có scrollbar */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.marquee-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Marquee Animation - Tối ưu để không giật cục */
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-25%, 0, 0);
+  }
+}
+
+/* Phiên bản marquee tối ưu hơn để tránh giật */
+@keyframes marquee-smooth {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(calc(-100% / 4), 0, 0);
+  }
+}
+
+.animate-marquee {
+  animation: marquee-smooth 35s linear infinite;
+  display: flex;
+  white-space: nowrap;
+  width: 400%; /* Tăng width để chứa 4 bản sao */
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+  transform: translateZ(0); /* Force GPU acceleration */
+  -webkit-transform: translateZ(0);
+  animation-fill-mode: both; /* Đảm bảo animation không bị giật */
+  animation-timing-function: linear; /* Đảm bảo tốc độ đều */
+  transform-style: preserve-3d; /* Tối ưu 3D rendering */
+  /* Thêm các thuộc tính để tránh giật */
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  /* Tối ưu thêm cho smooth scrolling */
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000px;
+  -webkit-transform-style: preserve-3d;
+}
+
+.animate-marquee > * {
+  margin: 0 2px; /* Giảm margin từ 5px xuống 2px để gần nhau hơn */
+  flex-shrink: 0;
+  will-change: transform;
+  width: 25%; /* Mỗi item chiếm 1/4 width */
+  flex: 0 0 25%;
+  transform: translateZ(0); /* Force GPU acceleration */
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden; /* Ngăn chặn flickering */
+  transform-style: preserve-3d;
+  /* Đảm bảo không bị giật */
+  transition: none;
+  animation: none;
+  /* Tối ưu thêm cho smooth scrolling */
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+  /* Đảm bảo text rendering mượt mà */
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tạo bản sao của nội dung để chạy liên tục */
+.animate-marquee::after {
+  content: "";
+  display: block;
+  width: 25%;
+  flex-shrink: 0;
+  flex: 0 0 25%;
+}
+
+/* Wiggle Animation - Tối ưu để mượt mà hơn */
+@keyframes wiggle {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate3d(0, 0, 0) rotate(1.5deg);
+  }
+  75% {
+    transform: translate3d(0, 0, 0) rotate(-1.5deg);
+  }
+}
+
+.animate-wiggle {
+  animation: wiggle 3s ease-in-out infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Pause wiggle on hover */
+.animate-wiggle:hover {
+  animation-play-state: paused;
+}
+
+/* Wiggle Animation cho từng chữ - Tối ưu */
+@keyframes wiggle-char {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) translateY(0);
+  }
+  25% {
+    transform: translate3d(0, 0, 0) rotate(2deg) translateY(-1px);
+  }
+  50% {
+    transform: translate3d(0, 0, 0) rotate(0deg) translateY(-2px);
+  }
+  75% {
+    transform: translate3d(0, 0, 0) rotate(-2deg) translateY(-1px);
+  }
+}
+
+.animate-wiggle-char {
+  animation: wiggle-char 2s ease-in-out infinite;
+  display: inline-block;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Pause wiggle-char on hover */
+.animate-wiggle-char:hover {
+  animation-play-state: paused;
+}
+
+/* Hiệu ứng nhấp nháy và gradient động cho chữ KHÁM PHÁ - Tối ưu */
+.blink-gradient {
+  background: linear-gradient(90deg, #fff 0%, #ffe082 30%, #ff9800 60%, #fff 100%);
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-move 3s ease-in-out infinite, blink 2.5s ease-in-out infinite;
+  font-weight: 700;
+  letter-spacing: 2px;
+  will-change: background-position, opacity;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  animation-fill-mode: both;
+}
+
+@keyframes gradient-move {
+  0% {
+    background-position: 200% 0;
+  }
+  50% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+/* Hiệu ứng cho link "Khám phá ngay" */
+.header-explore-link {
+  font-style: italic !important;
+  font-weight: 700 !important;
+  animation: link-blink 3s ease-in-out infinite, link-glow 2s ease-in-out infinite;
+  will-change: opacity, text-shadow, transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  animation-fill-mode: both;
+  /* Hiệu ứng gradient text */
+  background: linear-gradient(45deg, #FEF4F0, #FFE082, #FF9800, #FEF4F0);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: link-blink 3s ease-in-out infinite, link-glow 2s ease-in-out infinite, link-gradient 4s ease-in-out infinite;
+  /* Hiệu ứng hover */
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  /* Loại bỏ gạch chân mặc định */
+  text-decoration: none !important;
+  /* Thêm hiệu ứng shadow cho chữ */
+  text-shadow: 0 2px 8px #FF9800, 0 0 12px #FFE082, 0 0 2px #fff;
+}
+
+.header-explore-link:hover {
+  transform: translateZ(0) scale(1.05);
+  text-shadow: 0 0 15px rgba(255, 152, 0, 0.8);
+  animation-play-state: paused;
+}
+
+/* Hiệu ứng gạch chân tùy chỉnh */
+.header-explore-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #FFD54F, #FF9800, #F97316, #E65100);
+  background-size: 200% 100%;
+  animation: underline-slide 3s ease-in-out infinite;
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  border-radius: 3px;
+  box-shadow: 0 3px 10px rgba(255, 152, 0, 0.6), 0 0 20px rgba(255, 152, 0, 0.3);
+}
+
+.header-explore-link:hover::after {
+  height: 5px;
+  bottom: -6px;
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.8), 0 0 25px rgba(255, 152, 0, 0.5);
+}
+
+.header-explore-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.header-explore-link:hover::before {
+  left: 100%;
+}
+
+@keyframes link-blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes link-glow {
+  0%, 100% {
+    text-shadow: 0 0 5px rgba(255, 152, 0, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(255, 152, 0, 0.9), 0 0 30px rgba(255, 152, 0, 0.6);
+  }
+}
+
+@keyframes link-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes underline-slide {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

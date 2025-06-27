@@ -6,7 +6,7 @@ import ImageCard from "./card/ImageCard"
 function SectionClassroom() {
     return (
       <div className="mx-auto w-full my-10 pt-15 relative">
-        <div className="w-5/6 mx-auto">
+        <div className="w-3/4 mx-auto">
           <h1 className="class-title text-right" 
           style={{ 
             color: '#F97316',

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import bannerBg from '../assets/image/banner-home.png';
 import mascot from '../assets/image/mascot.png';
@@ -39,6 +40,31 @@ function TypingText({ text }) {
 
 function Banner() {
   const isMobile = useMediaQuery({ maxWidth: 768 });
+  const audioRef = useRef(null);
+
+  const playSound = () => {
+    // Random chọn slap hoặc punch
+    const hitSounds = ["/slap.mp3", "/puch.mp3"];
+    const randomHit = hitSounds[Math.floor(Math.random() * hitSounds.length)];
+    const hit = new Audio(randomHit);
+    if (randomHit === "/puch.mp3") {
+      hit.play();
+      setTimeout(() => {
+        hit.pause();
+        hit.currentTime = 0;
+      }, 2000);
+    } else {
+      const dau = new Audio("/dau.mp3");
+      hit.play();
+      dau.play();
+      setTimeout(() => {
+        hit.pause();
+        hit.currentTime = 0;
+        dau.pause();
+        dau.currentTime = 0;
+      }, 1000);
+    }
+  };
 
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
@@ -101,6 +127,7 @@ function Banner() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 120, damping: 12 }}
                 whileHover={{ scale: 1.08, rotate: -5 }}
+                onClick={playSound}
               />
             </>
           )}
@@ -118,6 +145,7 @@ function Banner() {
                     initial={{ y: 40, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ type: "spring", stiffness: 120, damping: 12 }}
+                    onClick={playSound}
                   />
                   {/* Speech bubble */}
                   <div className="speech-bubble-mobile absolute left-[70px] top-2 bg-white px-3 py-2 rounded-xl shadow-md border border-[#F97316] min-w-[170px] max-w-[220px]">

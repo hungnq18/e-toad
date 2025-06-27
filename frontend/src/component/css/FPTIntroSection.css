@@ -23,7 +23,7 @@
   z-index: 20;
 
   /* Default */
-  font-size: 16px; 
+  font-size: 4px; 
   line-height: 22px;
   padding: 0 8px;
   word-break: break-word;
@@ -33,7 +33,7 @@
 /* Small: ≥ 640px */
 @media (min-width: 640px) {
   .fpt-intro-text {
-    font-size: 24px !important;
+    font-size: 20px !important;
     line-height: 22px;
     padding: 0 16px;
   }

@@ -133,70 +133,95 @@ const Header = () => {
 
       {/* Desktop Header giữ nguyên */}
       <div
-        className="flex flex-row items-center justify-center w-full gap-3 header-inner"
-        style={{ height: 70, background: "#F97316" }}
+        className="w-full flex flex-row items-center header-inner"
+        style={{ background: "#F97316", height: 60, padding: 0 }}
       >
-        <span
-          style={{
-            fontWeight: 500,
-            fontSize: 18,
-            lineHeight: "25px",
-            color: "#FEF4F0",
-            textAlign: "center",
-            maxwidth: 631,
-          }}
+        {/* Marquee chiếm phần lớn chiều ngang */}
+        <div
+          className="flex-1 min-w-0 overflow-hidden marquee-container"
+          style={{ height: 60 }}
         >
-          KHÁM PHÁ{" "}
-          <span className="italic font-size-[16px]">
-            {" "}
-            ngay lớp học ảo đại học FPT để{" "}
+          <div
+            className="animate-marquee whitespace-nowrap flex items-center"
+            style={{ height: 60 }}
+          >
+            <span className="blink-gradient" style={{ fontWeight: 500, fontSize: 22, color: "#FEF4F0", letterSpacing: 1 }}>
+              <span className="blink-gradient">KHÁM PHÁ</span>
+              <span className="blink-gradient"> ngay lớp học ảo đại học FPT để </span>
+              <span className="blink-gradient"> NHẬN XU</span>
+              <span className="blink-gradient"> đổi </span>
+              <span className="blink-gradient">LINH VẬT</span>
+            </span>
+            <span className="blink-gradient" style={{ fontWeight: 500, fontSize: 22, color: "#FEF4F0", letterSpacing: 1 }}>
+              <span className="blink-gradient">KHÁM PHÁ</span>
+              <span className="blink-gradient"> ngay lớp học ảo đại học FPT để </span>
+              <span className="blink-gradient"> NHẬN XU</span>
+              <span className="blink-gradient"> đổi </span>
+              <span className="blink-gradient">LINH VẬT</span>
+            </span>
+            <span className="blink-gradient" style={{ fontWeight: 500, fontSize: 22, color: "#FEF4F0", letterSpacing: 1 }}>
+              <span className="blink-gradient">KHÁM PHÁ</span>
+              <span className="blink-gradient"> ngay lớp học ảo đại học FPT để </span>
+              <span className="blink-gradient"> NHẬN XU</span>
+              <span className="blink-gradient"> đổi </span>
+              <span className="blink-gradient">LINH VẬT</span>
+            </span>
+            <span className="blink-gradient" style={{ fontWeight: 500, fontSize: 22, color: "#FEF4F0", letterSpacing: 1 }}>
+              <span className="blink-gradient">KHÁM PHÁ</span>
+              <span className="blink-gradient"> ngay lớp học ảo đại học FPT để </span>
+              <span className="blink-gradient"> NHẬN XU</span>
+              <span className="blink-gradient"> đổi </span>
+              <span className="blink-gradient">LINH VẬT</span>
+            </span>
+          </div>
+        </div>
+        {/* Phần số xu và nút khám phá */}
+        <div
+          className="flex items-center gap-3 justify-end pr-8 flex-shrink-0"
+          style={{ height: 60 }}
+        >
+          <span
+            style={{
+              width: 0,
+              height: 24.5,
+              borderLeft: "2px solid #FEF4F0",
+            }}
+          />
+          <span
+            style={{
+              fontWeight: 500,
+              fontSize: 16,
+              lineHeight: "25px",
+              color: "#FEF4F0",
+              textAlign: "center",
+              width: 160,
+            }}
+          >
+            Số xu hiện tại: <strong>50</strong>
           </span>
-          <span className="font-bold font-size-[18px]"> NHẬN XU</span>
-          <span className="italic font-size-[16px]"> đổi </span>
-          <span className="font-bold">LINH VẬT</span>
-        </span>
-        {/* Divider */}
-        <span
-          style={{
-            width: 0,
-            height: 24.5,
-            borderLeft: "2px solid #FEF4F0",
-          }}
-        />
-        <span
-          style={{
-            fontWeight: 500,
-            fontSize: 16,
-            lineHeight: "25px",
-            color: "#FEF4F0",
-            textAlign: "center",
-            width: 160,
-          }}
-        >
-          Số xu hiện tại: <strong>50</strong>
-        </span>
-        {/* Divider */}
-        <span
-          style={{
-            width: 0,
-            height: 24.5,
-            borderLeft: "2px solid #FEF4F0",
-          }}
-        />
-        <a
-          href="#"
-          style={{
-            fontWeight: 500,
-            fontSize: 16,
-            lineHeight: "25px",
-            color: "#FEF4F0",
-            textDecoration: "underline",
-            width: 149,
-            textAlign: "center",
-          }}
-        >
-          Khám phá ngay
-        </a>
+          <span
+            style={{
+              width: 0,
+              height: 24.5,
+              borderLeft: "2px solid #FEF4F0",
+            }}
+          />
+          <a
+            href="/lop-hoc-ao"
+            className="header-explore-link"
+            style={{
+              fontWeight: 500,
+              fontSize: 18,
+              lineHeight: "25px",
+              color: "#FEF4F0",
+              textDecoration: "underline",
+              width: 149,
+              textAlign: "center",
+            }}
+          >
+            Khám phá ngay
+          </a>
+        </div>
       </div>
 
       {/* Main navbar */}

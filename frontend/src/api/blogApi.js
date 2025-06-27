@@ -97,4 +97,13 @@ export const getBlogsByAuthor = async (authorId) => {
     } catch (error) {
         throw error.response?.data || { message: 'Error fetching author blogs' };
     }
+};
+
+export const addCommentToBlog = async (blogId, content) => {
+    try {
+        const response = await axiosClient.post(`/blogs/${blogId}/comments`, { content });
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || { message: 'Error adding comment' };
+    }
 }; 

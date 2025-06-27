@@ -14,9 +14,9 @@ const blogSchema = new mongoose.Schema({
         trim: true
       },
       text: {
-        type: String,
-        required: [true, 'Section text is required'],
-        trim: true
+        type: mongoose.Schema.Types.Mixed,
+        required: false,
+        default: ''
       }
     }
   ],
@@ -71,7 +71,11 @@ const blogSchema = new mongoose.Schema({
         default: Date.now
       }
     }
-  ]
+  ],
+  cta: {
+    text: { type: String, default: '' },
+    link: { type: String, default: '' }
+  }
 }, {
   timestamps: true
 });

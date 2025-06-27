@@ -5,8 +5,8 @@ import ImageCard from "./card/ImageCard"
 function ShopSection() {
   return (
     <div className="mx-auto w-full my-10 pt-15 relative" id="shop-section">
-      <img src={rootshop} style={{paddingTop:"10px" }}/>
-        <div className="w-5/6 mx-auto">
+        <div className="w-3/4 mx-auto">
+        <img src={rootshop} style={{paddingTop:"10px" }}/>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           <ImageCard imageUrl={winbolt} width="100%" height={350} cardStyle ={{borderRadius:"0px"}} buttonText="Mua ngay"/>
           <ImageCard imageUrl={winbolt} width="100%" height={350} cardStyle ={{borderRadius:"0px"}} buttonText="Mua ngay"/>

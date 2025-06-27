@@ -10,7 +10,8 @@ const ImageCard = ({
   buttonText = 'Tham gia',
   buttonStyle = {},
   buttonClassName = '',
-  cardStyle = {}
+  cardStyle = {},
+  buttonOnClick
 }) => {
   return (
     <div
@@ -37,7 +38,7 @@ const ImageCard = ({
         <button 
           style={buttonStyle}
           className={`relative z-10 opacity-100 transform translate-y-0 sm:opacity-0 sm:group-hover:opacity-100 bg-white text-black w-28 h-28 rounded-full flex items-center justify-center transition-all duration-300 sm:transform sm:translate-y-4 sm:group-hover:translate-y-0 font-bold text-lg shadow-xl border-2 border-black ${buttonClassName}`}
-          onClick={onClick ? onClick : () => { window.location.href = '/lop-hoc-ao'; }}
+          onClick={buttonOnClick ? buttonOnClick : (onClick ? onClick : () => { window.location.href = '/lop-hoc-ao'; })}
         >
           {buttonText}
         </button>
@@ -55,7 +56,8 @@ ImageCard.propTypes = {
   buttonText: PropTypes.string,
   buttonStyle: PropTypes.object,
   buttonClassName: PropTypes.string,
-  cardStyle: PropTypes.object
+  cardStyle: PropTypes.object,
+  buttonOnClick: PropTypes.func
 };
 
 export default ImageCard;
