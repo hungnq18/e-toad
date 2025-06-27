@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import bannerBg from '../assets/image/banner-home.png';
 import mascot from '../assets/image/mascot.png';
@@ -38,65 +38,143 @@ function TypingText({ text }) {
   );
 }
 
+// Thêm hiệu ứng trái tim bay lên
+function FlyingHeart() {
+  return (
+    <motion.span
+      initial={{ y: 0, opacity: 1, scale: 1 }}
+      animate={{ y: -60, opacity: 0, scale: 1.8 }}
+      transition={{ duration: 1 }}
+      style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', fontSize: 32, color: '#F97316', pointerEvents: 'none' }}
+    >
+      ❤️
+    </motion.span>
+  );
+}
+
+// Thêm hiệu ứng nhiều trái tim bay lên
+function FlyingHearts({ count = 12 }) {
+  return (
+    <>
+      {Array.from({ length: count }).map((_, i) => {
+        // Random vị trí ngang và delay
+        const left = 40 + Math.random() * 20; // 40% - 60%
+        const delay = Math.random() * 0.7;
+        const scale = 1.5 + Math.random() * 0.7;
+        return (
+          <motion.span
+            key={i}
+            initial={{ y: 0, opacity: 1, scale }}
+            animate={{ y: -160 - Math.random() * 60, opacity: 0, scale: scale + 0.5 }}
+            transition={{ duration: 2.2, delay }}
+            style={{ position: 'absolute', left: `${left}%`, transform: 'translateX(-50%)', fontSize: 44, color: '#F97316', pointerEvents: 'none', zIndex: 10 }}
+          >
+            ❤️
+          </motion.span>
+        );
+      })}
+    </>
+  );
+}
+
 function Banner() {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const audioRef = useRef(null);
 
-  // Cute messages array
-  const cuteMessages = [
-    "Cóc ngã rồi! Đỡ tớ dậy với! 🐸",
-    "Ui da! Nhưng tớ vẫn cute lắm!",
-    "Ấn nữa đi, tớ thích lắm đó!",
-    "Cùng khám phá FPT với tớ nhé!",
+  // Preload audio
+  const slapRef = useRef(null);
+  const punchRef = useRef(null);
+
+  useEffect(() => {
+    slapRef.current = new Audio("/danhram.mp3");
+    punchRef.current = new Audio("/punch.mp3");
+    slapRef.current.load();
+    punchRef.current.load();
+  }, []);
+
+  // Các message đặc biệt khi slap 3 lần
+  const slapNguaMessages = [
     "Cóc không sợ ngã, chỉ sợ không được yêu!",
-    "Tớ là cóc siêu nhân, ngã cũng không đau!",
-    "Ấn nhẹ thôi, tớ nhột mà!",
-    "Cóc cute nhất hệ mặt trời!",
-    "Bạn ấn tớ, tớ ấn tim bạn! ❤️",
-    "Cóc ngã nhưng vẫn cười!"
+    "Tớ là cóc E-TOAD, ngã cũng không đau!",
+    "Cóc ngã nhưng vẫn cười!",
+    "Cóc ngã rồi! Đỡ tớ dậy với! 🐸"
   ];
+  // Các message còn lại cho punch
+  const punchMessages = [
+    "Ấn nữa đi, tớ thích lắm đó!",
+    "Ấn nhẹ thôi, tớ nhột mà!",
+    "Cậu cute nhất hệ mặt trời!",
+    "Bạn ấn tớ, tớ ấn tim bạn! ❤️",
+    "Ui da! Nhưng tớ vẫn cute lắm!",
+    "Cùng khám phá FPT với tớ nhé!"
+  ];
+  // Message đầu tiên trên mobile
+  const mobileFirstMessage = "Cùng khám phá FPT với tớ nhé!";
+
   const [isFalling, setIsFalling] = useState(false);
-  const [messageIndex, setMessageIndex] = useState(0);
+  const [slapCount, setSlapCount] = useState(0);
+  const [slapNguaIndex, setSlapNguaIndex] = useState(0);
+  const [punchIndex, setPunchIndex] = useState(0);
+  const [currentMessage, setCurrentMessage] = useState(isMobile ? mobileFirstMessage : "Cùng khám phá FPT với tớ nhé!");
+  const [showHeart, setShowHeart] = useState(false);
+  const [heartKey, setHeartKey] = useState(0); // để re-trigger hiệu ứng
+  const [firstMobileShown, setFirstMobileShown] = useState(false);
 
-  // Hiển thị message hiện tại
-  const currentMessage = cuteMessages[messageIndex];
+  useEffect(() => {
+    // Đảm bảo mobile lần đầu luôn là message đặc biệt
+    if (isMobile && !firstMobileShown) {
+      setCurrentMessage(mobileFirstMessage);
+      setFirstMobileShown(true);
+    }
+  }, [isMobile, firstMobileShown]);
 
-  const playSound = () => {
-    // Random chọn slap hoặc punch
-    const hitSounds = ["/slap.mp3", "/puch.mp3"];
-    const randomHit = hitSounds[Math.floor(Math.random() * hitSounds.length)];
-    const hit = new Audio(randomHit);
-    if (randomHit === "/puch.mp3") {
-      hit.play();
+  const playSound = (type) => {
+    if (type === "punch") {
+      const punch = punchRef.current;
+      punch.pause();
+      punch.currentTime = 0;
+      punch.play();
       setTimeout(() => {
-        hit.pause();
-        hit.currentTime = 0;
+        punch.pause();
+        punch.currentTime = 0;
       }, 2000);
     } else {
-      const dau = new Audio("/dau.mp3");
-      hit.play();
-      dau.play();
-      // Rung điện thoại nếu có hỗ trợ
+      const slap = slapRef.current;
+      slap.pause();
+      slap.currentTime = 0;
+      slap.play();
       if (navigator.vibrate) {
         navigator.vibrate(300);
       }
       setTimeout(() => {
-        hit.pause();
-        hit.currentTime = 0;
-        dau.pause();
-        dau.currentTime = 0;
+        slap.pause();
+        slap.currentTime = 0;
       }, 2000);
     }
   };
 
   // Khi ấn vào mascot
   const handleMascotClick = () => {
-    setIsFalling(true);
-    // Đổi message (random hoặc tuần tự)
-    setMessageIndex((prev) => (prev + 1) % cuteMessages.length);
-    playSound();
-    // Sau 1s thì trở lại trạng thái bình thường
-    setTimeout(() => setIsFalling(false), 1000);
+    // 80% punch, 20% danhram
+    const isPunch = Math.random() < 0.8;
+    if (isPunch) {
+      setIsFalling(false);
+      // Random message punch (trừ 'Hì hì, ngại quá !!!')
+      const idx = Math.floor(Math.random() * punchMessages.length);
+      const msg = punchMessages[idx];
+      setCurrentMessage(msg);
+      playSound("punch");
+      if (msg === "Bạn ấn tớ, tớ ấn tim bạn! ❤️" || msg === "Cậu cute nhất hệ mặt trời!") {
+        setShowHeart(false); // reset trước để đảm bảo re-trigger
+        setHeartKey(prev => prev + 1); // đổi key để re-render
+        setTimeout(() => setShowHeart(true), 10);
+        setTimeout(() => setShowHeart(false), 2400);
+      }
+    } else {
+      setIsFalling(false);
+      setCurrentMessage("Hì hì, ngại quá !!!");
+      playSound("slap");
+    }
   };
 
   const scrollToSection = (id) => {
@@ -151,17 +229,20 @@ function Banner() {
                 </button>
               </div>
               {/* Mascot */}
-              <motion.img
-                src={mascot}
-                alt="Mascot"
-                className="banner-mascot w-[150px] h-[200px] object-contain mt-2 cursor-pointer"
-                style={{zIndex: 2}}
-                initial={{ y: 40, opacity: 0 }}
-                animate={isFalling ? { rotate: [0, 90, 75, 100, 0], y: [0, 60, 80, 0, 0], opacity: [1, 0.7, 1] } : { y: 0, opacity: 1 }}
-                transition={{ type: isFalling ? "tween" : "spring", duration: 1, stiffness: 120, damping: 12 }}
-                whileHover={{ scale: 1.08, rotate: -5 }}
-                onClick={handleMascotClick}
-              />
+              <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <motion.img
+                  src={mascot}
+                  alt="Mascot"
+                  className="banner-mascot w-[150px] h-[200px] object-contain mt-2 cursor-pointer"
+                  style={{zIndex: 2}}
+                  initial={{ y: 40, opacity: 0 }}
+                  animate={isFalling ? { rotate: [0, 90, 75, 100, 0], y: [0, 60, 80, 0, 0], opacity: [1, 0.7, 1] } : { y: 0, opacity: 1 }}
+                  transition={{ type: isFalling ? "tween" : "spring", duration: 1, stiffness: 120, damping: 12 }}
+                  whileHover={{ scale: 1.08, rotate: -5 }}
+                  onClick={handleMascotClick}
+                />
+                {showHeart && <FlyingHearts key={heartKey} count={12} />}
+              </div>
               {/* Cute message */}
               <div className="mt-2 text-center text-[#F97316] text-lg font-semibold min-h-[32px]">
                 {currentMessage}
@@ -184,6 +265,7 @@ function Banner() {
                     transition={{ type: isFalling ? "tween" : "spring", duration: 1, stiffness: 120, damping: 12 }}
                     onClick={handleMascotClick}
                   />
+                  {showHeart && <FlyingHearts key={heartKey} count={12} />}
                   {/* Speech bubble */}
                   <div className="speech-bubble-mobile absolute left-[70px] top-2 bg-white px-3 py-2 rounded-xl shadow-md border border-[#F97316] min-w-[170px] max-w-[220px]">
                     <TypingText text={currentMessage} />
