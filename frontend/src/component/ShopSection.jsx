@@ -1,5 +1,5 @@
+import winbolt from "../assets/image/NexToad.png"
 import rootshop from "../assets/image/shopsection.png"
-import winbolt from "../assets/image/winbolt.png"
 import Button from "./Button.jsx"
 import ImageCard from "./card/ImageCard"
 function ShopSection() {
