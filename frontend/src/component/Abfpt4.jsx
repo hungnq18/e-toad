@@ -1,10 +1,33 @@
 import React from "react";
 import BuildingImg from "../assets/image/abfpt3.png";
 import Button from "../component/Button";
+import { useCompleteAction } from '../hooks/useCompleteAction';
+import { useCompletionState } from '../hooks/useCompletionState';
+import CoinRain from './CoinRain';
+import Notification from './Notification';
 
 function Abfpt4() {
+  const { isCompleted, markAsCompleted } = useCompletionState('abfpt4');
+  const { handleComplete, notification, hideNotification, showCoinRain, hideCoinRain } = useCompleteAction('abfpt4', 20);
+
+  const onComplete = async () => {
+    const success = await handleComplete();
+    if (success) {
+      markAsCompleted();
+    }
+  };
+
   return (
     <div className="mx-auto w-5/6">
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          duration={notification.duration}
+          onClose={hideNotification}
+        />
+      )}
+      {showCoinRain && <CoinRain onEnd={hideCoinRain} />}
       <div className="flex flex-col md:flex-row justify-center items-center px-6 py-10 bg-[#FFF6F1] gap-10">
         {/* Cột ảnh */}
         <div className="w-full md:w-1/2 flex justify-center">
@@ -47,14 +70,20 @@ function Abfpt4() {
           <div className="flex justify-center">
             <Button
               style={{
-                backgroundColor: '#F97316',
+                backgroundColor: isCompleted ? '#6B7280' : '#F97316',
                 color: '#FFFFFF',
                 fontWeight: '300',
               }}
-              onMouseOver={(e) => (e.currentTarget.style.color = '#FF8A00')}
+              onMouseOver={(e) => {
+                if (!isCompleted) {
+                  e.currentTarget.style.color = '#FF8A00';
+                }
+              }}
               onMouseOut={(e) => (e.currentTarget.style.color = '#FFFFFF')}
+              onClick={onComplete}
+              disabled={isCompleted}
             >
-              Hoàn Thành
+              {isCompleted ? 'Đã hoàn thành' : 'Hoàn Thành'}
             </Button>
           </div>
         </div>

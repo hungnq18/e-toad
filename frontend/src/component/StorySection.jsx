@@ -1,11 +1,34 @@
 import React from 'react';
 import mascotStory from '../assets/image/mascot1.png';
 import Button from '../component/Button';
+import { useCompleteAction } from '../hooks/useCompleteAction';
+import { useCompletionState } from '../hooks/useCompletionState';
+import CoinRain from './CoinRain';
 import './css/aboutEtoad.css';
+import Notification from './Notification';
 
 function StorySection() {
+  const { isCompleted, markAsCompleted } = useCompletionState('story_section');
+  const { handleComplete, notification, hideNotification, showCoinRain, hideCoinRain } = useCompleteAction('story_section', 5);
+
+  const onComplete = async () => {
+    const success = await handleComplete();
+    if (success) {
+      markAsCompleted();
+    }
+  };
+
   return (
     <section className="story-section">
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          duration={notification.duration}
+          onClose={hideNotification}
+        />
+      )}
+      {showCoinRain && <CoinRain onEnd={hideCoinRain} />}
       <div className="story-container">
         {/* Ảnh mascot */}
         <div className="story-image-container">
@@ -31,8 +54,17 @@ function StorySection() {
             <li>Nụ cười thân thiện tạo cảm giác gần gũi</li>
             <li>Khả năng giao tiếp thông minh với sinh viên</li>
           </ul>
-          <Button className="story-button">
-            Hoàn thành
+          <Button 
+            className="story-button"
+            onClick={onComplete}
+            disabled={isCompleted}
+            style={{
+              backgroundColor: isCompleted ? '#6B7280' : '#F97316',
+              color: '#FFFFFF',
+              fontWeight: '300',
+            }}
+          >
+            {isCompleted ? 'Đã hoàn thành' : 'Hoàn thành'}
           </Button>
         </div>
       </div>

@@ -8,6 +8,7 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/user.routes');
 const quizRoutes = require('./routes/quiz.routes');
 const blogRoutes = require('./routes/blog.routes');
+const coinPackageRoutes = require('./routes/coinPackage.routes');
 
 // Load environment variables based on NODE_ENV
 dotenv.config({
@@ -41,6 +42,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/quizzes', quizRoutes);
 app.use('/api/blogs', blogRoutes);
+app.use('/api/coin-packages', coinPackageRoutes);
 
 // SPA fallback: trả về index.html cho mọi route không phải API
 if (process.env.NODE_ENV === 'production') {

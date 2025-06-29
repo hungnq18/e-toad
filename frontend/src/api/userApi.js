@@ -28,6 +28,15 @@ const userApi = {
         }
     },
 
+    addCoins: async (userId, coins) => {
+        try {
+            const response = await axiosClient.post(`/users/${userId}/add-coins`, { coins });
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Error adding coins' };
+        }
+    },
+
     deleteUser: async (userId) => {
         try {
             const response = await axiosClient.delete(`/users/${userId}`);

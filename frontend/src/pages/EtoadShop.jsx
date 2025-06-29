@@ -1,7 +1,57 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import shopBanner from "../assets/image/shop-banner.png";
+import CoinPackages from "../component/CoinPackages";
 import ItemShop from "../component/ItemShop";
+import Notification from "../component/Notification";
+import PaymentModal from "../component/PaymentModal";
+import { useAuth } from "../contexts/AuthContext";
 
 const EtoadShop = () => {
+  const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth();
+  const [showCoinPackages, setShowCoinPackages] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [notification, setNotification] = useState(null);
+
+  const handleCoinRecharge = () => {
+    setShowCoinPackages(!showCoinPackages);
+  };
+
+  const handleSelectPackage = (pkg) => {
+    if (!isAuthenticated) {
+      setNotification({
+        message: 'Vui lòng đăng nhập để nạp xu',
+        type: 'warning',
+        duration: 3000
+      });
+      return;
+    }
+    setSelectedPackage(pkg);
+    setShowPaymentModal(true);
+  };
+
+  const handleClosePaymentModal = () => {
+    setShowPaymentModal(false);
+    setSelectedPackage(null);
+  };
+
+  const handlePaymentSuccess = (pkg) => {
+    setShowPaymentModal(false);
+    setSelectedPackage(null);
+    
+    setNotification({
+      message: `🎉 Nạp xu thành công! Bạn đã nhận được ${pkg.coins} xu`,
+      type: 'success',
+      duration: 5000
+    });
+  };
+
+  const hideNotification = () => {
+    setNotification(null);
+  };
+
   return (
     <div className="bg-[#FEF4F0] md:pb-12">
       {/* img banner */}
@@ -24,6 +74,20 @@ const EtoadShop = () => {
             <p className="text-sm md:text-lg">
               Đổi xu lấy quà hoặc mua vật phẩm hỗ trợ học tập
             </p>
+            {isAuthenticated && (
+              <div className="mt-4 p-3 bg-white/20 backdrop-blur-sm rounded-lg">
+                <p className="text-sm text-white">
+                  Số xu hiện tại: <span className="font-bold text-[#F97316]">{user?.coins || 0} xu</span>
+                </p>
+              </div>
+            )}
+            {!isAuthenticated && (
+              <div className="mt-4 p-3 bg-white/20 backdrop-blur-sm rounded-lg">
+                <p className="text-sm text-white">
+                  <span className="font-bold">Đăng nhập</span> để mua sắm và nạp xu
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -32,10 +96,24 @@ const EtoadShop = () => {
         <div className="w-[90%] mx-auto mt-10 ">
           {/* button */}
           <div className="flex flex-col items-center justify-center w-full gap-4 md:flex-row">
-            <button className="bg-[#F97316] md:p-4 !text-white w-full p-2 rounded-xl cursor-pointer hover:!text-[#F97316] hover:bg-[#FFF1E0] hover:border border-[#F97316] transition-all duration-300">
+            <button 
+              onClick={() => setShowCoinPackages(false)}
+              className={`md:p-4 w-full p-2 rounded-xl cursor-pointer transition-all duration-300 ${
+                !showCoinPackages 
+                  ? 'bg-[#F97316] !text-white hover:!text-[#F97316] hover:bg-[#FFF1E0] hover:border border-[#F97316]'
+                  : 'bg-[#FFF1E0] text-[#F97316] border border-[#F97316] hover:bg-[#F97316] hover:!text-white'
+              }`}
+            >
               Cửa hàng
             </button>
-            <button className="bg-[#FFF1E0] md:p-4 text-[#FEF4F0] border border-[#F97316] w-full p-2 rounded-xl cursor-pointer">
+            <button 
+              onClick={handleCoinRecharge}
+              className={`md:p-4 w-full p-2 rounded-xl cursor-pointer transition-all duration-300 ${
+                showCoinPackages 
+                  ? 'bg-[#F97316] !text-white hover:!text-[#F97316] hover:bg-[#FFF1E0] hover:border border-[#F97316]'
+                  : 'bg-[#FFF1E0] text-[#F97316] border border-[#F97316] hover:bg-[#F97316] hover:!text-white'
+              }`}
+            >
               Nạp xu
             </button>
           </div>
@@ -43,7 +121,7 @@ const EtoadShop = () => {
           {/* buying history */}
           <div className="my-10">
             <h3 className="text-lg text-[#F97316] !font-bold">
-              Lịch sử mua hàng
+              {showCoinPackages ? 'Lịch sử nạp xu' : 'Lịch sử mua hàng'}
             </h3>
             <div className="w-full bg-[#FFF1E0] p-4 rounded-xl mt-4 md:p-20 max-h-max flex flex-col items-center justify-center">
               <div className="w-10 h-10 md:w-15 md:h-15">
@@ -88,61 +166,107 @@ const EtoadShop = () => {
               </div>
               <div className="mt-3 text-center">
                 <h5 className="text-sm text-slate-800 !mb-0.5 md:text-lg">
-                  Chưa có lịch sử mua hàng
+                  {showCoinPackages ? 'Chưa có lịch sử nạp xu' : 'Chưa có lịch sử mua hàng'}
                 </h5>
                 <p className="text-xs text-slate-600 md:text-sm">
-                  Hãy khám phá các sản phẩm ở dưới
+                  {showCoinPackages ? 'Hãy chọn gói xu phù hợp ở dưới' : 'Hãy khám phá các sản phẩm ở dưới'}
                 </p>
               </div>
             </div>
 
             <div className="mt-4 text-sm">
               <h4>
-                Mẹo mua sắm từ <span>E-toad</span>
+                {showCoinPackages ? 'Mẹo nạp xu từ' : 'Mẹo mua sắm từ'} <span>E-toad</span>
               </h4>
               <ul className="text-[12px]">
-                <li className="text-slate-600">
-                  <p>
-                    💡 Làm quiz thường xuyên để tích xu! Mỗi câu đúng có thể
-                    mang lại 10-50 xu.
-                  </p>
-                </li>
-                <li className="text-slate-600">
-                  <p>
-                    🎯 Ưu tiên đổi những món quà có giá trị cao khi đã tích đủ
-                    xu.
-                  </p>
-                </li>
-                <li className="text-slate-600">
-                  <p>
-                    ⚡ Mua vật phẩm hỗ trợ để tăng hiệu quả học tập và kiếm xu
-                    nhanh hơn!
-                  </p>
-                </li>
+                {showCoinPackages ? (
+                  <>
+                    <li className="text-slate-600">
+                      <p>
+                        💡 Gói Vừa (150 xu) là lựa chọn phổ biến nhất với giá tốt!
+                      </p>
+                    </li>
+                    <li className="text-slate-600">
+                      <p>
+                        🎯 Gói Lớn và VIP có tỷ lệ giảm giá cao nhất, tiết kiệm hơn!
+                      </p>
+                    </li>
+                    <li className="text-slate-600">
+                      <p>
+                        ⚡ Xu có thể sử dụng để mua vật phẩm hỗ trợ học tập trong shop!
+                      </p>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li className="text-slate-600">
+                      <p>
+                        💡 Làm quiz thường xuyên để tích xu! Mỗi câu đúng có thể
+                        mang lại 10-50 xu.
+                      </p>
+                    </li>
+                    <li className="text-slate-600">
+                      <p>
+                        🎯 Ưu tiên đổi những món quà có giá trị cao khi đã tích đủ
+                        xu.
+                      </p>
+                    </li>
+                    <li className="text-slate-600">
+                      <p>
+                        ⚡ Mua vật phẩm hỗ trợ để tăng hiệu quả học tập và kiếm xu
+                        nhanh hơn!
+                      </p>
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
           </div>
 
-          {/*  shop items */}
+          {/*  shop items or coin packages */}
           <div>
             <h3 className="text-lg text-[#F97316] !font-bold">
-              Danh sách sản phẩm
+              {showCoinPackages ? 'Gói nạp xu' : 'Danh sách sản phẩm'}
             </h3>
 
-            {/* items */}
-            <div className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2 lg:grid-cols-3">
-              {/* item model */}
-              { [...Array(6).keys()].map((item) => (
-                <ItemShop key={item} />
-              )) }
-
-              {/* end of item */}
+            {/* items or packages */}
+            <div className="mt-4">
+              {showCoinPackages ? (
+                <CoinPackages onSelectPackage={handleSelectPackage} />
+              ) : (
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  {/* item model */}
+                  { [...Array(6).keys()].map((item) => (
+                    <ItemShop key={item} />
+                  )) }
+                  {/* end of item */}
+                </div>
+              )}
             </div>
             
-            {/* end of items */}
+            {/* end of items/packages */}
           </div>
         </div>
       </div>
+
+      {/* Payment Modal */}
+      {showPaymentModal && (
+        <PaymentModal
+          package={selectedPackage}
+          onClose={handleClosePaymentModal}
+          onPaymentSuccess={handlePaymentSuccess}
+        />
+      )}
+
+      {/* Notification */}
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          duration={notification.duration}
+          onClose={hideNotification}
+        />
+      )}
     </div>
   );
 };

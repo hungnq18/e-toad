@@ -35,6 +35,11 @@ const userSchema = new mongoose.Schema({
        type: Number,
        default:0
     },
+    coins: {
+        type: Number,
+        default: 50,
+        min: 0
+    },
     role: {
         type: String,
         enum: ['user', 'admin'],

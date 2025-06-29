@@ -51,7 +51,7 @@ const StyledButton = styled.button`
   }
 `;
 
-const FancyButton = ({ children, onClick, className, style, onHover, onMouseOut }) => {
+const Button = ({ children, onClick, className, style, onHover, onMouseOut }) => {
   return (
     <StyledButton onClick={onClick} className={className} style={style} onMouseOver={onHover} onMouseOut={onMouseOut}>
       <span>{children}</span>
@@ -59,4 +59,4 @@ const FancyButton = ({ children, onClick, className, style, onHover, onMouseOut 
   );
 };
 
-export default FancyButton;
+export default Button;

@@ -1,10 +1,33 @@
-import Button from "../component/Button";
-import "./css/FPTIntroSection.css";
 import Abfpt2 from "../assets/image/abfpt2.png";
+import Button from "../component/Button";
+import { useCompleteAction } from '../hooks/useCompleteAction';
+import { useCompletionState } from '../hooks/useCompletionState';
+import CoinRain from './CoinRain';
+import "./css/FPTIntroSection.css";
+import Notification from './Notification';
 
 function Abfpt3() {
+  const { isCompleted, markAsCompleted } = useCompletionState('abfpt3');
+  const { handleComplete, notification, hideNotification, showCoinRain, hideCoinRain } = useCompleteAction('abfpt3', 15);
+
+  const onComplete = async () => {
+    const success = await handleComplete();
+    if (success) {
+      markAsCompleted();
+    }
+  };
+
   return (
     <div className="w-full relative">
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          duration={notification.duration}
+          onClose={hideNotification}
+        />
+      )}
+      {showCoinRain && <CoinRain onEnd={hideCoinRain} />}
       {/* Ảnh nền */}
       <img src={Abfpt2} alt="E-Toad" className="w-full h-auto object-cover" />
 
@@ -41,9 +64,23 @@ function Abfpt3() {
         </div>
 
         {/* Nút hoàn thành */}
-       <Button style={{ backgroundColor: '#F97316', color: '#FFFFFF', fontWeight:"300"}} 
-          onHover={(e) => e.currentTarget.style.color = '#FF8A00'} 
-          onMouseOut={(e) => e.currentTarget.style.color = '#FFFFFF'}>Hoàn Thành</Button>
+        <Button 
+          style={{ 
+            backgroundColor: isCompleted ? '#6B7280' : '#F97316', 
+            color: '#FFFFFF', 
+            fontWeight:"300"
+          }} 
+          onHover={(e) => {
+            if (!isCompleted) {
+              e.currentTarget.style.color = '#FF8A00';
+            }
+          }} 
+          onMouseOut={(e) => (e.currentTarget.style.color = '#FFFFFF')}
+          onClick={onComplete}
+          disabled={isCompleted}
+        >
+          {isCompleted ? 'Đã hoàn thành' : 'Hoàn Thành'}
+        </Button>
       </div>
     </div>
   );
