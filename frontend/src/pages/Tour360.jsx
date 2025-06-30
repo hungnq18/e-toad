@@ -5,8 +5,8 @@ import libraryClassImg from '../assets/image/libraryclass.png';
 import Button from "../component/Button.jsx";
 const TOUR_TABS = [
   { label: "FPT có gì?", src: "https://www.thinglink.com/view/scene/1992282589162898276", img: class3 , bg: class3 },
-  { label: "Bạn phù hợp với ngành nào ?", src: "https://www.thinglink.com/view/scene/1992282589162898280", img: libraryClassImg, bg: libraryClassImg },
-  { label: "Nơi đẹp nhất ở đâu ?", src: "https://www.thinglink.com/view/scene/1992282589162898284", img: class1, bg: class1},
+  { label: "Bạn phù hợp với ngành nào ?", src: "https://www.thinglink.com/view/scene/1996257561417875942", img: libraryClassImg, bg: libraryClassImg },
+  { label: "Nơi đẹp nhất ở đâu ?", src: "https://www.thinglink.com/view/scene/1996245188166549990", img: class1, bg: class1},
 ]; // Thay bg bằng ảnh thật nếu có
 
 function Tour360() {

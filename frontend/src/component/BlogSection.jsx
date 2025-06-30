@@ -26,21 +26,14 @@ function BlogSection() {
 
   return (
     <div className="mx-auto w-full my-10 pt-15 pd-15 relative">
-      <div className="w-3/4 mx-auto">
-        <h1 className="class-title text-left"
-          style={{
-            color: '#F97316',
-            display: 'flex',
-            justifyContent: 'flex-start',
-            fontSize: '50px',
-            fontWeight: '750'
-          }}>
+      <div className="w-[90%] lg:w-3/4 mx-auto">
+        <h1 className="class-title text-left text-3xl md:text-5xl font-bold text-[#F97316]">
           Tin tức
         </h1>
-        <div className="grid grid-cols-3 grid-rows-2 gap-6 mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-2 gap-6 mt-6">
           {/* Card dài (blog đầu tiên) nằm trên, chiếm 2 cột */}
           {latestBlogs[0] && (
-            <div className="col-span-2 row-span-1">
+            <div className="lg:col-span-2 lg:row-span-1">
               <BlogCard
                 style={{ borderRadius: "50px", backgroundColor: "#FFF1E0", height: "100%" }}
                 imageUrl={latestBlogs[0].image || blogImg}
@@ -54,7 +47,7 @@ function BlogSection() {
           )}
           {/* Card nhỏ thứ 1 nằm bên phải card dài, hàng 1 cột 3 */}
           {latestBlogs[1] && (
-            <div className="col-start-3 row-start-1">
+            <div className="lg:col-start-3 lg:row-start-1">
               <BlogCard
                 style={{ borderRadius: "50px", backgroundColor: "#FFF1E0", height: "100%" }}
                 imageUrl={latestBlogs[1].image || blogImg}
@@ -68,7 +61,7 @@ function BlogSection() {
           )}
           {/* 3 card nhỏ dưới, đều nhau, thẳng hàng */}
           {latestBlogs.slice(2, 5).map((blog, idx) => (
-            <div className="row-start-2 col-span-1" key={blog._id}>
+            <div className="lg:row-start-2 lg:col-span-1" key={blog._id}>
               <BlogCard
                 style={{ borderRadius: "50px", backgroundColor: "#FFF1E0", height: "100%" }}
                 imageUrl={blog.image || blogImg}
