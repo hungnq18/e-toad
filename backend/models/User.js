@@ -32,9 +32,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    phone:{
-       type: Number,
-       default:0
+    phone: {
+        type: String,
+        default: ''
     },
     coins: {
         type: Number,
@@ -56,7 +56,17 @@ const userSchema = new mongoose.Schema({
     badges: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Badge'
-    }]
+    }],
+    bio: {
+        type: String,
+        default: ''
+    },
+    resetPasswordToken: {
+        type: String,
+    },
+    resetPasswordExpires: {
+        type: Date,
+    },
 }, {
     timestamps: true
 });
@@ -85,10 +95,8 @@ userSchema.methods.comparePassword = async function(candidatePassword) {
 
 // Method to get public profile (remove sensitive data)
 userSchema.methods.getPublicProfile = function() {
-    const userObject = this.toObject();
-    delete userObject.password;
-    delete userObject.__v;
-    return userObject;
+    const { _id, username, email, fullName, avatar, phone, coins, role, isActive, lastLogin, badges, createdAt, updatedAt, bio } = this;
+    return { _id, username, email, fullName, avatar, phone, coins, role, isActive, lastLogin, badges, createdAt, updatedAt, bio };
 };
 
 // Static method to add coins to a user

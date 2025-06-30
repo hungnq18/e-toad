@@ -1,9 +1,14 @@
-import class1 from "../assets/image/class1.png"
-import class3 from "../assets/image/class3.png"
-import class2 from "../assets/image/libraryclass.png"
-import ImageCard from "./card/ImageCard"
+import { useNavigate } from "react-router-dom";
+import class1 from "../assets/image/class1.png";
+import class3 from "../assets/image/class3.png";
+import class2 from "../assets/image/libraryclass.png";
+import ImageCard from "./card/ImageCard";
 
 function SectionClassroom() {
+    const navigate = useNavigate();
+    const handleGoToClass = () => {
+      navigate('/lop-hoc-ao');
+    };
     return (
       <div className="mx-auto w-full my-10 pt-15 relative">
         <div className="w-3/4 mx-auto">
@@ -22,16 +27,22 @@ function SectionClassroom() {
               imageUrl={class1}
               width={400}
               height={500}
+              buttonText="Tham gia"
+              buttonOnClick={handleGoToClass}
             />
             <ImageCard 
               imageUrl={class2}
               width={400}
               height={500}
+              buttonText="Tham gia"
+              buttonOnClick={handleGoToClass}
             />
             <ImageCard 
               imageUrl={class3}
               width={400}
               height= {500}
+              buttonText="Tham gia"
+              buttonOnClick={handleGoToClass}
             />
           </div>
         </div>

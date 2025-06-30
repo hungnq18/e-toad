@@ -71,8 +71,6 @@ const orderSchema = new mongoose.Schema({
 // Generate order number
 orderSchema.pre('save', async function(next) {
     if (this.isNew) {
-        console.log('Creating new order with payment method:', this.paymentMethod);
-        
         const date = new Date();
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -89,8 +87,6 @@ orderSchema.pre('save', async function(next) {
         // Tạo prefix dựa trên payment method
         const prefix = this.paymentMethod === 'payos' ? 'PAY' : 'COD';
         this.orderNumber = `${prefix}${year}${month}${day}${String(count + 1).padStart(4, '0')}`;
-        
-        console.log('Generated order number:', this.orderNumber);
     }
     next();
 });

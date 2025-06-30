@@ -14,10 +14,15 @@ function UpdateProfileModal({ onClose }) {
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [avatar, setAvatar] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleFileChange = (e) => {
+        setAvatar(e.target.files[0]);
     };
 
     const handleSubmit = async (e) => {
@@ -26,9 +31,11 @@ function UpdateProfileModal({ onClose }) {
         setError('');
 
         try {
-            await updateUserProfile(formData); // Gọi hàm từ context để cập nhật
+            const dataToUpdate = { ...formData };
+            if (avatar) dataToUpdate.avatar = avatar;
+            await updateUserProfile(dataToUpdate);
             alert('Cập nhật thông tin thành công!');
-            onClose(); // Đóng modal
+            onClose(true);
         } catch (err) {
             setError(err.message || 'Lỗi khi cập nhật thông tin.');
         } finally {
@@ -39,7 +46,7 @@ function UpdateProfileModal({ onClose }) {
     return (
         // Lớp phủ modal
         <div 
-            className="fixed inset-0 bg-transpanrent bg-opacity-10 flex justify-center items-center z-50"
+            className="fixed inset-0 backdrop-blur-sm flex justify-center items-center z-50"
             onClick={onClose} // Đóng modal khi nhấn ra ngoài
         >
             {/* Nội dung modal */}
@@ -98,6 +105,18 @@ function UpdateProfileModal({ onClose }) {
                             value={formData.bio}
                             onChange={handleChange}
                         ></textarea>
+                    </div>
+                    {/* Avatar */}
+                    <div className="mb-5">
+                        <label htmlFor="avatar" className="block text-gray-700 font-semibold mb-2">Ảnh đại diện</label>
+                        <input
+                            type="file"
+                            id="avatar"
+                            name="avatar"
+                            accept="image/*"
+                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                            onChange={handleFileChange}
+                        />
                     </div>
 
                     {error && <p className="text-red-500 text-sm mb-4">{error}</p>}

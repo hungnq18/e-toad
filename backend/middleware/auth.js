@@ -43,7 +43,7 @@ const selfOrAdmin = async (req, res, next) => {
     // Middleware auth sẽ được gọi trước
     await auth(req, res, async () => {
         // Kiểm tra nếu là admin hoặc id của user khớp với id trên URL
-        if (req.user.role === 'admin' || req.user._id.toString() === req.params.id) {
+        if (req.user.role === 'admin' || req.user.id === req.params.id) {
             return next(); // Cho phép đi tiếp
         }
         

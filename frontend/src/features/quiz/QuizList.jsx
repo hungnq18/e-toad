@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import QuizQuestionLayout from "../../component/quiz/QuizQuestionLayout";
-import StartRuleModal from "../../component/quiz/StartRuleModal";
-import FailureModal from "../../component/quiz/FailureModal";
-import wrongAnswerAudio from "../../assets/audio/wrong-audio.wav";
-import rightAnswerAudio from "../../assets/audio/right-audio.wav";
-import FinishQuizModal from "../../component/quiz/FinishQuizModal";
 import { useNavigate } from "react-router-dom";
 import quizApi from "../../api/quizApi";
+import rightAnswerAudio from "../../assets/audio/right-audio.wav";
+import wrongAnswerAudio from "../../assets/audio/wrong-audio.wav";
+import FailureModal from "../../component/quiz/FailureModal";
+import FinishQuizModal from "../../component/quiz/FinishQuizModal";
+import QuizQuestionLayout from "../../component/quiz/QuizQuestionLayout";
+import StartRuleModal from "../../component/quiz/StartRuleModal";
 
 const QuizList = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -117,8 +117,8 @@ const QuizList = () => {
         <FailureModal
           correctAnswers={currentIndex}
           totalQuestions={15}
-          onRetry={() => console.log("Retry")}
-          onHome={() => console.log("Go Home")}
+          onRetry={() => {}}
+          onHome={() => {}}
           onClose={() => clearData()}
           clearData={() => clearData()}
         />

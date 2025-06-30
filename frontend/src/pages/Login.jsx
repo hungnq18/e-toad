@@ -185,7 +185,7 @@ const Login = () => {
                             {showLoginPassword ? <EyeOffIcon /> : <EyeIcon />}
                         </EyeIconButton>
                     </InputWrapper>
-                    <Anchor href="#">Quên mật khẩu?</Anchor>
+                    <Anchor href="/forgot-password">Quên mật khẩu?</Anchor>
                     <Button type="submit" disabled={loading}>
                         {loading ? 'Đang xử lý...' : 'Đăng nhập'}
                     </Button>

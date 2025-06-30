@@ -33,8 +33,11 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         try {
-            const response = await authApi.login({ email, password });
-            setUser(response.user);
+            await authApi.login({ email, password });
+            // Sau khi login, fetch lại user từ backend
+            const userResponse = await authApi.getCurrentUser();
+            setUser(userResponse.user);
+            localStorage.setItem('user', JSON.stringify(userResponse.user));
             return { success: true };
         } catch (error) {
             return {
@@ -72,9 +75,12 @@ export const AuthProvider = ({ children }) => {
 
     const updateUserProfile = async (data) => {
         if (!user || !user._id) throw new Error('User not found');
-        const updated = await userApi.updateUser(user._id, data);
-        setUser(updated);
-        return updated;
+        await userApi.updateUser(user._id, data);
+        // Fetch lại user mới nhất từ backend
+        const response = await authApi.getCurrentUser();
+        setUser(response.user);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        return response.user;
     };
 
     const addCoins = async (coins) => {
