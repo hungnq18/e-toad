@@ -81,7 +81,7 @@ const PaymentModal = ({ package: selectedPackage, onClose, onPaymentSuccess, use
   // Modal xác nhận COD
   if (showConfirmation) {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-1000 p-4">
+      <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-1000 p-4">
         <div className="bg-white rounded-2xl max-w-md w-full p-6">
           <div className="text-center">
             <div className="text-4xl mb-4">💵</div>
@@ -127,7 +127,7 @@ const PaymentModal = ({ package: selectedPackage, onClose, onPaymentSuccess, use
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-1000 p-4">
+    <div className="fixed inset-0 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-1000 p-4">
       <div className="bg-white rounded-2xl max-w-md w-full p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-800">Thanh toán</h2>
@@ -229,6 +229,17 @@ const PaymentModal = ({ package: selectedPackage, onClose, onPaymentSuccess, use
           <div className="mt-4 text-center">
             <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-[#F97316]"></div>
             <p className="text-sm text-gray-600 mt-2">Đang xử lý thanh toán...</p>
+          </div>
+        )}
+
+        {/* Overlay loading khi chuyển hướng PayOS */}
+        {loading && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
+            <div className="bg-white rounded-2xl p-8 max-w-sm w-full mx-4 text-center">
+              <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-[#F97316] mx-auto mb-4"></div>
+              <h3 className="text-xl font-bold text-gray-800 mb-2">Đang chuyển hướng...</h3>
+              <p className="text-gray-600">Vui lòng chờ trong giây lát để chuyển đến trang thanh toán PayOS</p>
+            </div>
           </div>
         )}
       </div>
