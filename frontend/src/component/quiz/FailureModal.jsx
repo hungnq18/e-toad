@@ -44,10 +44,7 @@ const FailureModal = ({
       style={{ padding: 24 }}
     >
       <div className="space-y-3 text-center">
-        <div className="text-4xl text-red-500">
-          <FrownOutlined />
-        </div>
-        <h2 className="text-xl font-bold text-[#FF8A00]">Ôi không! 😅</h2>
+        <h2 className="text-2xl font-bold text-[#FF8A00]">Ôi không! 😅</h2>
         <p className="text-gray-600">{message || "Bạn chưa đạt được mục tiêu lần này"}</p>
 
         <div className="mt-4 mb-2">

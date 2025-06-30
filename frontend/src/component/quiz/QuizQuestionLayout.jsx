@@ -1,5 +1,5 @@
 import { Progress } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useImperativeHandle, useState } from "react";
 import mascot from "../../assets/image/mascot.png";
 
 const QuizQuestionLayout = ({
@@ -10,36 +10,43 @@ const QuizQuestionLayout = ({
   timeLimit,
   onDone,
   numberQuestion,
+  ref
 }) => {
   const [selectedId, setSelectedId] = useState(null);
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const [isTimeUp, setIsTimeUp] = useState(false);
   const [percent, setPercent] = useState(0);
 
-  // Reset when new question comes
-  useEffect(() => {
+  //clear data
+  const clearDataChild = () => {
     setSelectedId(null);
     setTimeLeft(timeLimit);
     setIsTimeUp(false);
     setPercent(0);
+  }
+
+  // Reset when new question comes
+  useEffect(() => {
+    clearDataChild();
   }, [id, timeLimit]);
+
+  useImperativeHandle(ref, () => ({
+    clearDataChild,
+  }));
 
   // Countdown timer
   useEffect(() => {
-    if (timeLeft <= 0) {
+    if (timeLeft <= 0 && !isTimeUp) {
       setIsTimeUp(true);
-      onDone?.(false);
-      return;
+      if (selectedId === null) {
+        onDone?.(false); 
+      }
+    } else if (timeLeft > 0 && !isTimeUp) {
+      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      setPercent(((timeLeft / timeLimit) * 100).toFixed(0));
+      return () => clearTimeout(timer);
     }
-
-    const timer = setTimeout(() => {
-      setTimeLeft((prev) => prev - 1);
-    }, 1000);
-
-    setPercent(((timeLeft / timeLimit) * 100).toFixed(0));
-
-    return () => clearTimeout(timer);
-  }, [timeLeft]);
+  }, [timeLeft, isTimeUp]);
 
   const handleAnswer = (optionId) => {
     if (selectedId !== null || isTimeUp) return;
