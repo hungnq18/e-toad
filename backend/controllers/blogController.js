@@ -65,11 +65,6 @@ exports.getAllBlogs = async (req, res) => {
             totalBlogs: total
         });
     } catch (error) {
-        console.log('=== ERROR IN BLOG CONTROLLER ===');
-        console.log('Error:', error.message);
-        console.log('Stack:', error.stack);
-        console.log('=== END ERROR ===');
-        
         res.status(500).json({
             message: 'Error fetching blogs',
             error: error.message

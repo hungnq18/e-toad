@@ -37,12 +37,15 @@ const BlogDetail = () => {
     if (!newComment.trim()) return;
     setSubmitting(true);
     try {
+      console.log('Gửi comment cho blog id:', blog._id, 'Nội dung:', newComment); // Log gửi comment
       await addCommentToBlog(blog._id, newComment);
       setNewComment('');
       // Reload lại blog để lấy comment mới
       const res = await getBlogById(blog._id);
       setBlog(res);
+      console.log('Gửi comment thành công, blog sau khi reload:', res); // Log sau khi gửi thành công
     } catch (err) {
+      console.error('Lỗi khi gửi comment:', err); // Log lỗi khi gửi comment
       alert('Lỗi khi gửi bình luận');
     }
     setSubmitting(false);
@@ -87,8 +90,6 @@ const BlogDetail = () => {
             />
 
             {blog.sections?.map((section, index) => {
-              console.log(`Section ${index}:`, section);
-              console.log(`Section ${index} text:`, section.text, 'Type:', typeof section.text, 'Is array:', Array.isArray(section.text));
               return (
                 <div key={index} className="mb-6">
                   <h2 className="text-xl font-semibold mb-2">{section.heading}</h2>

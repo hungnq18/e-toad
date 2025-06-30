@@ -1,40 +1,133 @@
 import React, { useState } from 'react';
+import coinPackageApi from '../api/coinPackageApi';
 import coinImg from '../assets/image/coinEtoad.png';
 import Button from './Button';
 
-const PaymentModal = ({ package: selectedPackage, onClose, onPaymentSuccess }) => {
-  const [paymentMethod, setPaymentMethod] = useState('momo');
+const PaymentModal = ({ package: selectedPackage, onClose, onPaymentSuccess, user }) => {
+  const [paymentMethod, setPaymentMethod] = useState('payos');
   const [loading, setLoading] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const paymentMethods = [
     {
-      id: 'banking',
-      name: 'Chuyển khoản',
+      id: 'payos',
+      name: 'PayOS Banking',
       icon: '🏦',
-      description: 'Chuyển khoản ngân hàng'
-    },
-    {
-      id: 'cod',
-      name: 'Tiền mặt',
-      icon: '💵',
-      description: 'Thanh toán tại trường'
+      description: 'Thanh toán qua PayOS (Internet Banking)'
     }
   ];
 
   const handlePayment = async () => {
+    if (paymentMethod === 'cod') {
+      // Hiển thị xác nhận cho COD
+      setShowConfirmation(true);
+      return;
+    }
+
     setLoading(true);
+
+    if (paymentMethod === 'payos') {
+      try {
+        const res = await coinPackageApi.createPayOSOrder(selectedPackage._id, user._id);
+        
+        if (res.success && res.data.checkoutUrl) {
+          // Chuyển hướng đến trang thanh toán PayOS
+          window.location.href = res.data.checkoutUrl;
+        } else {
+          throw new Error('Không nhận được URL thanh toán từ PayOS');
+        }
+        
+        setLoading(false);
+        return;
+      } catch (err) {
+        setLoading(false);
+        console.error('PayOS error:', err);
+        
+        let errorMessage = 'Không thể tạo đơn thanh toán PayOS!';
+        if (err.response?.data?.message) {
+          errorMessage = err.response.data.message;
+        } else if (err.message) {
+          errorMessage = err.message;
+        }
+        
+        alert(errorMessage);
+        return;
+      }
+    }
+  };
+
+  const handleConfirmCOD = async () => {
+    setLoading(true);
+    setShowConfirmation(false);
     
-    // Simulate payment processing
-    setTimeout(() => {
+    try {
+      // Gọi API để tạo đơn hàng COD (chưa thanh toán)
+      const response = await coinPackageApi.createCODOrder(selectedPackage._id);
+      
       setLoading(false);
-      onPaymentSuccess(selectedPackage);
-    }, 2000);
+      onPaymentSuccess(selectedPackage, 'cod', response.data.order.orderNumber);
+    } catch (error) {
+      setLoading(false);
+      alert('Không thể tạo đơn hàng! Vui lòng thử lại.');
+    }
+  };
+
+  const handleCancelCOD = () => {
+    setShowConfirmation(false);
   };
 
   if (!selectedPackage) return null;
 
+  // Modal xác nhận COD
+  if (showConfirmation) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-1000 p-4">
+        <div className="bg-white rounded-2xl max-w-md w-full p-6">
+          <div className="text-center">
+            <div className="text-4xl mb-4">💵</div>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">Xác nhận thanh toán tiền mặt</h2>
+            <p className="text-gray-600 mb-6">
+              Bạn sẽ thanh toán <strong>{selectedPackage.price}đ</strong> tại trường để nhận <strong>{selectedPackage.coins} xu</strong>.
+              <br /><br />
+              <strong>Lưu ý:</strong> Xu sẽ chỉ được cộng vào tài khoản sau khi xác nhận thanh toán từ admin.
+            </p>
+            
+            <div className="flex gap-3">
+              <Button
+                onClick={handleCancelCOD}
+                style={{
+                  backgroundColor: '#6B7280',
+                  color: '#FFFFFF',
+                  fontWeight: '600',
+                  flex: 1,
+                  padding: '12px',
+                  borderRadius: '12px'
+                }}
+              >
+                Hủy
+              </Button>
+              <Button
+                onClick={handleConfirmCOD}
+                style={{
+                  backgroundColor: '#F97316',
+                  color: '#FFFFFF',
+                  fontWeight: '600',
+                  flex: 1,
+                  padding: '12px',
+                  borderRadius: '12px'
+                }}
+              >
+                Xác nhận
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="fixed inset- bg-opacity-50 flex items-center justify-center z-1000 p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-1000 p-4">
       <div className="bg-white rounded-2xl max-w-md w-full p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-800">Thanh toán</h2>

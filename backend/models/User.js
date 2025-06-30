@@ -86,6 +86,15 @@ userSchema.methods.getPublicProfile = function() {
     return userObject;
 };
 
+// Static method to add coins to a user
+userSchema.statics.addCoins = async function(userId, coins) {
+    const user = await this.findById(userId);
+    if (!user) throw new Error('User not found');
+    user.coins += coins;
+    await user.save();
+    return user;
+};
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User; 

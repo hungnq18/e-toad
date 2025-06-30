@@ -122,7 +122,7 @@ const CoinPackages = ({ onSelectPackage }) => {
               </div>
 
               <Button
-                onClick={() => handlePurchase(pkg)}
+                onClick={() => onSelectPackage(pkg)}
                 disabled={purchaseLoading}
                 style={{
                   backgroundColor: pkg.popular ? '#F97316' : '#10B981',

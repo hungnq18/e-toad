@@ -5,11 +5,12 @@ import AboutEToad from '../pages/AboutEtoad'
 import AboutFPT2 from '../pages/AboutFPT2'
 import Blog from '../pages/Blog'
 import BlogDetail from '../pages/BlogDetail'
-import CoinRecharge from '../pages/CoinRecharge'
 import EtoadShop from '../pages/EtoadShop'
 import HomePage from '../pages/HomePage'
 import Login from '../pages/Login'
 import NotFound from '../pages/NotFound'
+import PaymentFailed from '../pages/PaymentFailed'
+import PaymentSuccess from '../pages/PaymentSuccess'
 import Profile from '../pages/Profile'
 import Register from '../pages/Register'
 import Tour360 from '../pages/Tour360'
@@ -57,8 +58,12 @@ const publicRoutes = [
         element: <EtoadShop />
       },
       {
-        path: '/recharge',
-        element: <CoinRecharge />
+        path: '/payment/success',
+        element: <PaymentSuccess />
+      },
+      {
+        path: '/payment/failed',
+        element: <PaymentFailed />
       },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
