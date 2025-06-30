@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const Badge = require('./Badge'); 
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -51,7 +52,11 @@ const userSchema = new mongoose.Schema({
     },
     lastLogin: {
         type: Date
-    }
+    },
+    badges: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Badge'
+    }]
 }, {
     timestamps: true
 });
@@ -91,6 +96,19 @@ userSchema.statics.addCoins = async function(userId, coins) {
     const user = await this.findById(userId);
     if (!user) throw new Error('User not found');
     user.coins += coins;
+    await user.save();
+    return user;
+};
+
+userSchema.statics.assignBadge = async function(userId, badgeId) {
+    const user = await this.findById(userId);
+    if (!user) throw new Error('User not found');
+
+    if (user.badges.includes(badgeId)) {
+        throw new Error('User already has this badge');
+    }
+
+    user.badges.push(badgeId);
     await user.save();
     return user;
 };
