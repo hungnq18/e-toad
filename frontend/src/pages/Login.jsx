@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import authApi from '../api/authApi'; // Import your authApi
+import bgAccount from '../assets/image/bgAccount.png';
+import signupImg from '../assets/image/signup.png';
 import { useAuth } from '../contexts/AuthContext';
 
 const EyeIcon = () => (
@@ -202,6 +204,9 @@ const Login = () => {
                         <Paragraph>
                             Để kết nối với chúng tôi, vui lòng đăng nhập bằng thông tin cá nhân của bạn
                         </Paragraph>
+                        <SignUpImageWrapper>
+                            <img src={signupImg} alt="Đăng ký" />
+                        </SignUpImageWrapper>
                         <GhostButton onClick={() => toggle(true)}>Đăng nhập</GhostButton>
                     </LeftOverlayPanel>
 
@@ -210,6 +215,9 @@ const Login = () => {
                         <Paragraph>
                             Nhập thông tin cá nhân và bắt đầu hành trình với chúng tôi
                         </Paragraph>
+                        <SignUpImageWrapper>
+                            <img src={signupImg} alt="Đăng ký" />
+                        </SignUpImageWrapper>
                         <GhostButton onClick={() => toggle(false)}>Đăng ký</GhostButton>
                     </RightOverlayPanel>
                 </Overlay>
@@ -239,6 +247,9 @@ const Container = styled.div`
     width: 100%;
     min-height: 100vh;
     margin: 0;
+    background-image: url(${bgAccount});
+    background-size: cover;
+    background-position: center;
   }
 `;
 
@@ -301,8 +312,12 @@ const Form = styled.form`
   text-align: center;
   
   @media (max-width: 768px) {
-    padding: 0 25px;
+    padding: 24px 12px;
     height: auto;
+    border-radius: 16px;
+    border: 1.5px solid #F97316;
+    box-shadow: 0 4px 24px 0 rgba(249, 115, 22, 0.15), 0 1.5px 6px 0 rgba(0,0,0,0.08);
+    background: rgba(255,255,255,0.95);
   }
 `;
 
@@ -482,5 +497,23 @@ const MobileToggle = styled.div`
 
   @media (max-width: 768px) {
     display: block;
+  }
+`;
+
+const SignUpImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+  img {
+    width: 120px;
+    height: auto;
+    @media (max-width: 768px) {
+      width: 80px;
+      margin-bottom: 8px;
+    }
+  }
+  @media (max-width: 768px) {
+    margin-bottom: 8px;
   }
 `;
