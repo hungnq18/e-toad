@@ -447,7 +447,7 @@ function AboutFPT2() {
 
       {/* international fpt */}
       <div
-        className="w-full min-h-[400px] flex items-center justify-center relative px-4 py-10 md:py-0 mb-10"
+        className="w-full min-h-[400px] flex items-center justify-center relative px-4 py-10 md:py-0"
         style={{
           backgroundImage: `url(${bannerInternationalFPT})`,
           backgroundSize: "cover",
