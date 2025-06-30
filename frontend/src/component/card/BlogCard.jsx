@@ -6,7 +6,7 @@ const BlogCard = ({
   id,
   imageUrl,
   title,
-  description,
+  intro,
   date,
   author,
   likes: initialLikes,
@@ -58,7 +58,7 @@ const BlogCard = ({
       <div className={`p-4 flex flex-col justify-between flex-1 ${horizontal ? 'min-w-0' : ''}`}>
         <div>
           <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">{title}</h3>
-          <p className={`text-gray-600 text-sm mb-3 ${horizontal ? 'line-clamp-2' : 'line-clamp-3'}`}>{description}</p>
+          <p className={`text-gray-600 text-sm mb-3 ${horizontal ? 'line-clamp-2' : 'line-clamp-3'}`}>{intro}</p>
         </div>
         <div className="text-xs text-gray-500 mt-2 flex flex-row items-center gap-2">
           <span>📅 {date}</span>

@@ -8,23 +8,26 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/user.routes');
 const quizRoutes = require('./routes/quiz.routes');
 const blogRoutes = require('./routes/blog.routes');
+const coinPackageRoutes = require('./routes/coinPackage.routes');
 
-// Load environment variables based on NODE_ENV
-dotenv.config({
-    path: path.resolve(__dirname, process.env.NODE_ENV === 'production' ? '.env.production' : '.env')
-});
-
-// Load configuration based on environment
-const config = require('./config/' + (process.env.NODE_ENV === 'production' ? 'production' : 'development'));
+// Load environment variables
+dotenv.config();
 
 const app = express();
 
+// CORS configuration
+const corsOptions = {
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    credentials: true,
+    optionsSuccessStatus: 200
+};
+
 // Middleware
-app.use(cors(config.server.cors));
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
-// Serve static files from frontend build (chỉ cần 1 lần)
+// Serve static files from frontend build (production only)
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/dist')));
     // Security headers
@@ -41,6 +44,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/quizzes', quizRoutes);
 app.use('/api/blogs', blogRoutes);
+app.use('/api/coin-packages', coinPackageRoutes);
 
 // SPA fallback: trả về index.html cho mọi route không phải API
 if (process.env.NODE_ENV === 'production') {
@@ -71,7 +75,8 @@ const connectWithRetry = async () => {
     let retries = 0;
     while (retries < maxRetries) {
         try {
-            await mongoose.connect(config.mongodb.uri, config.mongodb.options);
+            const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/etoad';
+            await mongoose.connect(mongoUri);
             console.log('Connected to MongoDB successfully');
             break;
         } catch (err) {
@@ -87,10 +92,10 @@ const connectWithRetry = async () => {
 };
 
 connectWithRetry().then(() => {
-    const PORT = config.server.port;
+    const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT} in ${process.env.NODE_ENV} mode`);
-        console.log('Frontend URL:', config.server.cors.origin);
+        console.log(`Server is running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
+        console.log('Frontend URL:', process.env.FRONTEND_URL || 'http://localhost:5173');
     });
 }).catch(err => {
     console.error('Failed to start server:', err);

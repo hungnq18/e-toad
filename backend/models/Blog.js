@@ -7,6 +7,9 @@ const blogSchema = new mongoose.Schema({
     trim: true,
     maxlength: [200, 'Title cannot be more than 200 characters']
   },
+  intro:{
+    type: String,
+  },
   sections: [
     {
       heading: {

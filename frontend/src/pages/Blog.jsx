@@ -10,7 +10,7 @@ const Blog = () => {
   const { blogs, loading, error } = useBlog()
   const [search, setSearch] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-  const pageSize = 6
+  const pageSize = 3
   const navigate = useNavigate()
 
   const filteredBlogs = (blogs || []).filter(blog =>

@@ -1,9 +1,13 @@
 import React from "react";
-import banner from "../assets/image/banner-about-fpt.png";
-import bannerHistoryFPT from "../assets/image/banner-history-about-fpt.png";
 import bannerAwardFPT from "../assets/image/award-about-fpt.png";
-import bannerMajorFPT from "../assets/image/major-fpt-banner.png";
+import bannerAboutFPT from "../assets/image/banner-about-fpt.png";
+import bannerHistoryFPT from "../assets/image/banner-history-about-fpt.png";
 import bannerInternationalFPT from "../assets/image/international-fpt-banner.png";
+import bannerMajorFPT from "../assets/image/major-fpt-banner.png";
+import CoinRain from '../component/CoinRain';
+import Notification from '../component/Notification';
+import { useCompleteAction } from '../hooks/useCompleteAction';
+import { useCompletionState } from '../hooks/useCompletionState';
 
 import { Collapse } from "antd";
 import "./AboutFPT2.css";
@@ -90,6 +94,12 @@ function MajorCollapse({ id, src, desc, label, childrenData }) {
 }
 
 function AboutFPT2() {
+  const { isCompleted: achievementsCompleted, markAsCompleted: markAchievementsCompleted } = useCompletionState('aboutfpt2_achievements');
+  const { isCompleted: internationalCompleted, markAsCompleted: markInternationalCompleted } = useCompletionState('aboutfpt2_international');
+  
+  const { handleComplete: handleAchievementsComplete, notification: achievementsNotification, hideNotification: hideAchievementsNotification, showCoinRain: showAchievementsCoinRain, hideCoinRain: hideAchievementsCoinRain } = useCompleteAction('aboutfpt2_achievements', 15);
+  const { handleComplete: handleInternationalComplete, notification: internationalNotification, hideNotification: hideInternationalNotification, showCoinRain: showInternationalCoinRain, hideCoinRain: hideInternationalCoinRain } = useCompleteAction('aboutfpt2_international', 25);
+
   const majors = [
     {
       id: 1,
@@ -115,7 +125,7 @@ function AboutFPT2() {
     {
       id: 4,
       src: "https://daihoc.fpt.edu.vn/nganh-hoc/ngon-ngu-anh/",
-      desc: "Tiềm năng toàn cầu của ngành Ngôn ngữ Anh, trong năm 2025 Tiếng Anh là ngôn ngữ toàn cầu, “chìa khóa” mở ra cơ hội học tập, làm việc và giao lưu quốc tế.",
+      desc: "Tiềm năng toàn cầu của ngành Ngôn ngữ Anh, trong năm 2025 Tiếng Anh là ngôn ngữ toàn cầu, \"chìa khóa\" mở ra cơ hội học tập, làm việc và giao lưu quốc tế.",
       label: "Ngôn ngữ Anh",
       childrenKey: "NNA",
     },
@@ -269,7 +279,7 @@ function AboutFPT2() {
       {
         id: 5.1,
         src: "https://daihoc.fpt.edu.vn/nganh-hoc/ngon-ngu-trung-quoc/nganh-ngon-ngu-trung-quoc/",
-        desc: "Tiếng Trung là ngôn ngữ được sử dụng nhiều nhất thế giới với hơn 1,4 tỷ người bản ngữ. Không chỉ mở ra cánh cửa giao tiếp với cộng đồng người Hoa rộng lớn, tiếng Trung còn là “công cụ vàng” để nắm bắt cơ hội trong thị trường lao động sôi động và hội nhập kinh tế toàn cầu.",
+        desc: "Tiếng Trung là ngôn ngữ được sử dụng nhiều nhất thế giới với hơn 1,4 tỷ người bản ngữ. Không chỉ mở ra cánh cửa giao tiếp với cộng đồng người Hoa rộng lớn, tiếng Trung còn là \"công cụ vàng\" để nắm bắt cơ hội trong thị trường lao động sôi động và hội nhập kinh tế toàn cầu.",
         label: "Song ngữ Trung – Anh",
       },
     ],
@@ -285,17 +295,31 @@ function AboutFPT2() {
       {
         id: 7.1,
         src: "https://daihoc.fpt.edu.vn/nganh-hoc/ngon-ngu-han-quoc/",
-        desc: "Ngôn ngữ Hàn Quốc đang ngày càng thu hút sự quan tâm trên thế giới, không chỉ bởi đây là ngôn ngữ của xứ sở kim chi với nền văn hóa đặc sắc, mà còn là “chìa khóa” mở ra nhiều cơ hội nghề nghiệp hấp dẫn trong bối cảnh kinh tế toàn cầu hóa.",
+        desc: "Ngôn ngữ Hàn Quốc đang ngày càng thu hút sự quan tâm trên thế giới, không chỉ bởi đây là ngôn ngữ của xứ sở kim chi với nền văn hóa đặc sắc, mà còn là \"chìa khóa\" mở ra nhiều cơ hội nghề nghiệp hấp dẫn trong bối cảnh kinh tế toàn cầu hóa.",
         label: "Song ngữ Hàn – Anh",
       },
     ],
+  };
+
+  const onAchievementsComplete = async () => {
+    const success = await handleAchievementsComplete();
+    if (success) {
+      markAchievementsCompleted();
+    }
+  };
+
+  const onInternationalComplete = async () => {
+    const success = await handleInternationalComplete();
+    if (success) {
+      markInternationalCompleted();
+    }
   };
 
   return (
     <div className="w-full min-h-screen bg-[#FEF4F0]">
       <div className="relative w-full aspect-[7/3] md:h-[500px]">
         {/* Banner Image */}
-        <img className="object-cover w-full h-full" src={banner} alt="banner" />
+        <img className="object-cover w-full h-full" src={bannerAboutFPT} alt="banner" />
 
         {/* Overlay */}
         <div className="absolute inset-0 z-10 bg-black/40" />
@@ -393,9 +417,19 @@ function AboutFPT2() {
             </div>
           </div>
 
-          <button className="!mt-8 bg-[#F97316] text-white px-6 py-3 rounded-full cursor-pointer hover:!text-[#F97316] hover:bg-[#FFF1E0] border border-[#F97316] transition-all duration-300">
-            Hoàn thành
+          <button 
+            className={`!mt-8 px-6 py-3 rounded-full cursor-pointer transition-all duration-300 border ${
+              achievementsCompleted 
+                ? 'bg-gray-500 text-white border-gray-500' 
+                : 'bg-[#F97316] text-white hover:!text-[#F97316] hover:bg-[#FFF1E0] border-[#F97316]'
+            }`}
+            onClick={onAchievementsComplete}
+            // disabled={achievementsCompleted}
+          >
+            
+            {achievementsCompleted ? 'Đã hoàn thành' : 'Hoàn thành'}
           </button>
+          
         </div>
       </div>
 
@@ -488,11 +522,31 @@ function AboutFPT2() {
             </div>
           </div>
 
-          <button className="!mt-8 bg-[#F97316] text-white px-6 py-3 rounded-full cursor-pointer hover:!text-[#F97316] hover:bg-[#FFF1E0] border border-[#F97316] transition-all duration-300">
-            Hoàn thành
+          <button 
+            className={`!mt-8 px-6 py-3 rounded-full cursor-pointer transition-all duration-300 border ${
+              internationalCompleted 
+                ? 'bg-gray-500 text-white border-gray-500' 
+                : 'bg-[#F97316] text-white hover:!text-[#F97316] hover:bg-[#FFF1E0] border-[#F97316]'
+            }`}
+            onClick={onInternationalComplete}
+            disabled={internationalCompleted}
+          >
+            {internationalCompleted ? 'Đã hoàn thành' : 'Hoàn thành'}
           </button>
         </div>
       </div>
+
+      {(achievementsNotification || internationalNotification) && (
+        <Notification
+          message={achievementsNotification?.message || internationalNotification?.message}
+          type={achievementsNotification?.type || internationalNotification?.type}
+          duration={achievementsNotification?.duration || internationalNotification?.duration}
+          onClose={achievementsNotification ? hideAchievementsNotification : hideInternationalNotification}
+        />
+      )}
+      {(showAchievementsCoinRain || showInternationalCoinRain) && (
+        <CoinRain onEnd={showAchievementsCoinRain ? hideAchievementsCoinRain : hideInternationalCoinRain} />
+      )}
     </div>
   );
 }

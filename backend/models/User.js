@@ -35,6 +35,11 @@ const userSchema = new mongoose.Schema({
        type: Number,
        default:0
     },
+    coins: {
+        type: Number,
+        default: 50,
+        min: 0
+    },
     role: {
         type: String,
         enum: ['user', 'admin'],
@@ -79,6 +84,15 @@ userSchema.methods.getPublicProfile = function() {
     delete userObject.password;
     delete userObject.__v;
     return userObject;
+};
+
+// Static method to add coins to a user
+userSchema.statics.addCoins = async function(userId, coins) {
+    const user = await this.findById(userId);
+    if (!user) throw new Error('User not found');
+    user.coins += coins;
+    await user.save();
+    return user;
 };
 
 const User = mongoose.model('User', userSchema);

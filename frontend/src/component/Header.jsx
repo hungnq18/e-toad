@@ -19,7 +19,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [openMenu, setOpenMenu] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   // Tạo menu items dựa trên trạng thái đăng nhập
   const getMenuItems = () => {
@@ -197,7 +197,7 @@ const Header = () => {
               width: 160,
             }}
           >
-            Số xu hiện tại: <strong>50</strong>
+            Số xu hiện tại: <strong>{user?.coins || 0}</strong>
           </span>
           <span
             style={{

@@ -8,6 +8,20 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://etoad-fullstack.onrender.com
+      - key: PAYOS_API_KEY_PROD
+        sync: false
+      - key: PAYOS_CLIENT_ID_PROD
+        sync: false
+      - key: PAYOS_WEBHOOK_URL_PROD
+        value: https://etoad-fullstack.onrender.com/api/coin-packages/payos/webhook
+      - key: PAYOS_CALLBACK_URL_PROD
+        value: https://etoad-fullstack.onrender.com/payment/callback
     staticPublishPath: ./frontend/dist
     routes:
       - type: rewrite

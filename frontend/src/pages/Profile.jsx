@@ -4,9 +4,12 @@ import CardProfile from "../component/card/CardProfile";
 import StatCard from "../component/card/StatCard";
 import ProfileTabs from "../component/ProfileTabs";
 import ProgressLevel from "../component/ProgressLevel";
+import { useAuth } from "../contexts/AuthContext";
 import "./css/profile.css";
 
 function Profile() {
+  const { user } = useAuth();
+
   return (
     <div className="bg-profile w-full min-h-screen relative flex items-start py-8">
       <div className="profile-overlay"></div>
@@ -42,7 +45,7 @@ function Profile() {
                   <img src={coin} alt="coin" className="w-8 h-8" />
                 }
                 label="Xu tích lũy"
-                value="50"
+                value={user?.coins?.toString() || "0"}
               />
             </div>
             <div

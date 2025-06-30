@@ -2,17 +2,18 @@ import { createBrowserRouter } from 'react-router-dom'
 import QuizList from '../features/quiz/QuizList'
 import MainLayout from '../layouts/MainLayout'
 import AboutEToad from '../pages/AboutEtoad'
-import AboutFPT from '../pages/AboutFPT'
+import AboutFPT2 from '../pages/AboutFPT2'
 import Blog from '../pages/Blog'
 import BlogDetail from '../pages/BlogDetail'
 import EtoadShop from '../pages/EtoadShop'
 import HomePage from '../pages/HomePage'
 import Login from '../pages/Login'
 import NotFound from '../pages/NotFound'
+import PaymentFailed from '../pages/PaymentFailed'
+import PaymentSuccess from '../pages/PaymentSuccess'
 import Profile from '../pages/Profile'
 import Register from '../pages/Register'
 import Tour360 from '../pages/Tour360'
-import AboutFPT2 from '../pages/AboutFPT2'
 
 // import Dashboard from '../pages/dashboard/Dashboard'
 // import NotFound from '../pages/NotFoundPage'
@@ -55,6 +56,14 @@ const publicRoutes = [
       {
         path: '/shop',
         element: <EtoadShop />
+      },
+      {
+        path: '/payment/success',
+        element: <PaymentSuccess />
+      },
+      {
+        path: '/payment/failed',
+        element: <PaymentFailed />
       },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },

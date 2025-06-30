@@ -77,6 +77,13 @@ export const AuthProvider = ({ children }) => {
         return updated;
     };
 
+    const addCoins = async (coins) => {
+        if (!user || !user._id) throw new Error('User not found');
+        const response = await userApi.addCoins(user._id, coins);
+        setUser(response.user);
+        return response;
+    };
+
     return (
         <AuthContext.Provider value={{
             user,
@@ -85,7 +92,8 @@ export const AuthProvider = ({ children }) => {
             register,
             logout,
             isAuthenticated: !!user,
-            updateUserProfile
+            updateUserProfile,
+            addCoins
         }}>
             {children}
         </AuthContext.Provider>
