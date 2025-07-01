@@ -8,6 +8,7 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/user.routes');
 const quizRoutes = require('./routes/quiz.routes');
 const blogRoutes = require('./routes/blog.routes');
+const badgeRoutes = require('./routes/badge.routes');
 const coinPackageRoutes = require('./routes/coinPackage.routes');
 const productRoutes = require('./routes/product.routes');
 
@@ -47,6 +48,7 @@ app.use('/api/quizzes', quizRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/coin-packages', coinPackageRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/badges', badgeRoutes);
 
 // SPA fallback: trả về index.html cho mọi route không phải API
 if (process.env.NODE_ENV === 'production') {
