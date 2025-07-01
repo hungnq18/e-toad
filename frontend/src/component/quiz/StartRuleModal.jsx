@@ -3,24 +3,30 @@ import master from "../../assets/image/bacthay.png";
 import legend from "../../assets/image/huyenthoai.png";
 import { Image } from "antd";
 
+
 const StartModal = ({ onStart }) => {
   return (
-    <div className="flex fixed inset-0 z-50 justify-center items-center p-4 bg-black bg-opacity-50 sm:p-6 md:p-8 lg:p-20">
+    <div
+      className="flex fixed inset-0 z-50 justify-center items-center p-4"
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+    >
       <div className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 w-full max-w-sm sm:max-w-md lg:max-w-lg bg-white rounded-xl shadow-2xl max-h-[90vh] overflow-y-auto">
-        <h2 className="text-lg sm:text-xl font-bold text-[#FF8A00] text-center">📜 Luật Chơi</h2>
+        <h2 className="text-lg sm:text-xl font-bold text-[#FF8A00] text-center">
+          📜 Luật Chơi
+        </h2>
 
         <ul className="pl-4 space-y-2 text-sm list-disc text-gray-700 sm:pl-5 sm:space-y-3 sm:text-base">
           <li className="leading-relaxed">
-            Trả lời đúng <strong>5 câu</strong> → 🎓 <strong>100 xu</strong> + danh hiệu{" "}
-            <em className="text-[#FF8A00]">Học giả</em>
+            Trả lời đúng <strong>5 câu</strong> → 🎓 <strong>100 xu</strong> +
+            danh hiệu <em className="text-[#FF8A00]">Học giả</em>
           </li>
           <li className="leading-relaxed">
-            Trả lời đúng <strong>10 câu</strong> → 🧠 <strong>200 xu</strong> + danh hiệu{" "}
-            <em className="text-[#FF8A00]">Bậc thầy</em>
+            Trả lời đúng <strong>10 câu</strong> → 🧠 <strong>200 xu</strong> +
+            danh hiệu <em className="text-[#FF8A00]">Bậc thầy</em>
           </li>
           <li className="leading-relaxed">
-            Hoàn thành <strong>15 câu</strong> → 🏆 <strong>300 xu</strong> + danh hiệu{" "}
-            <em className="text-[#FF8A00]">Huyền thoại</em>
+            Hoàn thành <strong>15 câu</strong> → 🏆 <strong>300 xu</strong> +
+            danh hiệu <em className="text-[#FF8A00]">Huyền thoại</em>
           </li>
         </ul>
 
@@ -33,7 +39,9 @@ const StartModal = ({ onStart }) => {
               height={64}
               className="object-cover w-12 h-12 rounded-lg shadow-md sm:w-14 sm:h-14 md:w-16 md:h-16"
             />
-            <span className="text-xs font-medium text-gray-600 sm:text-sm">Học giả</span>
+            <span className="text-xs font-medium text-gray-600 sm:text-sm">
+              Học giả
+            </span>
           </div>
 
           <div className="flex flex-col items-center space-y-1">
@@ -44,7 +52,9 @@ const StartModal = ({ onStart }) => {
               height={64}
               className="object-cover w-12 h-12 rounded-lg shadow-md sm:w-14 sm:h-14 md:w-16 md:h-16"
             />
-            <span className="text-xs font-medium text-gray-600 sm:text-sm">Bậc thầy</span>
+            <span className="text-xs font-medium text-gray-600 sm:text-sm">
+              Bậc thầy
+            </span>
           </div>
 
           <div className="flex flex-col items-center space-y-1">
@@ -55,7 +65,9 @@ const StartModal = ({ onStart }) => {
               height={64}
               className="object-cover w-12 h-12 rounded-lg shadow-md sm:w-14 sm:h-14 md:w-16 md:h-16"
             />
-            <span className="text-xs font-medium text-gray-600 sm:text-sm">Huyền thoại</span>
+            <span className="text-xs font-medium text-gray-600 sm:text-sm">
+              Huyền thoại
+            </span>
           </div>
         </div>
 
