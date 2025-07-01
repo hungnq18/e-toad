@@ -40,9 +40,14 @@ const QuizList = () => {
     try {
       const response = await quizApi.getAllQuizzes();
       const data = await response.data;
+      const updatedData = data.map((quiz) => ({
+        ...quiz,
+        timeLimit: 30,
+      }));
       setLoading(false);
-      shuffleArray(data);
-      const filteredQuizzes = filterQuizzes(data);
+      shuffleArray(updatedData);
+      const filteredQuizzes = filterQuizzes(updatedData);
+      console.log(filteredQuizzes);
       setQuizData(filteredQuizzes);
     } catch (error) {
       console.error("Error fetching quiz data:", error);
