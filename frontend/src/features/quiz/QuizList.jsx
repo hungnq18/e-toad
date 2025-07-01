@@ -128,7 +128,6 @@ const QuizList = () => {
   const handleNext = () => {
     setCanProceed(false);
     if (currentIndex < quizData.length - 1) {
-      setCanProceed(true);
       childRef.current.clearDataChild();
       setCurrentIndex(currentIndex + 1);
     } else {
