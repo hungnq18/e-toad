@@ -8,11 +8,13 @@ import FinishQuizModal from "../../component/quiz/FinishQuizModal";
 import QuizQuestionLayout from "../../component/quiz/QuizQuestionLayout";
 import StartRuleModal from "../../component/quiz/StartRuleModal";
 import { useAuth } from "../../contexts/AuthContext";
-import { message } from 'antd'; 
+import { message } from "antd";
 import scholar from "../../assets/image/hocgia.png";
 import master from "../../assets/image/bacthay.png";
 import legend from "../../assets/image/huyenthoai.png";
-
+import badgeApi from "../../api/badgeApi";
+import BadgeCollect from "../../component/quiz/BadgeCollect";
+import { add } from "date-fns";
 
 const QuizList = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -22,7 +24,7 @@ const QuizList = () => {
   const [showFailureModal, setShowFailureModal] = useState(false);
   const [showEndModal, setShowEndModal] = useState(false);
   const [showBadgeModal, setShowBadgeModal] = useState(false);
-  
+
   const childRef = useRef(null);
   const navigate = useNavigate();
   const [quizData, setQuizData] = useState([]);
@@ -30,6 +32,8 @@ const QuizList = () => {
   const [loading, setLoading] = useState(true);
   const { isAuthenticated } = useAuth();
   const [badgeImage, setBadgeImage] = useState(null);
+  const [badgeId, setBadgeId] = useState(null);
+  const [currentBadge, setCurrentBadge] = useState([]);
 
   // Fetch quiz data from the API
   const fetchQuizData = async () => {
@@ -39,7 +43,7 @@ const QuizList = () => {
       setLoading(false);
       shuffleArray(data);
       const filteredQuizzes = filterQuizzes(data);
-      setQuizData(filteredQuizzes)
+      setQuizData(filteredQuizzes);
     } catch (error) {
       console.error("Error fetching quiz data:", error);
       setLoading(false);
@@ -49,6 +53,19 @@ const QuizList = () => {
   const fetchBadge = async () => {
     try {
       const response = await badgeApi.getAllBadges();
+      console.log(response);
+
+      const data = await response.data;
+      setBadge(data);
+    } catch (error) {
+      console.error("Error fetching badge data:", error);
+    }
+  };
+
+  const addBadgeForUser = async () => {
+    try {
+      const response = await badgeApi.createBadge(badgeId);
+      console.log(response);
       const data = await response.data;
       setBadge(data);
     } catch (error) {
@@ -56,9 +73,21 @@ const QuizList = () => {
     }
   }
 
+  const fetchBadgeOfUser = async () => {
+    try {
+      const response = await badgeApi.getBadgeOfUser();
+      const data = await response.data;
+      setCurrentBadge(data);
+    } catch (error) {
+      console.error("Error fetching badge data:", error);
+    }
+  };
+
   // Fetch quiz data from the API
   useEffect(() => {
     fetchQuizData();
+    fetchBadge();
+    fetchBadgeOfUser();
   }, []);
 
   function shuffleArray(array) {
@@ -120,9 +149,9 @@ const QuizList = () => {
     if (!wasCorrect) {
       wrongSound.play();
       setShowFailureModal(true);
-      getBadge();
       return;
     }
+    getBadge();
     rightSound.play();
     setCanProceed(true);
   };
@@ -134,32 +163,55 @@ const QuizList = () => {
   if (showStartModal) {
     return (
       <div>
-        <StartRuleModal onStart={() => {
-          if (!isAuthenticated) {
-            message.warning("Vui lòng đăng nhập để làm bài thi");
-            setTimeout(() => {
-              navigate("/login");
-            }, 1500);
-            return;
-          }
-          setShowStartModal(false)
-        }} />
+        <StartRuleModal
+          onStart={() => {
+            if (!isAuthenticated) {
+              message.warning("Vui lòng đăng nhập để làm bài thi");
+              setTimeout(() => {
+                navigate("/login");
+              }, 1500);
+              return;
+            }
+            setShowStartModal(false);
+          }}
+        />
       </div>
     );
   }
 
   const getBadge = () => {
-    if (currentIndex === 5) {
-      setShowBadgeModal(true);
+    // Check if the user already has the badge before displaying the modal
+    let badgeFound = null;
+    if (currentIndex === 4) {
+      badgeFound = badge.find((badge) => badge.label === "Học giả");
+      if (currentBadge.some((userBadge) => userBadge._id === badgeFound._id)) {
+        return; // Skip if badge is already collected
+      }
       setBadgeImage(scholar);
-    } else if (currentIndex === 10) {
-      setShowBadgeModal(true);
+      setBadgeId(badgeFound._id);
+    } else if (currentIndex === 9) {
+      badgeFound = badge.find((badge) => badge.label === "Bậc thầy");
+      if (currentBadge.some((userBadge) => userBadge._id === badgeFound._id)) {
+        return; // Skip if badge is already collected
+      }
       setBadgeImage(master);
-    } else if (currentIndex === 15) {
-      setShowBadgeModal(true);
+      setBadgeId(badgeFound._id);
+    } else if (currentIndex === 14) {
+      badgeFound = badge.find((badge) => badge.label === "Huyền thoại");
+      if (currentBadge.some((userBadge) => userBadge._id === badgeFound._id)) {
+        return; // Skip if badge is already collected
+      }
       setBadgeImage(legend);
+      setBadgeId(badgeFound._id);
     }
-  }
+
+    console.log(badgeFound);
+    
+
+    if (badgeFound) {
+      setShowBadgeModal(true); // Show the badge modal if new badge is found
+    }
+  };
 
   return (
     <div className="relative p-6 mx-auto mt-10 space-y-8 max-w-3xl">
@@ -189,7 +241,10 @@ const QuizList = () => {
           onClose={() => setShowBadgeModal(false)}
           label="Badge Collected"
           image={badgeImage}
-          getBadge={() => setShowBadgeModal(false)}
+          getBadge={async () => {
+            await addBadgeForUser();
+            setShowBadgeModal(false);
+          }}
         />
       )}
 
