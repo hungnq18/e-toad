@@ -61,7 +61,7 @@ const Header = () => {
       {/* Mobile Header */}
       <div
         className="flex items-center justify-between px-4 py-2 header-mobile"
-        style={{ background: "#F97316", height: 70 }}
+        style={{ background: "#FEF4F0", height: 70, color: "#F97316" }}
       >
         <div className="flex items-center gap-2">
           <img
@@ -69,7 +69,9 @@ const Header = () => {
             alt="E-Toad Logo"
             style={{ width: 40, height: 30, objectFit: "contain" }}
           />
-          <span style={{ fontWeight: 600, fontSize: 18, color: "#FEF4F0" }}>
+          <span
+            style={{ fontWeight: 700, fontSize: 18, color: "#F97316", textShadow: "none", opacity: 1, letterSpacing: 1, filter: "none" }}
+          >
             E-Toad
           </span>
         </div>
@@ -78,7 +80,7 @@ const Header = () => {
           onClick={() => setOpenMenu(true)}
           style={{ background: "none", border: "none" }}
         >
-          <svg width="32" height="32" fill="#FEF4F0" viewBox="0 0 24 24">
+          <svg width="32" height="32" fill="#F97316" viewBox="0 0 24 24" style={{ filter: "none", opacity: 1 }}>
             <rect y="5" width="24" height="3" rx="1.5" />
             <rect y="11" width="24" height="3" rx="1.5" />
             <rect y="17" width="24" height="3" rx="1.5" />

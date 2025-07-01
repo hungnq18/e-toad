@@ -1,13 +1,14 @@
 import { useState } from 'react';
+import { FaUserCircle } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import Button from '../Button';
 import UpdateProfileModal from '../modal/UpdateProfileModal';
-
 function CardProfile() {
-    const { user, logout } = useAuth();
+    const { user, logout, updateUserProfile } = useAuth();
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
     const handleLogout = () => {
         logout();
@@ -18,19 +19,41 @@ function CardProfile() {
         setIsModalOpen(true);
     };
 
-    const handleCloseModal = () => {
+    const handleCloseModal = async (updated) => {
         setIsModalOpen(false);
+        if (updated) {
+            // Gọi lại updateUserProfile để fetch user mới nhất
+            await updateUserProfile({});
+        }
     };
 
     return (
         <>
             <div className="flex flex-col items-center bg-white rounded-3xl p-10 shadow-md w-full ">
                 {/* Avatar */}
-                <img
-                    src={user?.avatar || "https://randomuser.me/api/portraits/men/32.jpg"}
-                    alt="Avatar"
-                    className="w-30 h-30 rounded-full object-cover border-4 border-white shadow"
-                />
+                <div style={{ position: 'relative', width: 120, height: 120 }}>
+                    {user?.avatar ? (
+                        <img
+                            src={user.avatar}
+                            alt="Avatar"
+                            className="w-40 h-20 rounded-full object-cover border-4 border-white shadow"
+                        />
+                    ) : (
+                        <FaUserCircle
+                            size={120}
+                            color="#d1d5db"
+                            style={{
+                                position: 'absolute',
+                                width: '120px',
+                                height: '120px',
+                                borderRadius: '50%',
+                                background: '#fff',
+                                border: '4px solid #fff',
+                                boxShadow: '0 0 10px #ccc'
+                            }}
+                        />
+                    )}
+                </div>
                 {/* Tên và cấp độ */}
                 <h2 className="text-2xl font-bold text-[#353535] pt-5">{user?.fullName || 'Tên người dùng'}</h2>
                 <span className="bg-orange-100 text-orange-500 text-xs font-semibold px-3 py-1 rounded-full mt-1 mb-4">
@@ -44,13 +67,13 @@ function CardProfile() {
                 {/* Số điện thoại */}
                 <div className="w-full mb-3 pt-5">
                     <span className="font-semibold text-sm text-[#353535] pt-5">Số điện thoại</span>
-                    <div className="text-gray-500 text-sm pt-3">Chưa cập nhật</div>
+                    <div className="text-gray-500 text-sm pt-3">{user?.phone}</div>
                 </div>
                 {/* Giới thiệu */}
                 <div className="w-full mb-3 pt-5">
                     <span className="font-semibold text-sm text-[#353535]">Giới thiệu</span>
                     <div className="text-gray-500 text-sm pt-3">
-                        Yêu thích chơi quiz và học hỏi kiến thức mới mỗi ngày!
+                        {user?.bio || ''}
                     </div>
                 </div>
                 {/* Ngày tham gia */}
@@ -81,10 +104,9 @@ function CardProfile() {
                     </Button>
                 </div>
             </div>
-
             {isModalOpen && (
                 <UpdateProfileModal
-                    onClose={handleCloseModal}
+                    onClose={() => handleCloseModal(true)}
                 />
             )}
         </>

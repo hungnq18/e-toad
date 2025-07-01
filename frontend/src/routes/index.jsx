@@ -6,13 +6,16 @@ import AboutFPT2 from '../pages/AboutFPT2'
 import Blog from '../pages/Blog'
 import BlogDetail from '../pages/BlogDetail'
 import EtoadShop from '../pages/EtoadShop'
+import ForgotPassword from '../pages/ForgotPassword'
 import HomePage from '../pages/HomePage'
 import Login from '../pages/Login'
 import NotFound from '../pages/NotFound'
 import PaymentFailed from '../pages/PaymentFailed'
 import PaymentSuccess from '../pages/PaymentSuccess'
+import ProductDetail from '../pages/ProductDetail'
 import Profile from '../pages/Profile'
 import Register from '../pages/Register'
+import ResetPassword from '../pages/ResetPassword'
 import Tour360 from '../pages/Tour360'
 
 // import Dashboard from '../pages/dashboard/Dashboard'
@@ -54,6 +57,10 @@ const publicRoutes = [
         element: <BlogDetail />
       },
       {
+        path: '/blog/:id',
+        element: <BlogDetail />
+      },
+      {
         path: '/shop',
         element: <EtoadShop />
       },
@@ -65,7 +72,13 @@ const publicRoutes = [
         path: '/payment/failed',
         element: <PaymentFailed />
       },
+      {
+        path: '/product/:id',
+        element: <ProductDetail />
+      },
       { path: 'login', element: <Login /> },
+      { path: 'forgot-password', element: <ForgotPassword /> },
+      { path: 'reset-password/:token', element: <ResetPassword /> },
       { path: 'register', element: <Register /> },
       { path: '*', element: <NotFound /> }
     ]

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { auth, adminAuth, selfOrAdmin } = require('../middleware/auth');
 const User = require('../models/User');
+const upload = require('../middleware/upload');
 
 // Get all users (admin only)
 router.get('/', adminAuth, async (req, res) => {
@@ -27,7 +28,7 @@ router.get('/:id', auth, async (req, res) => {
 });
 
 // Update user (admin hoặc chính user đó)
-router.patch('/:id', selfOrAdmin, async (req, res) => {
+router.patch('/:id', selfOrAdmin, upload.single('avatar'), async (req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = [ 'email', 'fullName', 'role', 'isActive', 'phone', 'bio', 'coins'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
@@ -43,6 +44,9 @@ router.patch('/:id', selfOrAdmin, async (req, res) => {
         }
 
         updates.forEach(update => user[update] = req.body[update]);
+        if (req.file && req.file.path) {
+            user.avatar = req.file.path; // URL Cloudinary
+        }
         await user.save();
 
         res.json(user.getPublicProfile());

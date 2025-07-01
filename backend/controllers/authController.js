@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const crypto = require('crypto');
+const sendEmail = require('../utils/sendEmail');
 
 // Generate JWT token
 const generateToken = (userId) => {
@@ -82,8 +84,8 @@ exports.login = async (req, res) => {
         // Set token vào cookie
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+            secure: false,
+            sameSite: 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 ngày
         });
 
@@ -182,5 +184,54 @@ exports.changePassword = async (req, res) => {
             message: 'Error changing password',
             error: error.message
         });
+    }
+};
+
+// Forgot Password
+exports.forgotPassword = async (req, res) => {
+    const { email } = req.body;
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'Không tìm thấy người dùng với email này.' });
+        }
+        // Tạo token reset
+        const token = crypto.randomBytes(32).toString('hex');
+        user.resetPasswordToken = token;
+        user.resetPasswordExpires = Date.now() + 1000 * 60 * 60; // 1h
+        await user.save();
+        // Gửi email
+        const resetUrl = `${process.env.CLIENT_URL || 'http://localhost:5173'}/reset-password/${token}`;
+        await sendEmail(
+            user.email,
+            'Yêu cầu đặt lại mật khẩu',
+            `<p>Bạn vừa yêu cầu đặt lại mật khẩu cho tài khoản E-Toad.</p>
+            <p>Nhấn vào link sau để đặt lại mật khẩu: <a href="${resetUrl}">${resetUrl}</a></p>
+            <p>Nếu không phải bạn, hãy bỏ qua email này.</p>`
+        );
+        res.json({ message: 'Đã gửi email hướng dẫn đặt lại mật khẩu.' });
+    } catch (error) {
+        res.status(500).json({ message: 'Lỗi gửi email quên mật khẩu', error: error.message });
+    }
+};
+
+// Reset Password
+exports.resetPassword = async (req, res) => {
+    const { token, password } = req.body;
+    try {
+        const user = await User.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpires: { $gt: Date.now() },
+        });
+        if (!user) {
+            return res.status(400).json({ message: 'Token không hợp lệ hoặc đã hết hạn.' });
+        }
+        user.password = password;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+        await user.save();
+        res.json({ message: 'Đặt lại mật khẩu thành công. Bạn có thể đăng nhập bằng mật khẩu mới.' });
+    } catch (error) {
+        res.status(500).json({ message: 'Lỗi đặt lại mật khẩu', error: error.message });
     }
 }; 

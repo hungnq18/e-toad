@@ -4,11 +4,10 @@ const authApi = {
     login: async (credentials) => {
         try {
             const response = await axiosClient.post('/auth/login', credentials);
-            if (response.data.token) {
-                localStorage.setItem('token', response.data.token);
+            if (response.data.user) {
                 localStorage.setItem('user', JSON.stringify(response.data.user));
             }
-            return response.data;
+            return response.data.user;
         } catch (error) {
             throw error.response?.data || { message: 'Error logging in' };
         }
@@ -64,6 +63,24 @@ const authApi = {
             return response.data;
         } catch (error) {
             throw error.response?.data || { message: 'Error changing password' };
+        }
+    },
+
+    forgotPassword: async (email) => {
+        try {
+            const response = await axiosClient.post('/auth/forgot-password', { email });
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Error sending forgot password email' };
+        }
+    },
+
+    resetPassword: async (token, password) => {
+        try {
+            const response = await axiosClient.post('/auth/reset-password', { token, password });
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Error resetting password' };
         }
     }
 };

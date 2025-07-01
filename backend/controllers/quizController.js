@@ -10,7 +10,10 @@ const getAllQuiz = async (req, res) => {
             isSuccess: true
         })
     } catch (error) {
-        console.log(error);
+        return res.status(500).send({
+            error: error.message,
+            isSuccess: false
+        })
     }
 }
 

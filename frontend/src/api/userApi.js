@@ -20,12 +20,14 @@ const userApi = {
     },
 
     updateUser: async (userId, userData) => {
-        try {
-            const response = await axiosClient.patch(`/users/${userId}`, userData);
-            return response.data;
-        } catch (error) {
-            throw error.response?.data || { message: 'Error updating user' };
-        }
+        const formData = new FormData();
+        Object.entries(userData).forEach(([key, value]) => {
+            if (value !== undefined && value !== null) formData.append(key, value);
+        });
+        const response = await axiosClient.patch(`/users/${userId}`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        return response.data;
     },
 
     addCoins: async (userId, coins) => {

@@ -133,7 +133,6 @@ const payosController = {
     handleWebhook: async (req, res) => {
         try {
             const { data, signature } = req.body;
-            console.log('Webhook received:', data);
 
             // Verify webhook signature
             const isValidSignature = payOS.verifyPaymentWebhook(data, signature);
@@ -142,38 +141,28 @@ const payosController = {
             }
 
             const { _id: orderId, orderCode, transactionId, amount, status } = data;
-            console.log('Webhook status:', status, 'orderId:', orderId, 'orderCode:', orderCode);
 
             // Find and update order by _id if available, else by orderCode
             let order = null;
             if (orderId) {
                 order = await Order.findById(orderId);
-                console.log('Tìm order theo _id:', orderId, 'Kết quả:', !!order);
             }
             if (!order && orderCode) {
                 order = await Order.findOne({ orderCode: Number(orderCode) });
-                console.log('Tìm order theo orderCode:', orderCode, 'Kết quả:', !!order);
             }
             if (!order) {
-                console.log('Order not found for _id:', orderId, 'or orderCode:', orderCode);
                 return res.status(404).json({ success: false, message: 'Order not found' });
             }
 
             // Update order status and paymentStatus
             if (status === 'PAID') {
-                console.log('Bắt đầu cộng xu cho user. order:', order._id, 'userId:', order.userId, 'packageId:', order.packageId);
                 const coinPackage = await CoinPackage.findById(order.packageId);
-                if (!coinPackage) {
-                    console.log('Không tìm thấy package:', order.packageId);
-                }
                 if (coinPackage) {
                     try {
                         // Gọi hàm addCoins cho user
                         const UserModel = require('../models/User');
                         await UserModel.addCoins(order.userId, coinPackage.coins);
-                        console.log('Cộng xu thành công cho user:', order.userId, 'Số xu cộng:', coinPackage.coins);
                     } catch (err) {
-                        console.log('Lỗi khi cộng xu cho user:', err);
                     }
                 }
                 // Đảm bảo cập nhật trạng thái order thành công
@@ -181,7 +170,6 @@ const payosController = {
                 order.paymentStatus = 'paid';
                 order.paidAt = new Date();
                 await order.save();
-                console.log('Order đã được cập nhật trạng thái completed và paid:', order._id);
             } else if (status === 'CANCELLED') {
                 order.status = 'cancelled';
                 order.paymentStatus = 'unpaid';

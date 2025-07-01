@@ -42,16 +42,16 @@
   }
   .header-mobile span,
   .header-mobile .logo-text {
-    color: #fff !important;
+    color: #F97316 !important;
     font-weight: 700 !important;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.25), 0 1px 0 #F97316;
+    text-shadow: none !important;
     font-size: 18px !important;
     letter-spacing: 0.5px;
   }
   .header-mobile button svg {
-    filter: drop-shadow(0 2px 8px rgba(249,115,22,0.7));
-    color: #fff;
-    fill: #fff;
+    filter: none !important;
+    color: #F97316 !important;
+    fill: #F97316 !important;
   }
   .mobile-menu-modal {
     background: #fff !important;

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import coinPackageApi from "../api/coinPackageApi";
+import productApi from "../api/productApi";
 import coinImg from "../assets/image/coinEtoad.png";
 import shopBanner from "../assets/image/shop-banner.png";
 import CoinPackages from "../component/CoinPackages";
@@ -18,39 +19,50 @@ const EtoadShop = () => {
   const [notification, setNotification] = useState(null);
   const [orders, setOrders] = useState([]);
   const [loadingOrders, setLoadingOrders] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+  const [errorProducts, setErrorProducts] = useState(null);
 
   // Fetch user orders
   const fetchOrders = async () => {
     if (!isAuthenticated) {
-      console.log('User not authenticated, skipping fetchOrders');
       return;
     }
     
     setLoadingOrders(true);
     try {
-      console.log('Fetching user orders...');
       const response = await coinPackageApi.getUserOrders();
-      console.log('Orders API response:', response);
       
       // Đảm bảo orders luôn là array
       const ordersData = response.data?.data || response.data || [];
-      console.log('Orders data:', ordersData);
       
       if (Array.isArray(ordersData)) {
         setOrders(ordersData);
-        console.log(`Set ${ordersData.length} orders`);
       } else {
-        console.warn('Orders data is not an array:', ordersData);
         setOrders([]);
       }
     } catch (error) {
-      console.error('Error fetching orders:', error);
-      console.error('Error response:', error.response?.data);
       setOrders([]); // Set empty array nếu có lỗi
     } finally {
       setLoadingOrders(false);
     }
   };
+
+  // Fetch products
+  useEffect(() => {
+    if (!showCoinPackages) {
+      setLoadingProducts(true);
+      setErrorProducts(null);
+      productApi.getAll()
+        .then(res => {
+          setProducts(res.data.data || []);
+        })
+        .catch(err => {
+          setErrorProducts('Không thể tải sản phẩm.');
+        })
+        .finally(() => setLoadingProducts(false));
+    }
+  }, [showCoinPackages]);
 
   useEffect(() => {
     fetchOrders();
@@ -116,22 +128,18 @@ const EtoadShop = () => {
 
           if (status === 'PAID') {
             const coinPackage = await coinPackageApi.getPackageById(order.packageId);
-            if (!coinPackage) return console.log('Không tìm thấy package:', order.packageId);
+            if (!coinPackage) return;
             const user = await coinPackageApi.getUserById(order.userId);
-            if (!user) return console.log('Không tìm thấy user:', order.userId);
+            if (!user) return;
 
             // Chỉ cộng xu nếu order chưa từng completed
             if (order.status !== 'completed' || order.paymentStatus !== 'paid') {
                 user.coins += coinPackage.coins;
                 await user.save();
-                console.log('Cộng xu thành công cho user:', user._id, 'Số xu mới:', user.coins);
             } else {
-                console.log('Order đã completed trước đó, không cộng xu lặp lại.');
             }
           }
         } catch (error) {
-          console.error('Error updating user coins:', error);
-          console.error('Error response:', error.response?.data);
           setNotification({
             message: 'Có lỗi xảy ra khi cộng xu cho user. Vui lòng thử lại sau.',
             type: 'error',
@@ -396,10 +404,17 @@ const EtoadShop = () => {
                 <CoinPackages onSelectPackage={handleSelectPackage} />
               ) : (
                 <div className="grid grid-cols-2 mb-10 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {/* item model */}
-                  { [...Array(6).keys()].map((item) => (
-                    <ItemShop key={item} />
-                  )) }
+                  {/* loading/error state */}
+                  {loadingProducts && (
+                    <div className="col-span-2 lg:col-span-3 flex justify-center items-center py-8 text-[#F97316]">Đang tải sản phẩm...</div>
+                  )}
+                  {errorProducts && (
+                    <div className="col-span-2 lg:col-span-3 flex justify-center items-center py-8 text-red-500">{errorProducts}</div>
+                  )}
+                  {/* render products */}
+                  {products.map(product => (
+                    <ItemShop key={product._id} product={product} />
+                  ))}
                   {/* end of item */}
                 </div>
               )}
