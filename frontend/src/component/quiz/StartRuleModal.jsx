@@ -3,6 +3,7 @@ import master from "../../assets/image/bacthay.png";
 import legend from "../../assets/image/huyenthoai.png";
 import { Image } from "antd";
 
+
 const StartModal = ({ onStart }) => {
   return (
     <div

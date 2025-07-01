@@ -7,18 +7,31 @@ import FailureModal from "../../component/quiz/FailureModal";
 import FinishQuizModal from "../../component/quiz/FinishQuizModal";
 import QuizQuestionLayout from "../../component/quiz/QuizQuestionLayout";
 import StartRuleModal from "../../component/quiz/StartRuleModal";
+import { useAuth } from "../../contexts/AuthContext";
+import { message } from 'antd'; 
+import scholar from "../../assets/image/hocgia.png";
+import master from "../../assets/image/bacthay.png";
+import legend from "../../assets/image/huyenthoai.png";
+
 
 const QuizList = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [canProceed, setCanProceed] = useState(false);
+  // modal
   const [showStartModal, setShowStartModal] = useState(true);
   const [showFailureModal, setShowFailureModal] = useState(false);
   const [showEndModal, setShowEndModal] = useState(false);
+  const [showBadgeModal, setShowBadgeModal] = useState(false);
+  
   const childRef = useRef(null);
   const navigate = useNavigate();
   const [quizData, setQuizData] = useState([]);
+  const [badge, setBadge] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { isAuthenticated } = useAuth();
+  const [badgeImage, setBadgeImage] = useState(null);
 
+  // Fetch quiz data from the API
   const fetchQuizData = async () => {
     try {
       const response = await quizApi.getAllQuizzes();
@@ -33,10 +46,20 @@ const QuizList = () => {
     }
   };
 
+  const fetchBadge = async () => {
+    try {
+      const response = await badgeApi.getAllBadges();
+      const data = await response.data;
+      setBadge(data);
+    } catch (error) {
+      console.error("Error fetching badge data:", error);
+    }
+  }
+
   // Fetch quiz data from the API
   useEffect(() => {
     fetchQuizData();
-  }, [showFailureModal]);
+  }, []);
 
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -57,6 +80,9 @@ const QuizList = () => {
       0,
       Math.floor(0.8 * 15)
     );
+
+    shuffleArray(selectedHardQuizzes);
+    shuffleArray(selectedEasyAndMediumQuizzes);
 
     return [...selectedHardQuizzes, ...selectedEasyAndMediumQuizzes];
   }
@@ -81,18 +107,20 @@ const QuizList = () => {
     }
   };
 
-  const clearData = () => {
+  const clearData = async () => {
     setCurrentIndex(0);
     setShowFailureModal(false);
     setCanProceed(false);
     setShowEndModal(false);
     childRef.current.clearDataChild();
+    await fetchQuizData();
   };
 
   const handleDone = (wasCorrect) => {
     if (!wasCorrect) {
       wrongSound.play();
       setShowFailureModal(true);
+      getBadge();
       return;
     }
     rightSound.play();
@@ -106,9 +134,31 @@ const QuizList = () => {
   if (showStartModal) {
     return (
       <div>
-        <StartRuleModal onStart={() => setShowStartModal(false)} />
+        <StartRuleModal onStart={() => {
+          if (!isAuthenticated) {
+            message.warning("Vui lòng đăng nhập để làm bài thi");
+            setTimeout(() => {
+              navigate("/login");
+            }, 1500);
+            return;
+          }
+          setShowStartModal(false)
+        }} />
       </div>
     );
+  }
+
+  const getBadge = () => {
+    if (currentIndex === 5) {
+      setShowBadgeModal(true);
+      setBadgeImage(scholar);
+    } else if (currentIndex === 10) {
+      setShowBadgeModal(true);
+      setBadgeImage(master);
+    } else if (currentIndex === 15) {
+      setShowBadgeModal(true);
+      setBadgeImage(legend);
+    }
   }
 
   return (
@@ -131,6 +181,15 @@ const QuizList = () => {
           }}
           onClose={() => clearData()}
           clearData={() => clearData()}
+        />
+      )}
+
+      {showBadgeModal && (
+        <BadgeCollect
+          onClose={() => setShowBadgeModal(false)}
+          label="Badge Collected"
+          image={badgeImage}
+          getBadge={() => setShowBadgeModal(false)}
         />
       )}
 
