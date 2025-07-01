@@ -24,8 +24,8 @@ const QuizList = () => {
       const response = await quizApi.getAllQuizzes();
       const data = await response.data;
       setLoading(false);
+      shuffleArray(data);
       const filteredQuizzes = filterQuizzes(data);
-      shuffleArray(filteredQuizzes);
       setQuizData(filteredQuizzes)
     } catch (error) {
       console.error("Error fetching quiz data:", error);
