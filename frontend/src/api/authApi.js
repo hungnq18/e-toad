@@ -4,6 +4,9 @@ const authApi = {
     login: async (credentials) => {
         try {
             const response = await axiosClient.post('/auth/login', credentials);
+            if (response.data.token) {
+                localStorage.setItem('token', response.data.token);
+            }
             if (response.data.user) {
                 localStorage.setItem('user', JSON.stringify(response.data.user));
             }

@@ -46,6 +46,22 @@ const userApi = {
         } catch (error) {
             throw error.response?.data || { message: 'Error deleting user' };
         }
+    },
+    getNewestUsers: async () => {
+        try {
+            const response = await axiosClient.get('/users/newest-users');
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Error fetching newest users' };
+        }
+    },
+    getStats: async () => {
+        try {
+            const response = await axiosClient.get('/users/stats');
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Error fetching stats' };
+        }
     }
 };
 

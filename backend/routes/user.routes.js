@@ -3,12 +3,77 @@ const router = express.Router();
 const { auth, adminAuth, selfOrAdmin } = require('../middleware/auth');
 const User = require('../models/User');
 const upload = require('../middleware/upload');
+const Product = require('../models/Product');
 
-// Get all users (admin only)
+// ĐẶT ROUTE ĐẶC BIỆT Ở ĐÂY
+// Get statistics: total users, total products (admin only)
+router.get('/stats', adminAuth, async (req, res) => {
+    try {
+        const userCount = await User.countDocuments();
+        const productCount = await Product.countDocuments();
+        res.json({ userCount, productCount });
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching stats', error: error.message });
+    }
+});
+// Get registration history for the last 7 days (admin only)
+router.get('/stats/registration-history', adminAuth, async (req, res) => {
+    try {
+        const days = 7;
+        const today = new Date();
+        const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - days + 1);
+        const data = await User.aggregate([
+            {
+                $match: {
+                    createdAt: { $gte: startDate }
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+                    },
+                    count: { $sum: 1 }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]);
+        // Đảm bảo trả về đủ 7 ngày, kể cả ngày không có đăng ký
+        const result = [];
+        for (let i = 0; i < days; i++) {
+            const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - days + 1 + i);
+            const dateString = date.toISOString().slice(0, 10);
+            const found = data.find(d => d._id === dateString);
+            result.push({ date: dateString, count: found ? found.count : 0 });
+        }
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching registration history', error: error.message });
+    }
+});
+// Get 5 newest users (admin only)
+router.get('/newest-users', adminAuth, async (req, res) => {
+    try {
+        const users = await User.find().sort({ createdAt: -1 }).limit(5).select('-password');
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching newest users', error: error.message });
+    }
+});
+
+// Get all users (admin only, with pagination)
 router.get('/', adminAuth, async (req, res) => {
     try {
-        const users = await User.find({}).select('-password');
-        res.json(users);
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+        const total = await User.countDocuments();
+        const users = await User.find({})
+            .select('-password')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
+        res.json({ users, total, page, totalPages: Math.ceil(total / limit) });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching users', error: error.message });
     }

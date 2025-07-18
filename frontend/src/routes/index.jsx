@@ -3,6 +3,12 @@ import QuizList from '../features/quiz/QuizList'
 import MainLayout from '../layouts/MainLayout'
 import AboutEToad from '../pages/AboutEtoad'
 import AboutFPT2 from '../pages/AboutFPT2'
+import AdminDashboard from '../pages/AdminDashboard'
+import AdminLogin from '../pages/AdminLogin'
+import AdminPage from '../pages/AdminPage'
+import AdminProducts from '../pages/AdminProducts'
+import AdminProfile from '../pages/AdminProfile'
+import AdminUsers from '../pages/AdminUsers'
 import Blog from '../pages/Blog'
 import BlogDetail from '../pages/BlogDetail'
 import EtoadShop from '../pages/EtoadShop'
@@ -83,14 +89,13 @@ const publicRoutes = [
       { path: '*', element: <NotFound /> }
     ]
   },
-  // {
-  //   path: '/login',
-  //   element: <Login />
-  // },
-  // {
-  //   path: '/register',
-  //   element: <Register />
-  // }
+  // Route admin đặt ngoài MainLayout
+  { path: '/admin/login', element: <AdminLogin /> },
+  { path: '/admin/dashboard', element: <AdminDashboard /> },
+  { path: '/admin', element: <AdminPage /> },
+  { path: '/admin/users', element: <AdminUsers /> },
+  { path: '/admin/products', element: <AdminProducts /> },
+  { path: '/admin/profile', element: <AdminProfile /> },
 ]
 
 // Private routes - only accessible to authenticated users

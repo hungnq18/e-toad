@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@payos/node": "^1.0.10",
-    "nodemailer": "^7.0.4"
-  }
-}

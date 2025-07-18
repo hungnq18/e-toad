@@ -79,7 +79,7 @@ const connectWithRetry = async () => {
     let retries = 0;
     while (retries < maxRetries) {
         try {
-            const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/etoad';
+            const mongoUri = process.env.MONGODB_URI;
             await mongoose.connect(mongoUri);
             break;
         } catch (err) {
@@ -94,7 +94,7 @@ const connectWithRetry = async () => {
 };
 
 connectWithRetry().then(() => {
-    const PORT = process.env.PORT || 5000;
+    const PORT = process.env.PORT || 3000;
     app.listen(PORT);
 }).catch(err => {
     console.error('Failed to start server:', err);
