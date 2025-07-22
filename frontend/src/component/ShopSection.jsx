@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import productApi from "../api/productApi";
 import rootshop from "../assets/image/shopsection.png";
@@ -11,7 +11,7 @@ function ShopSection() {
 
   useEffect(() => {
     productApi.getAll().then(res => {
-      setProducts(res.data.data || []);
+      setProducts(res.data.products || []);
     });
   }, []);
 
@@ -30,7 +30,7 @@ function ShopSection() {
         <div className="w-3/4 mx-auto">
         <img src={rootshop} style={{paddingTop:"10px" }}/>
         <div className="w-5/6 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-          {products.map(product => (
+          {products.slice(0, 6).map(product => (
             <ImageCard
               key={product._id}
               imageUrl={product.image}

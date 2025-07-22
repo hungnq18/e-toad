@@ -22,6 +22,8 @@ const EtoadShop = () => {
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [errorProducts, setErrorProducts] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // số sản phẩm mỗi trang
 
   // Fetch user orders
   const fetchOrders = async () => {
@@ -55,7 +57,7 @@ const EtoadShop = () => {
       setErrorProducts(null);
       productApi.getAll()
         .then(res => {
-          setProducts(res.data.data || []);
+          setProducts(res.data.products || []);
         })
         .catch(err => {
           setErrorProducts('Không thể tải sản phẩm.');
@@ -177,6 +179,15 @@ const EtoadShop = () => {
     }
     return <span className="px-2 py-1 text-xs bg-gray-100 text-gray-800 rounded-full">{status}</span>;
   };
+
+  // Tính tổng số trang
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+
+  // Lấy sản phẩm cho trang hiện tại
+  const paginatedProducts = products.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="bg-[#FEF4F0] md:pb-12">
@@ -403,20 +414,47 @@ const EtoadShop = () => {
               {showCoinPackages ? (
                 <CoinPackages onSelectPackage={handleSelectPackage} />
               ) : (
-                <div className="grid grid-cols-2 mb-10 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {/* loading/error state */}
-                  {loadingProducts && (
-                    <div className="col-span-2 lg:col-span-3 flex justify-center items-center py-8 text-[#F97316]">Đang tải sản phẩm...</div>
+                <>
+                  <div className="grid grid-cols-2 mb-10 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {loadingProducts && (
+                      <div className="col-span-2 lg:col-span-3 flex justify-center items-center py-8 text-[#F97316]">Đang tải sản phẩm...</div>
+                    )}
+                    {errorProducts && (
+                      <div className="col-span-2 lg:col-span-3 flex justify-center items-center py-8 text-red-500">{errorProducts}</div>
+                    )}
+                    {paginatedProducts.map(product => (
+                      <ItemShop key={product._id} product={product} />
+                    ))}
+                  </div>
+                  {/* Pagination controls */}
+                  {totalPages > 1 && (
+                    <div className="flex justify-center items-center gap-2 mb-8">
+                      <button
+                        className="px-3 py-1 rounded border bg-white text-[#F97316] disabled:opacity-50"
+                        onClick={() => setCurrentPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                      >
+                        &lt;
+                      </button>
+                      {Array.from({ length: totalPages }, (_, i) => (
+                        <button
+                          key={i + 1}
+                          className={`px-3 py-1 rounded border ${currentPage === i + 1 ? 'bg-[#F97316] text-white' : 'bg-white text-[#F97316]'}`}
+                          onClick={() => setCurrentPage(i + 1)}
+                        >
+                          {i + 1}
+                        </button>
+                      ))}
+                      <button
+                        className="px-3 py-1 rounded border bg-white text-[#F97316] disabled:opacity-50"
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                      >
+                        &gt;
+                      </button>
+                    </div>
                   )}
-                  {errorProducts && (
-                    <div className="col-span-2 lg:col-span-3 flex justify-center items-center py-8 text-red-500">{errorProducts}</div>
-                  )}
-                  {/* render products */}
-                  {products.map(product => (
-                    <ItemShop key={product._id} product={product} />
-                  ))}
-                  {/* end of item */}
-                </div>
+                </>
               )}
             </div>
             

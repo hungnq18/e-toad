@@ -1,7 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import etoad from '../assets/image/SectionEtoad.png';
 import Button from '../component/Button';
 
 function EToad() {
+  const navigate = useNavigate();
+
   return (
     <div className="e-toad-section mx-auto w-full text-center my-10 relative">
       <img src={etoad} alt="E-Toad" className="mx-auto w-3/4" />
@@ -28,7 +31,7 @@ function EToad() {
         chỉ đẹp mắt mà còn chạm đến trái tim – bạn<br/>
         đã sẵn sàng để trải nghiệm chưa?
         <div className="fpt-intro-btn pt-2 pb-2">
-          <Button className ="fpt-intro-button" onClick={() => window.location.href = '/about-etoad'}>Tìm Hiểu Thêm</Button> <br/>
+          <Button className ="fpt-intro-button" onClick={() => navigate('/about-etoad')}>Tìm Hiểu Thêm</Button> <br/>
         </div></span>
     </div>
   );
